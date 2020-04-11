@@ -9,13 +9,14 @@ IS                      (u|U|l|L)*
 #include <stdio.h>
 #include "y.tab.h"
 
-
 /* Ne gère pas les commentaires. A rajouter */
 /* Supprimer les lignes dont vous n'avez pas besoin. */
 
 %}
 
 %%
+"/*"			{ comment(); }
+
 "auto"                  {return AUTO;}
 "break"                 {return BREAK;}
 "case"                  {return CASE;}
@@ -78,13 +79,27 @@ L?\"(\\.|[^\\"])*\"     { /* A completer */ }
 "++"                    { /* A completer */ }
 "--"                    { /* A completer */ }
 "->"                    { /* A completer */ }
-"&&"                    {return AND_OP;}
-"||"                    {return OR_OP;}
-"<="                    {return LE_OP;}
-">="                    {return GE_OP;}
-"=="                    {return EQ_OP;}
-"!="                    {return NE_OP;}
+"&&"                    {return (AND_OP);}
+"||"                    {return (OR_OP);}
+"<="                    {return (LE_OP);}
+">="                    {return (GE_OP);}
+"=="                    {return (EQ_OP);}
+"!="                    {return (NE_OP);}
 
 [ \t\v\n\f]             { /* A completer */ }
 .                       {return yytext[0];}
 %%
+
+void comment()
+{
+	int c;
+
+	while ((c = input()) != 0) {
+		if (c == '*') {
+			while ((c = input()) == '*') ;
+			if (c == '/') return;
+			if (c == 0) break;
+		}
+	}
+	yyerror("unterminated comment\n");
+}
