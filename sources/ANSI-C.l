@@ -16,40 +16,40 @@ IS                      (u|U|l|L)*
 %}
 
 %%
-"auto"                  { /* A completer */ }
-"break"                 { /* A completer */ }
-"case"                  { /* A completer */ }
-"char"                  { /* A completer */ }
-"const"                 { /* A completer */ }
-"continue"              { /* A completer */ }
-"default"               { /* A completer */ }
-"do"                    { /* A completer */ }
-"double"                { /* A completer */ }
-"else"                  { /* A completer */ }
-"enum"                  { /* A completer */ }
-"extern"                { /* A completer */ }
-"float"                 { /* A completer */ }
-"for"                   { /* A completer */ }
-"goto"                  { /* A completer */ }
-"if"                    { /* A completer */ }
-"int"                   { /* A completer */ }
-"long"                  { /* A completer */ }
-"register"              { /* A completer */ }
-"return"                { /* A completer */ }
-"short"                 { /* A completer */ }
-"signed"                { /* A completer */ }
-"sizeof"                { /* A completer */ }
-"static"                { /* A completer */ }
-"struct"                { /* A completer */ }
-"switch"                { /* A completer */ }
-"typedef"               { /* A completer */ }
-"union"                 { /* A completer */ }
-"unsigned"              { /* A completer */ }
-"void"                  { /* A completer */ }
-"volatile"              { /* A completer */ }
-"while"                 { /* A completer */ }
+"auto"                  {return AUTO;}
+"break"                 {return BREAK;}
+"case"                  {return CASE;}
+"char"                  {return CHAR;}
+"const"                 {return CONST;}
+"continue"              {return CONTINUE;}
+"default"               {return DEFAULT}
+"do"                    {return DO;}
+"double"                {return DOUBLE;}
+"else"                  {return ELSE;}
+"enum"                  {return ENUM;}
+"extern"                {return EXTERN;}
+"float"                 {return FLOAT;}
+"for"                   {return FOR;}
+"goto"                  {return GOTO;}
+"if"                    {return IF;}
+"int"                   {return INT;}
+"long"                  {return LONG;}
+"register"              {return REGISTER;}
+"return"                {return RETURN;}
+"short"                 {return SHORT;}
+"signed"                {return SIGNED;}
+"sizeof"                {return SIZEOF;}
+"static"                {return STATIC;}
+"struct"                {return STRUCT;}
+"switch"                {return SWITCH;}
+"typedef"               {return TYPEDEF;}
+"union"                 {return UNION;}
+"unsigned"              {return UNSIGNED;}
+"void"                  {return VOID;}
+"volatile"              {return VOLATILE;}
+"while"                 {return WHILE;}
 
-{L}({L}|{D})*           { /* A completer */ }
+{L}({L}|{D})*           {return IDENTIFIER;}
 
 0[xX]{H}+{IS}?          { /* A completer */ }
 0{D}+{IS}?              { /* A completer */ }
@@ -78,14 +78,13 @@ L?\"(\\.|[^\\"])*\"     { /* A completer */ }
 "++"                    { /* A completer */ }
 "--"                    { /* A completer */ }
 "->"                    { /* A completer */ }
-"&&"                    { /* A completer */ }
-"||"                    { /* A completer */ }
-"<="                    { /* A completer */ }
-">="                    { /* A completer */ }
-"=="                    { /* A completer */ }
-"!="                    { /* A completer */ }
+"&&"                    {return AND_OP;}
+"||"                    {return OR_OP;}
+"<="                    {return LE_OP;}
+">="                    {return GE_OP;}
+"=="                    {return EQ_OP;}
+"!="                    {return NE_OP;}
 
 [ \t\v\n\f]             { /* A completer */ }
-.                       { return yytext[0]; }
+.                       {return yytext[0];}
 %%
-
