@@ -1,0 +1,3 @@
+1) lex ANSI-C.l
+2) gcc TestLex.c lex.yy.c -o myTest
+3) ./myTest <Minimal.c
