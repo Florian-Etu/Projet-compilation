@@ -8,13 +8,18 @@ IS                      (u|U|l|L)*
 %{
 #include <stdio.h>
 #include "TestLex.h"
-
+void yyerror (char const *s)
+{
+  fprintf (stderr, "%s\n", s);
+}
+void comment();
 /* Ne gère pas les commentaires. A rajouter */
 /* Supprimer les lignes dont vous n'avez pas besoin. */
 
 %}
 
 %%
+"/*"			{ comment(); }
 "auto"                  return AUTO;
 "break"                 return BREAK;
 "case"                  return CASE;
@@ -94,4 +99,17 @@ L?\"(\\.|[^\\"])*\"     { /* A completer */ }
 int yywrap(void)
 {
   return 1;
+}
+void comment()
+{
+	int c;
+
+	while (c = input()) {
+		if (c == '*') {
+			while ((c = input()) == '*') ;
+			if (c == '/') return;
+			if (c == 0) break;
+		}
+	}
+	yyerror("Commentaire non fermé\n");
 }
