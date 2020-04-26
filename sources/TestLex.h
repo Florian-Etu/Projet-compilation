@@ -39,3 +39,4 @@
 #define NE_OP 39
 #define EQ 40
 #define NUMBER 41
+#define SMTH 42

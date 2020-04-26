@@ -1,4 +1,8 @@
-int a;
+/* bchzah jzavjhaz */
+
+
+
+int a ;
 int main() {
   int a ;
   int b ;
@@ -9,3 +13,4 @@ int main() {
   }
   return 0 ;
 }
+

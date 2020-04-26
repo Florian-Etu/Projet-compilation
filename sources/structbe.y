@@ -159,3 +159,17 @@ function_definition
 
 %%
 
+#include <stdio.h>
+
+extern char yytext[];
+extern int column;
+
+void yyerror(char const *s)
+{
+	fflush(stdout);
+	printf("\n%*s\n%*s\n", column, "^", column, s);
+}
+
+void main() {
+    yyparse();
+ }

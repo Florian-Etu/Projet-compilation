@@ -11,7 +11,7 @@ int main(void)
   ntoken = yylex();
   while(ntoken)
     {
-      if(ntoken!=13)
+      if(ntoken<41)
       printf("%d\n", ntoken);
       ntoken = yylex();
     }

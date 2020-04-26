@@ -1,9 +1,7 @@
 D                       [0-9]
 L                       [a-zA-Z_]
 H                       [a-fA-F0-9]
-E                       [Ee][+-]?{D}+
-FS                      (f|F|l|L)
-IS                      (u|U|l|L)*
+
 
 %{
 #include <stdio.h>
@@ -13,8 +11,6 @@ void yyerror (char const *s)
   fprintf (stderr, "%s\n", s);
 }
 void comment();
-/* Ne gère pas les commentaires. A rajouter */
-/* Supprimer les lignes dont vous n'avez pas besoin. */
 
 %}
 
@@ -56,35 +52,15 @@ void comment();
 {D}*                    return NUMBER;
 {L}({L}|{D})*           return IDENTIFIER;
 
-0[xX]{H}+{IS}?          { /* A completer */ }
-0{D}+{IS}?              { /* A completer */ }
-{D}+{IS}?               { /* A completer */ }
-L?'(\\.|[^\\'])+'       { /* A completer */ }
-
-{D}+{E}{FS}?            { /* A completer */ }
-{D}*"."{D}+({E})?{FS}?  { /* A completer */ }
-{D}+"."{D}*({E})?{FS}?  { /* A completer */ }
-
-L?\"(\\.|[^\\"])*\"     { /* A completer */ }
-
-"..."                   { /* A completer */ }
 "="                     return EQ;
-">>="                   { /* A completer */ }
-"<<="                   { /* A completer */ }
-"+="                    { /* A completer */ }
-"-="                    { /* A completer */ }
-"*="                    { /* A completer */ }
-"/="                    { /* A completer */ }
-"%="                    { /* A completer */ }
-"&="                    { /* A completer */ }
-"^="                    { /* A completer */ }
-"|="                    { /* A completer */ }
-">>"                    { /* A completer */ }
-"<<"                    { /* A completer */ }
-"++"                    { /* A completer */ }
-"--"                    { /* A completer */ }
-"->"                    { /* A completer */ }
-[ \t\n{};()]            ;
+
+";" 			return ";";
+"{" 			return "{";
+"}" 			return "}";
+"(" 			return "(";
+")" 			return ")";
+
+[ \t\n]            	;
 
 "&&"                    return AND_OP;
 "||"                    return OR_OP;
@@ -93,9 +69,10 @@ L?\"(\\.|[^\\"])*\"     { /* A completer */ }
 "=="                    return EQ_OP;
 "!="                    return NE_OP;
 
-[ \t\v\n\f]             { /* A completer */ }
-.                       {return yytext[0];}
+
+.                       {yyerror("Caractere non reconnu\n");}
 %%
+
 int yywrap(void)
 {
   return 1;
@@ -111,5 +88,5 @@ void comment()
 			if (c == 0) break;
 		}
 	}
-	yyerror("Commentaire non fermé\n");
+	yyerror("Commentaire non ferme\n");
 }
