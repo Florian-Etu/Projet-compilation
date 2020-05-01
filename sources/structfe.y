@@ -1,3 +1,10 @@
+%{
+    #include <stdio.h>
+    #include <stdlib.h>
+	#include "symbtab.h"
+	int yylex(void);
+%}
+
 %token IDENTIFIER CONSTANT SIZEOF
 %token PTR_OP LE_OP GE_OP EQ_OP NE_OP
 %token AND_OP OR_OP
@@ -5,6 +12,12 @@
 %token INT VOID
 %token STRUCT 
 %token IF ELSE WHILE FOR RETURN
+
+%union {
+	char *name;
+	char type;
+	struct symtab *symp;
+}
 
 %start program
 %%
@@ -193,4 +206,3 @@ function_definition
         ;
 
 %%
-

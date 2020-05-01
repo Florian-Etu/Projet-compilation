@@ -1,7 +1,7 @@
 D                       [0-9]
 L                       [a-zA-Z_]
 H                       [a-fA-F0-9]
-S			[ \t\v\n\f\s\r]
+S						[ \t\v\n\f\s\r]
 
 %{
 #include <stdio.h>
@@ -17,7 +17,7 @@ int line = 1;
 %}
 
 %%
-"/*"			{ comment(); }
+"/*"					{ comment(); }
 "auto"                  { comptposition(); return AUTO; }
 "break"                 { comptposition();return BREAK; }
 "case"                  { comptposition();return CASE; }
@@ -56,39 +56,39 @@ int line = 1;
 
 "="                     { comptposition(); return EQ; }
 
-";"								{ comptposition(); return(';'); }
-("{")								{ comptposition(); return('{'); }
-("}")								{ comptposition(); return('}'); }
-("[")								{ comptposition(); return('['); }
-("]")								{ comptposition(); return(']'); }
-"("								{ comptposition(); return('('); }
-")"								{ comptposition(); return(')'); }
+";"						{ comptposition(); return(';'); }
+("{")					{ comptposition(); return('{'); }
+("}")					{ comptposition(); return('}'); }
+("[")					{ comptposition(); return('['); }
+("]")					{ comptposition(); return(']'); }
+"("						{ comptposition(); return('('); }
+")"						{ comptposition(); return(')'); }
 
 
 
 
-"&"								{ comptposition(); return('&'); }
-"*"								{ comptposition(); return('*'); }
-"-"								{ comptposition(); return('-'); }
-"/"								{ comptposition(); return('/'); }
-"+"								{ comptposition(); return('+'); }
-"<"								{ comptposition(); return('<'); }
-">"								{ comptposition(); return('>'); }
-","								{ comptposition(); return(','); }
-"."								{ comptposition(); return('.'); }
-":"								{ comptposition(); return(':'); }
+"&"						{ comptposition(); return('&'); }
+"*"						{ comptposition(); return('*'); }
+"-"						{ comptposition(); return('-'); }
+"/"						{ comptposition(); return('/'); }
+"+"						{ comptposition(); return('+'); }
+"<"						{ comptposition(); return('<'); }
+">"						{ comptposition(); return('>'); }
+","						{ comptposition(); return(','); }
+"."						{ comptposition(); return('.'); }
+":"						{ comptposition(); return(':'); }
 
 
-"!"								{ comptposition(); return('!'); }
-"~"								{ comptposition(); return('~'); }
-"%"								{ comptposition(); return('%'); }
-"^"								{ comptposition(); return('^'); }
-"|"								{ comptposition(); return('|'); }
-"?"								{ comptposition(); return('?'); }
+"!"						{ comptposition(); return('!'); }
+"~"						{ comptposition(); return('~'); }
+"%"						{ comptposition(); return('%'); }
+"^"						{ comptposition(); return('^'); }
+"|"						{ comptposition(); return('|'); }
+"?"						{ comptposition(); return('?'); }
 
 
 
-
+"->"                    return PTR_OP;
 "&&"                    return AND_OP;
 "||"                    return OR_OP;
 "<="                    return LE_OP;
@@ -96,7 +96,7 @@ int line = 1;
 "=="                    return EQ_OP;
 "!="                    return NE_OP;
 
-{S}+								{comptposition();}
+{S}+					{comptposition();}
 
 .                       {printf("Caractere non reconnu à la ligne : %d, colonne : %d \n", line, col);}
 %%
