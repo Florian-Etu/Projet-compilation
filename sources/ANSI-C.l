@@ -1,7 +1,7 @@
 D                       [0-9]
 L                       [a-zA-Z_]
 H                       [a-fA-F0-9]
-
+S			[ \t\v\n\f\s\r]
 
 %{
 #include <stdio.h>
@@ -87,7 +87,7 @@ int line = 1;
 "?"								{ comptposition(); return('?'); }
 
 
-[ \t\v\n\f]						{comptposition();}
+
 
 "&&"                    return AND_OP;
 "||"                    return OR_OP;
@@ -96,6 +96,7 @@ int line = 1;
 "=="                    return EQ_OP;
 "!="                    return NE_OP;
 
+{S}+								{comptposition();}
 
 .                       {printf("Caractere non reconnu à la ligne : %d, colonne : %d \n", line, col);}
 %%
