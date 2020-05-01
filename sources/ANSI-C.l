@@ -6,61 +6,88 @@ H                       [a-fA-F0-9]
 %{
 #include <stdio.h>
 #include "TestLex.h"
-void yyerror (char const *s)
-{
-  fprintf (stderr, "%s\n", s);
-}
+
 void comment();
+void comptposition(void);
+
+int col = 1;
+int prevCol = 1;
+int line = 1;
 
 %}
 
 %%
 "/*"			{ comment(); }
-"auto"                  return AUTO;
-"break"                 return BREAK;
-"case"                  return CASE;
-"char"                  return CHAR;
-"const"                 return CONST;
-"continue"              return CONTINUE;
-"default"               return DEFAULT;
-"do"                    return DO;
-"double"                return DOUBLE;
-"else"                  return ELSE;
-"enum"                  return ENUM;
-"extern"                return EXTERN;
-"float"                 return FLOAT;
-"for"                   return FOR;
-"goto"                  return GOTO;
-"if"                    return IF;
-"int"                   return INT;
-"long"                  return LONG;
-"register"              return REGISTER;
-"return"                return RETURN;
-"short"                 return SHORT;
-"signed"                return SIGNED;
-"sizeof"                return SIZEOF;
-"static"                return STATIC;
-"struct"                return STRUCT;
-"switch"                return SWITCH;
-"typedef"               return TYPEDEF;
-"union"                 return UNION;
-"unsigned"              return UNSIGNED;
-"void"                  return VOID;
-"volatile"              return VOLATILE;
-"while"                 return WHILE;
+"auto"                  { comptposition(); return AUTO; }
+"break"                 { comptposition();return BREAK; }
+"case"                  { comptposition();return CASE; }
+"char"                  { comptposition();return CHAR; }
+"const"                 { comptposition(); return CONST; }
+"continue"              { comptposition(); return CONTINUE; }
+"default"               { comptposition(); return DEFAULT; }
+"do"                    { comptposition(); return DO; }
+"double"                { comptposition(); return DOUBLE; }
+"else"                  { comptposition(); return ELSE; }
+"enum"                  { comptposition(); return ENUM; }
+"extern"                { comptposition(); return EXTERN; }
+"float"                 { comptposition(); return FLOAT; }
+"for"                   { comptposition(); return FOR; }
+"goto"                  { comptposition(); return GOTO; }
+"if"                    { comptposition(); return IF; }
+"int"                   { comptposition(); return INT; }
+"long"                  { comptposition(); return LONG; }
+"register"              { comptposition(); return REGISTER; }
+"return"                { comptposition(); return RETURN; }
+"short"                 { comptposition(); return SHORT; }
+"signed"                { comptposition(); return SIGNED; }
+"sizeof"                { comptposition(); return SIZEOF; }
+"static"                { comptposition(); return STATIC; }
+"struct"                { comptposition(); return STRUCT; }
+"switch"                { comptposition(); return SWITCH; }
+"typedef"               { comptposition(); return TYPEDEF; }
+"union"                 { comptposition(); return UNION; }
+"unsigned"              { comptposition(); return UNSIGNED; }
+"void"                  { comptposition(); return VOID; }
+"volatile"              { comptposition(); return VOLATILE; }
+"while"                 { comptposition(); return WHILE; }
 
-{D}*                    return NUMBER;
-{L}({L}|{D})*           return IDENTIFIER;
+{D}*                    { comptposition(); return NUMBER; }
+{L}({L}|{D})*           { comptposition(); return IDENTIFIER; }
 
-"="                     return EQ;
+"="                     { comptposition(); return EQ; }
 
-";" 			return ";";
-"{" 			return "{";
-"}" 			return "}";
-"(" 			return "(";
-")" 			return ")";
+";"								{ comptposition(); return(';'); }
+("{")								{ comptposition(); return('{'); }
+("}")								{ comptposition(); return('}'); }
+("[")								{ comptposition(); return('['); }
+("]")								{ comptposition(); return(']'); }
+"("								{ comptposition(); return('('); }
+")"								{ comptposition(); return(')'); }
 
-[ \t\n]            	;
+
+
+
+"&"								{ comptposition(); return('&'); }
+"*"								{ comptposition(); return('*'); }
+"-"								{ comptposition(); return('-'); }
+"/"								{ comptposition(); return('/'); }
+"+"								{ comptposition(); return('+'); }
+"<"								{ comptposition(); return('<'); }
+">"								{ comptposition(); return('>'); }
+","								{ comptposition(); return(','); }
+"."								{ comptposition(); return('.'); }
+":"								{ comptposition(); return(':'); }
+
+
+"!"								{ comptposition(); return('!'); }
+"~"								{ comptposition(); return('~'); }
+"%"								{ comptposition(); return('%'); }
+"^"								{ comptposition(); return('^'); }
+"|"								{ comptposition(); return('|'); }
+"?"								{ comptposition(); return('?'); }
+
+
+[ \t\v\n\f]						{comptposition();}
 
 "&&"                    return AND_OP;
 "||"                    return OR_OP;
@@ -70,23 +97,65 @@ void comment();
 "!="                    return NE_OP;
 
 
-.                       {yyerror("Caractere non reconnu\n");}
+.                       {printf("Caractere non reconnu à la ligne : %d, colonne : %d \n", line, col);}
 %%
 
 int yywrap(void)
 {
   return 1;
 }
+
 void comment()
 {
 	int c;
-
-	while (c = input()) {
-		if (c == '*') {
+	int startLine = line, startCol = prevCol;
+	while (c = input())
+	{
+		if (c == '*')
+		{
 			while ((c = input()) == '*') ;
 			if (c == '/') return;
+			prevCol = col;
 			if (c == 0) break;
 		}
+
+		if (c == '\n')
+		{
+			col = 1;
+			line++;
+		}
+
+		else if (c == '\t')
+		{
+			col += 4;
+		}
+		else
+		{
+			col++;
+		}
 	}
-	yyerror("Commentaire non ferme\n");
+	printf("Commentaire non ferme à la ligne : %d, colonne : %d \n", startLine,startCol);
+}
+
+void comptposition(void)
+{
+	int i;
+	for (i = 0; yytext[i] != '\0'; i++)
+	{
+		prevCol = col;
+		if (yytext[i] == '\n')
+		{
+			col = 1;
+			line++;
+		}
+		else if (yytext[i] == '\t')
+		{
+			col += 4;
+		}
+		else
+		{
+			col++;
+		}
+	}
+
 }
