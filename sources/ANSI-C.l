@@ -15,7 +15,8 @@ void comment();
 %}
 
 %%
-"/*"			{ comment(); }
+^\/\*(.*)\*\/ {printf("Detection d'un commentaire\n"); }
+[/][*]    { yyerror("Commentaire non ferme\n"); }
 "auto"                  return AUTO;
 "break"                 return BREAK;
 "case"                  return CASE;
@@ -60,8 +61,7 @@ void comment();
 "(" 			return "(";
 ")" 			return ")";
 
-[ \t\n]            	;
-
+[ \n\t]+           	;
 "&&"                    return AND_OP;
 "||"                    return OR_OP;
 "<="                    return LE_OP;
@@ -69,24 +69,10 @@ void comment();
 "=="                    return EQ_OP;
 "!="                    return NE_OP;
 
-
-.                       {yyerror("Caractere non reconnu\n");}
+.                       {printf("Saut de ligne ou non reconnu\n");};
 %%
 
 int yywrap(void)
 {
   return 1;
-}
-void comment()
-{
-	int c;
-
-	while (c = input()) {
-		if (c == '*') {
-			while ((c = input()) == '*') ;
-			if (c == '/') return;
-			if (c == 0) break;
-		}
-	}
-	yyerror("Commentaire non ferme\n");
 }

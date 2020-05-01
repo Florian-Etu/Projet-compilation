@@ -1,9 +1,7 @@
-/* bchzah jzavjhaz */
-
-
-
+/* Commentaire */
 int a ;
 int main() {
+/* int a ; */
   int a ;
   int b ;
   a = 0 ;
@@ -13,4 +11,4 @@ int main() {
   }
   return 0 ;
 }
-
+/*
