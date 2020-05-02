@@ -39,4 +39,8 @@
 #define NE_OP 39
 #define EQ 40
 #define NUMBER 41
-#define SMTH 42
+#define STAR 42
+#define MINUS 43
+#define SLASH 44
+#define PLUS 45
+#define PTR_OP 46

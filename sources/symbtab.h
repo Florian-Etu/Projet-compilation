@@ -2,8 +2,9 @@
 
 struct symtab {
     char *name;
-    int value;
     char *type;
+	int size;
+	int pos;
 } symtab[MAXSYMB];
 
 struct symtab *add();

@@ -5,7 +5,7 @@ S						[ \t\v\n\f\s\r]
 
 %{
 #include <stdio.h>
-#include "TestLex.h"
+#include "y.tab.h"
 
 void comment();
 void comptposition(void);
@@ -18,40 +18,19 @@ int line = 1;
 
 %%
 "/*"					{ comment(); }
-"auto"                  { comptposition(); return AUTO; }
-"break"                 { comptposition();return BREAK; }
-"case"                  { comptposition();return CASE; }
-"char"                  { comptposition();return CHAR; }
-"const"                 { comptposition(); return CONST; }
-"continue"              { comptposition(); return CONTINUE; }
-"default"               { comptposition(); return DEFAULT; }
-"do"                    { comptposition(); return DO; }
-"double"                { comptposition(); return DOUBLE; }
 "else"                  { comptposition(); return ELSE; }
-"enum"                  { comptposition(); return ENUM; }
+
 "extern"                { comptposition(); return EXTERN; }
-"float"                 { comptposition(); return FLOAT; }
 "for"                   { comptposition(); return FOR; }
-"goto"                  { comptposition(); return GOTO; }
 "if"                    { comptposition(); return IF; }
 "int"                   { comptposition(); return INT; }
-"long"                  { comptposition(); return LONG; }
-"register"              { comptposition(); return REGISTER; }
 "return"                { comptposition(); return RETURN; }
-"short"                 { comptposition(); return SHORT; }
-"signed"                { comptposition(); return SIGNED; }
 "sizeof"                { comptposition(); return SIZEOF; }
-"static"                { comptposition(); return STATIC; }
 "struct"                { comptposition(); return STRUCT; }
-"switch"                { comptposition(); return SWITCH; }
-"typedef"               { comptposition(); return TYPEDEF; }
-"union"                 { comptposition(); return UNION; }
-"unsigned"              { comptposition(); return UNSIGNED; }
 "void"                  { comptposition(); return VOID; }
-"volatile"              { comptposition(); return VOLATILE; }
 "while"                 { comptposition(); return WHILE; }
 
-{D}*                    { comptposition(); return NUMBER; }
+{D}*                    { comptposition(); return CONSTANT; }
 {L}({L}|{D})*           { comptposition(); return IDENTIFIER; }
 
 "="                     { comptposition(); return EQ; }

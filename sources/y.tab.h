@@ -47,35 +47,71 @@ extern int yydebug;
   {
     IDENTIFIER = 258,
     CONSTANT = 259,
-    LE_OP = 260,
-    GE_OP = 261,
-    EQ_OP = 262,
-    NE_OP = 263,
-    EXTERN = 264,
-    INT = 265,
-    VOID = 266,
-    IF = 267,
-    RETURN = 268,
-    GOTO = 269
+    SIZEOF = 260,
+    PTR_OP = 261,
+    LE_OP = 262,
+    GE_OP = 263,
+    EQ_OP = 264,
+    NE_OP = 265,
+    EQ = 266,
+    AND_OP = 267,
+    OR_OP = 268,
+    EXTERN = 269,
+    INT = 270,
+    VOID = 271,
+    STRUCT = 272,
+    IF = 273,
+    ELSE = 274,
+    WHILE = 275,
+    FOR = 276,
+    RETURN = 277,
+    PLUS = 278,
+    MINUS = 279,
+    STAR = 280,
+    SLASH = 281
   };
 #endif
 /* Tokens.  */
 #define IDENTIFIER 258
 #define CONSTANT 259
-#define LE_OP 260
-#define GE_OP 261
-#define EQ_OP 262
-#define NE_OP 263
-#define EXTERN 264
-#define INT 265
-#define VOID 266
-#define IF 267
-#define RETURN 268
-#define GOTO 269
+#define SIZEOF 260
+#define PTR_OP 261
+#define LE_OP 262
+#define GE_OP 263
+#define EQ_OP 264
+#define NE_OP 265
+#define EQ 266
+#define AND_OP 267
+#define OR_OP 268
+#define EXTERN 269
+#define INT 270
+#define VOID 271
+#define STRUCT 272
+#define IF 273
+#define ELSE 274
+#define WHILE 275
+#define FOR 276
+#define RETURN 277
+#define PLUS 278
+#define MINUS 279
+#define STAR 280
+#define SLASH 281
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+
+union YYSTYPE
+{
+#line 21 "structfe.y" /* yacc.c:1909  */
+
+	char *name;
+	char type;
+	struct symtab *symp;
+
+#line 112 "y.tab.h" /* yacc.c:1909  */
+};
+
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif

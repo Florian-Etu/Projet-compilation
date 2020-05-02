@@ -1,23 +1,31 @@
 %{
-    #include <stdio.h>
-    #include <stdlib.h>
+    	#include <stdio.h>
+   	#include <stdlib.h>
 	#include "symbtab.h"
 	int yylex(void);
+	int yyerror(char *s);
+	int main(void);
+
 %}
 
 %token IDENTIFIER CONSTANT SIZEOF
-%token PTR_OP LE_OP GE_OP EQ_OP NE_OP
+%token PTR_OP LE_OP GE_OP EQ_OP NE_OP 
+%token EQ
 %token AND_OP OR_OP
 %token EXTERN
 %token INT VOID
 %token STRUCT 
 %token IF ELSE WHILE FOR RETURN
+%token PLUS MINUS STAR SLASH
 
 %union {
 	char *name;
 	char type;
 	struct symtab *symp;
 }
+
+%left PLUS MINUS
+%left STAR SLASH
 
 %start program
 %%
@@ -55,14 +63,14 @@ unary_operator
 
 multiplicative_expression
         : unary_expression
-        | multiplicative_expression '*' unary_expression
-        | multiplicative_expression '/' unary_expression
+        | multiplicative_expression STAR unary_expression
+        | multiplicative_expression SLASH unary_expression
         ;
 
 additive_expression
         : multiplicative_expression
-        | additive_expression '+' multiplicative_expression
-        | additive_expression '-' multiplicative_expression
+        | additive_expression PLUS multiplicative_expression
+        | additive_expression MINUS multiplicative_expression
         ;
 
 relational_expression
@@ -91,7 +99,7 @@ logical_or_expression
 
 expression
         : logical_or_expression
-        | unary_expression '=' expression
+        | unary_expression EQ expression
         ;
 
 declaration
@@ -149,7 +157,8 @@ parameter_declaration
 statement
         : compound_statement
         | expression_statement
-        | selection_statement
+        | if_statement
+	| else_statement
         | iteration_statement
         | jump_statement 
         ;
@@ -175,11 +184,13 @@ expression_statement
         : ';'
         | expression ';'
         ;
-
-selection_statement
+if_statement
         : IF '(' expression ')' statement
-        | IF '(' expression ')' statement ELSE statement
         ;
+
+else_statement
+	: ELSE statement
+	;
 
 iteration_statement
         : WHILE '(' expression ')' statement
@@ -206,3 +217,17 @@ function_definition
         ;
 
 %%
+int yyerror(char *s)
+{
+fprintf(stderr,"%s\n",s);
+exit(1);
+}
+
+
+int main(void)
+{
+	while(1)
+	{
+	return yyparse();
+	}
+}
