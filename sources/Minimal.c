@@ -1,5 +1,6 @@
 /* Commentaire */
 int a ;
+#
 int main() {
 /* int a ; */
   int a ;
