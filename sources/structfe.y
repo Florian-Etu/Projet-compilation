@@ -5,15 +5,16 @@
 	void yyerror(char *s);
 %}
 
+
 %token IDENTIFIER CONSTANT SIZEOF
-%token PTR_OP LE_OP GE_OP EQ_OP NE_OP 
+%token PTR_OP LE_OP GE_OP EQ_OP NE_OP SHIFTRIGHT_OP SHIFTLEFT_OP
 %token EQ
 %token AND_OP OR_OP
 %token EXTERN
 %token INT VOID
 %token STRUCT 
 %token IF ELSE WHILE FOR RETURN
-%token PLUS MINUS STAR SLASH
+%token PLUS MINUS STAR SLASH INC_OP DEC_OP
 
 %union {
 	char *name;
@@ -39,6 +40,8 @@ postfix_expression
         | postfix_expression '(' argument_expression_list ')'
         | postfix_expression '.' IDENTIFIER
         | postfix_expression PTR_OP IDENTIFIER
+	| postfix_expression INC_OP
+	| postfix_expression DEC_OP
         ;
 
 argument_expression_list
@@ -49,13 +52,16 @@ argument_expression_list
 unary_expression
         : postfix_expression
         | unary_operator unary_expression
+	| INC_OP unary_expression
+	| DEC_OP unary_expression
         | SIZEOF unary_expression
+	| SIZEOF '(' type_specifier ')'
         ;
 
 unary_operator
         : '&'
-        | '*'
-        | '-'
+        | STAR
+        | MINUS
         ;
 
 multiplicative_expression
@@ -70,12 +76,18 @@ additive_expression
         | additive_expression MINUS multiplicative_expression
         ;
 
+shift_expression
+	: additive_expression
+	| shift_expression SHIFTRIGHT_OP additive_expression
+	| shift_expression SHIFTLEFT_OP additive_expression
+	;
+
 relational_expression
-        : additive_expression
-        | relational_expression '<' additive_expression
-        | relational_expression '>' additive_expression
-        | relational_expression LE_OP additive_expression
-        | relational_expression GE_OP additive_expression
+        : shift_expression
+        | relational_expression '<' shift_expression
+        | relational_expression '>' shift_expression
+        | relational_expression LE_OP shift_expression
+        | relational_expression GE_OP shift_expression
         ;
 
 equality_expression
@@ -131,7 +143,7 @@ struct_declaration
         ;
 
 declarator
-        : '*' direct_declarator
+        : STAR direct_declarator
         | direct_declarator
         ;
 
@@ -221,11 +233,12 @@ int main(void)
    if(!yyparse())
 		printf("\nAnalyse syntaxique reussite\n");
 	else
-		printf("\nL'analyse syntaxique a échoué\n");
+		printf("\nL'analyse syntaxique a echoue\n");
     return 0;
 }
 
 void yyerror (char *s)
 {
-  fprintf (stderr, "%s\n", s);
+  extern int yylineno;
+  fprintf (stderr, "line %d : %s\n", yylineno ,s);
 }

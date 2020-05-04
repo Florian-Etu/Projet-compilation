@@ -14,7 +14,7 @@ void comment();
 
 %%
 [/][*][^*]*[*]+([^*/][^*]*[*]+)*[/] {printf("Detection d'un commentaire\n");}
-[/][*]    { yyerror("Commentaire non ferme\n"); }
+[/][*]    { printf("Commentaire non ferme\n"); }
 "else"                 return ELSE; 
 "extern"               return EXTERN;
 "for"                  return FOR;
@@ -72,7 +72,10 @@ void comment();
 "=="                    return EQ_OP;
 "!="                    return NE_OP;
 
-
+">>"			return SHIFTRIGHT_OP;
+"<<"			return SHIFTLEFT_OP;
+"++"			return INC_OP;
+"--"			return DEC_OP;
 
 .                       {printf("Caractere non reconnu ligne %d \n", yylineno);};
 
