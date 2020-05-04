@@ -2,10 +2,7 @@
     	#include <stdio.h>
    	#include <stdlib.h>
 	#include "symbtab.h"
-	int yylex(void);
-	int yyerror(char *s);
-	int main(void);
-
+	void yyerror(char *s);
 %}
 
 %token IDENTIFIER CONSTANT SIZEOF
@@ -217,17 +214,18 @@ function_definition
         ;
 
 %%
-int yyerror(char *s)
-{
-fprintf(stderr,"yyerror : %s\n",s);
-exit(1);
-}
-
+#include<ctype.h>
 
 int main(void)
 {
-	while(1)
-	{
-	return yyparse();
-	}
+   if(!yyparse())
+		printf("\nAnalyse syntaxique reussite\n");
+	else
+		printf("\nL'analyse syntaxique a échoué\n");
+    return 0;
+}
+
+void yyerror (char *s)
+{
+  fprintf (stderr, "%s\n", s);
 }

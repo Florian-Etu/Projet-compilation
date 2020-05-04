@@ -6,10 +6,6 @@ S						[ \t\v\n\f\s\r]
 %{
 #include <stdio.h>
 #include "y.tab.h"
-void yyerror (char const *s)
-{
-  fprintf (stderr, "%s\n", s);
-}
 void comment();
 
 %}
