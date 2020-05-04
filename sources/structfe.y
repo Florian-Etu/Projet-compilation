@@ -219,7 +219,7 @@ function_definition
 %%
 int yyerror(char *s)
 {
-fprintf(stderr,"%s\n",s);
+fprintf(stderr,"yyerror : %s\n",s);
 exit(1);
 }
 

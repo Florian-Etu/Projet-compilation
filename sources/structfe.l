@@ -11,14 +11,13 @@ void yyerror (char const *s)
   fprintf (stderr, "%s\n", s);
 }
 void comment();
-void majLigne();
-
-int compteurLigne = 1;
 
 %}
 
+%option yylineno
+
 %%
-[/][*][^*]*[*]+([^*/][^*]*[*]+)*[/] {printf("Detection d'un commentaire\n"); majLigne();}
+[/][*][^*]*[*]+([^*/][^*]*[*]+)*[/] {printf("Detection d'un commentaire\n");}
 [/][*]    { yyerror("Commentaire non ferme\n"); }
 "else"                 return ELSE; 
 "extern"               return EXTERN;
@@ -66,7 +65,7 @@ int compteurLigne = 1;
 "|"			return '|';
 "?"			return '?';
 
-[\n]                    {compteurLigne++;}
+[\n]                    {}
 [ \r\t]+           	;
 
 "->"                    return PTR_OP;
@@ -79,23 +78,11 @@ int compteurLigne = 1;
 
 
 
-.                       {printf("Caractere non reconnu ligne %d \n", compteurLigne);};
+.                       {printf("Caractere non reconnu ligne %d \n", yylineno);};
 
 %%
 
 int yywrap(void)
 {
   return 1;
-}
-
-void majLigne(void)
-{
-	int i;
-	for (i = 0; yytext[i] != '\0'; i++)
-	{
-		if (yytext[i] == '\n')
-		{
-			compteurLigne++;
-		}
-	}
 }

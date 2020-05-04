@@ -1,7 +1,6 @@
 # exclusion des fichiers LEX/YACC générés
 *.swp
-*.l~
-*.l.un~
+*~
 *.swo
 .Rhistory
 *.exe

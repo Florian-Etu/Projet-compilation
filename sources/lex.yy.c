@@ -261,9 +261,13 @@ static void yy_flex_free YY_PROTO(( void * ));
 
 #define YY_AT_BOL() (yy_current_buffer->yy_at_bol)
 
+
+#define YY_USES_REJECT
 typedef unsigned char YY_CHAR;
 FILE *yyin = (FILE *) 0, *yyout = (FILE *) 0;
 typedef int yy_state_type;
+extern int yylineno;
+int yylineno = 1;
 extern char *yytext;
 #define yytext_ptr yytext
 
@@ -284,18 +288,40 @@ static void yy_fatal_error YY_PROTO(( yyconst char msg[] ));
 
 #define YY_NUM_RULES 49
 #define YY_END_OF_BUFFER 50
-static yyconst short int yy_accept[93] =
+static yyconst short int yy_acclist[167] =
     {   0,
-       13,   13,   50,   48,   40,   39,   33,   35,   23,   21,
-       22,   24,   27,   30,   25,   31,   26,   13,   32,   16,
-       28,   15,   29,   38,   14,   19,   20,   36,   14,   14,
-       14,   14,   14,   14,   14,   17,   37,   18,   34,   40,
+       13,   13,   50,   48,   49,   40,   48,   49,   39,   49,
+       33,   48,   49,   35,   48,   49,   23,   48,   49,   21,
+       48,   49,   22,   48,   49,   24,   48,   49,   27,   48,
+       49,   30,   48,   49,   25,   48,   49,   31,   48,   49,
+       26,   48,   49,   13,   48,   49,   32,   48,   49,   16,
+       48,   49,   28,   48,   49,   15,   48,   49,   29,   48,
+       49,   38,   48,   49,   14,   48,   49,   19,   48,   49,
+       20,   48,   49,   36,   48,   49,   14,   48,   49,   14,
+       48,   49,   14,   48,   49,   14,   48,   49,   14,   48,
+       49,   14,   48,   49,   14,   48,   49,   17,   48,   49,
+
+       37,   48,   49,   18,   48,   49,   34,   48,   49,   40,
        47,   42,   41,    2,   13,   44,   46,   45,   14,   14,
-       14,   14,    6,   14,   14,   14,   14,   14,   14,   43,
-        0,    0,   14,   14,    5,    7,   14,   14,   14,   14,
-       14,    0,    1,    3,   14,   14,   14,   14,   11,   14,
-        0,    0,   14,   14,   14,   14,   12,    4,    8,    9,
-       10,    0
+       14,   14,    6,   14,   14,   14,   14,   14,   14,   14,
+       43,   14,   14,    5,   14,    7,   14,   14,   14,   14,
+       14,   14,    1,    3,   14,   14,   14,   14,   14,   11,
+       14,   14,   14,   14,   14,   14,   12,   14,    4,   14,
+        8,   14,    9,   14,   10,   14
+    } ;
+
+static yyconst short int yy_accept[94] =
+    {   0,
+        1,    2,    3,    4,    6,    9,   11,   14,   17,   20,
+       23,   26,   29,   32,   35,   38,   41,   44,   47,   50,
+       53,   56,   59,   62,   65,   68,   71,   74,   77,   80,
+       83,   86,   89,   92,   95,   98,  101,  104,  107,  110,
+      111,  112,  113,  114,  115,  116,  117,  118,  119,  120,
+      121,  122,  123,  125,  126,  127,  128,  129,  130,  131,
+      132,  132,  132,  133,  134,  136,  138,  139,  140,  141,
+      142,  143,  143,  144,  146,  147,  148,  149,  150,  152,
+      153,  153,  153,  154,  155,  156,  157,  159,  161,  163,
+      165,  167,  167
 
     } ;
 
@@ -412,13 +438,16 @@ static yyconst short int yy_chk[157] =
        92,   92,   92,   92,   92,   92
     } ;
 
-static yy_state_type yy_last_accepting_state;
-static char *yy_last_accepting_cpos;
-
-/* The intent behind this definition is that it'll catch
- * any uses of REJECT which flex missed.
- */
-#define REJECT reject_used_but_not_detected
+static yy_state_type yy_state_buf[YY_BUF_SIZE + 2], *yy_state_ptr;
+static char *yy_full_match;
+static int yy_lp;
+#define REJECT \
+{ \
+*yy_cp = yy_hold_char; /* undo effects of setting up yytext */ \
+yy_cp = yy_full_match; /* restore poss. backed-over text */ \
+++yy_lp; \
+goto find_rule; \
+}
 #define yymore() yymore_used_but_not_detected
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
@@ -433,11 +462,8 @@ void yyerror (char const *s)
   fprintf (stderr, "%s\n", s);
 }
 void comment();
-void majLigne();
 
-int compteurLigne = 1;
-
-#line 441 "lex.yy.c"
+#line 467 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -588,9 +614,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 20 "structfe.l"
+#line 19 "structfe.l"
 
-#line 594 "lex.yy.c"
+#line 620 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -629,15 +655,12 @@ YY_DECL
 		yy_bp = yy_cp;
 
 		yy_current_state = yy_start;
+		yy_state_ptr = yy_state_buf;
+		*yy_state_ptr++ = yy_current_state;
 yy_match:
 		do
 			{
 			register YY_CHAR yy_c = yy_ec[YY_SC_TO_UI(*yy_cp)];
-			if ( yy_accept[yy_current_state] )
-				{
-				yy_last_accepting_state = yy_current_state;
-				yy_last_accepting_cpos = yy_cp;
-				}
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
@@ -645,282 +668,293 @@ yy_match:
 					yy_c = yy_meta[(unsigned int) yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
+			*yy_state_ptr++ = yy_current_state;
 			++yy_cp;
 			}
 		while ( yy_base[yy_current_state] != 110 );
 
 yy_find_action:
-		yy_act = yy_accept[yy_current_state];
-		if ( yy_act == 0 )
-			{ /* have to back up */
-			yy_cp = yy_last_accepting_cpos;
-			yy_current_state = yy_last_accepting_state;
-			yy_act = yy_accept[yy_current_state];
+		yy_current_state = *--yy_state_ptr;
+		yy_lp = yy_accept[yy_current_state];
+find_rule: /* we branch to this label when backing up */
+		for ( ; ; ) /* until we find what rule we matched */
+			{
+			if ( yy_lp && yy_lp < yy_accept[yy_current_state + 1] )
+				{
+				yy_act = yy_acclist[yy_lp];
+					{
+					yy_full_match = yy_cp;
+					break;
+					}
+				}
+			--yy_cp;
+			yy_current_state = *--yy_state_ptr;
+			yy_lp = yy_accept[yy_current_state];
 			}
 
 		YY_DO_BEFORE_ACTION;
 
+		if ( yy_act != YY_END_OF_BUFFER )
+			{
+			int yyl;
+			for ( yyl = 0; yyl < yyleng; ++yyl )
+				if ( yytext[yyl] == '\n' )
+					++yylineno;
+			}
 
 do_action:	/* This label is used only to access EOF actions. */
 
 
 		switch ( yy_act )
 	{ /* beginning of action switch */
-			case 0: /* must back up */
-			/* undo the effects of YY_DO_BEFORE_ACTION */
-			*yy_cp = yy_hold_char;
-			yy_cp = yy_last_accepting_cpos;
-			yy_current_state = yy_last_accepting_state;
-			goto yy_find_action;
-
 case 1:
 YY_RULE_SETUP
-#line 21 "structfe.l"
-{printf("Detection d'un commentaire\n"); majLigne();}
+#line 20 "structfe.l"
+{printf("Detection d'un commentaire\n");}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 22 "structfe.l"
+#line 21 "structfe.l"
 { yyerror("Commentaire non ferme\n"); }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 23 "structfe.l"
+#line 22 "structfe.l"
 return ELSE; 
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 24 "structfe.l"
+#line 23 "structfe.l"
 return EXTERN;
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 25 "structfe.l"
+#line 24 "structfe.l"
 return FOR;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 26 "structfe.l"
+#line 25 "structfe.l"
 return IF;
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 27 "structfe.l"
+#line 26 "structfe.l"
 return INT;
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 28 "structfe.l"
+#line 27 "structfe.l"
 return RETURN;
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 29 "structfe.l"
+#line 28 "structfe.l"
 return SIZEOF;
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 30 "structfe.l"
+#line 29 "structfe.l"
 return STRUCT;
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 31 "structfe.l"
+#line 30 "structfe.l"
 return VOID;
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 32 "structfe.l"
+#line 31 "structfe.l"
 return WHILE;
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 34 "structfe.l"
+#line 33 "structfe.l"
 return CONSTANT;
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 35 "structfe.l"
+#line 34 "structfe.l"
 return IDENTIFIER;
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 37 "structfe.l"
+#line 36 "structfe.l"
 return EQ;
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 39 "structfe.l"
+#line 38 "structfe.l"
 return ';';
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 40 "structfe.l"
+#line 39 "structfe.l"
 return '{';
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 41 "structfe.l"
+#line 40 "structfe.l"
 return '}';
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 42 "structfe.l"
+#line 41 "structfe.l"
 return '[';
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 43 "structfe.l"
+#line 42 "structfe.l"
 return ']';
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 44 "structfe.l"
+#line 43 "structfe.l"
 return '(';
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 45 "structfe.l"
+#line 44 "structfe.l"
 return ')';
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 50 "structfe.l"
+#line 49 "structfe.l"
 return '&';
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 51 "structfe.l"
+#line 50 "structfe.l"
 return STAR;
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 52 "structfe.l"
+#line 51 "structfe.l"
 return MINUS; 
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 53 "structfe.l"
+#line 52 "structfe.l"
 return SLASH; 
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 54 "structfe.l"
+#line 53 "structfe.l"
 return PLUS;
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 55 "structfe.l"
+#line 54 "structfe.l"
 return '<';
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 56 "structfe.l"
+#line 55 "structfe.l"
 return '>'; 
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 57 "structfe.l"
+#line 56 "structfe.l"
 return ',';
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 58 "structfe.l"
+#line 57 "structfe.l"
 return '.';
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 59 "structfe.l"
+#line 58 "structfe.l"
 return ':';
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 62 "structfe.l"
+#line 61 "structfe.l"
 return '!';
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 63 "structfe.l"
+#line 62 "structfe.l"
 return '~';
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 64 "structfe.l"
+#line 63 "structfe.l"
 return '%';
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 65 "structfe.l"
+#line 64 "structfe.l"
 return '^';
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 66 "structfe.l"
+#line 65 "structfe.l"
 return '|';
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 67 "structfe.l"
+#line 66 "structfe.l"
 return '?';
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 69 "structfe.l"
-{compteurLigne++;}
+#line 68 "structfe.l"
+{}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 70 "structfe.l"
+#line 69 "structfe.l"
 ;
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 72 "structfe.l"
+#line 71 "structfe.l"
 return PTR_OP;
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 73 "structfe.l"
+#line 72 "structfe.l"
 return AND_OP;
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 74 "structfe.l"
+#line 73 "structfe.l"
 return OR_OP;
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 75 "structfe.l"
+#line 74 "structfe.l"
 return LE_OP;
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 76 "structfe.l"
+#line 75 "structfe.l"
 return GE_OP;
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 77 "structfe.l"
+#line 76 "structfe.l"
 return EQ_OP;
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 78 "structfe.l"
+#line 77 "structfe.l"
 return NE_OP;
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 82 "structfe.l"
-{printf("Caractere non reconnu ligne %d \n", compteurLigne);};
+#line 81 "structfe.l"
+{printf("Caractere non reconnu ligne %d \n", yylineno);};
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 84 "structfe.l"
+#line 83 "structfe.l"
 ECHO;
 	YY_BREAK
-#line 922 "lex.yy.c"
-case YY_STATE_EOF(INITIAL):
-	yyterminate();
+#line 956 "lex.yy.c"
+			case YY_STATE_EOF(INITIAL):
+				yyterminate();
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1198,15 +1232,12 @@ static yy_state_type yy_get_previous_state()
 	register char *yy_cp;
 
 	yy_current_state = yy_start;
+	yy_state_ptr = yy_state_buf;
+	*yy_state_ptr++ = yy_current_state;
 
 	for ( yy_cp = yytext_ptr + YY_MORE_ADJ; yy_cp < yy_c_buf_p; ++yy_cp )
 		{
 		register YY_CHAR yy_c = (*yy_cp ? yy_ec[YY_SC_TO_UI(*yy_cp)] : 1);
-		if ( yy_accept[yy_current_state] )
-			{
-			yy_last_accepting_state = yy_current_state;
-			yy_last_accepting_cpos = yy_cp;
-			}
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
@@ -1214,6 +1245,7 @@ static yy_state_type yy_get_previous_state()
 				yy_c = yy_meta[(unsigned int) yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
+		*yy_state_ptr++ = yy_current_state;
 		}
 
 	return yy_current_state;
@@ -1234,14 +1266,8 @@ yy_state_type yy_current_state;
 #endif
 	{
 	register int yy_is_jam;
-	register char *yy_cp = yy_c_buf_p;
 
 	register YY_CHAR yy_c = 1;
-	if ( yy_accept[yy_current_state] )
-		{
-		yy_last_accepting_state = yy_current_state;
-		yy_last_accepting_cpos = yy_cp;
-		}
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
@@ -1250,6 +1276,8 @@ yy_state_type yy_current_state;
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 	yy_is_jam = (yy_current_state == 92);
+	if ( ! yy_is_jam )
+		*yy_state_ptr++ = yy_current_state;
 
 	return yy_is_jam ? 0 : yy_current_state;
 	}
@@ -1292,6 +1320,8 @@ register char *yy_bp;
 
 	*--yy_cp = (char) c;
 
+	if ( c == '\n' )
+		--yylineno;
 
 	yytext_ptr = yy_bp;
 	yy_hold_char = *yy_cp;
@@ -1368,6 +1398,8 @@ static int input()
 	*yy_c_buf_p = '\0';	/* preserve yytext */
 	yy_hold_char = *++yy_c_buf_p;
 
+	if ( c == '\n' )
+		++yylineno;
 
 	return c;
 	}
@@ -1804,22 +1836,10 @@ int main()
 	return 0;
 	}
 #endif
-#line 84 "structfe.l"
+#line 83 "structfe.l"
 
 
 int yywrap(void)
 {
   return 1;
-}
-
-void majLigne(void)
-{
-	int i;
-	for (i = 0; yytext[i] != '\0'; i++)
-	{
-		if (yytext[i] == '\n')
-		{
-			compteurLigne++;
-		}
-	}
 }
