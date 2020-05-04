@@ -6,66 +6,68 @@ S						[ \t\v\n\f\s\r]
 %{
 #include <stdio.h>
 #include "y.tab.h"
-
+void yyerror (char const *s)
+{
+  fprintf (stderr, "%s\n", s);
+}
 void comment();
-void comptposition(void);
+void majLigne();
 
-int col = 1;
-int prevCol = 1;
-int line = 1;
+int compteurLigne = 1;
 
 %}
 
 %%
-"/*"					{ comment(); }
-"else"                  { comptposition(); return ELSE; }
+[/][*][^*]*[*]+([^*/][^*]*[*]+)*[/] {printf("Detection d'un commentaire\n"); majLigne();}
+[/][*]    { yyerror("Commentaire non ferme\n"); }
+"else"                 return ELSE; 
+"extern"               return EXTERN;
+"for"                  return FOR;
+"if"                   return IF;
+"int"                  return INT;
+"return"               return RETURN;
+"sizeof"               return SIZEOF;
+"struct"               return STRUCT;
+"void"                 return VOID;
+"while"                return WHILE;
 
-"extern"                { comptposition(); return EXTERN; }
-"for"                   { comptposition(); return FOR; }
-"if"                    { comptposition(); return IF; }
-"int"                   { comptposition(); return INT; }
-"return"                { comptposition(); return RETURN; }
-"sizeof"                { comptposition(); return SIZEOF; }
-"struct"                { comptposition(); return STRUCT; }
-"void"                  { comptposition(); return VOID; }
-"while"                 { comptposition(); return WHILE; }
+{D}*                   return CONSTANT;
+{L}({L}|{D})*          return IDENTIFIER;
 
-{D}*                    { comptposition(); return CONSTANT; }
-{L}({L}|{D})*           { comptposition(); return IDENTIFIER; }
+"="                    return EQ;
 
-"="                     { comptposition(); return EQ; }
-
-";"						{ comptposition(); return(';'); }
-("{")					{ comptposition(); return('{'); }
-("}")					{ comptposition(); return('}'); }
-("[")					{ comptposition(); return('['); }
-("]")					{ comptposition(); return(']'); }
-"("						{ comptposition(); return('('); }
-")"						{ comptposition(); return(')'); }
-
-
+";"			return ';';
+("{")			return '{';
+("}")			return '}';
+("[")			return '[';
+("]")			return ']';
+"("			return '(';
+")"			return ')';
 
 
-"&"						{ comptposition(); return('&'); }
-"*"						{ comptposition(); return STAR; }
-"-"						{ comptposition(); return MINUS; }
-"/"						{ comptposition(); return SLASH; }
-"+"						{ comptposition(); return PLUS; }
-"<"						{ comptposition(); return('<'); }
-">"						{ comptposition(); return('>'); }
-","						{ comptposition(); return(','); }
-"."						{ comptposition(); return('.'); }
-":"						{ comptposition(); return(':'); }
 
 
-"!"						{ comptposition(); return('!'); }
-"~"						{ comptposition(); return('~'); }
-"%"						{ comptposition(); return('%'); }
-"^"						{ comptposition(); return('^'); }
-"|"						{ comptposition(); return('|'); }
-"?"						{ comptposition(); return('?'); }
+"&"			return '&';
+"*"			return STAR;
+"-"			return MINUS; 
+"/"			return SLASH; 
+"+"			return PLUS;
+"<"			return '<';
+">"			return '>'; 
+","			return ',';
+"."			return '.';
+":"			return ':';
 
 
+"!"			return '!';
+"~"			return '~';
+"%"			return '%';
+"^"			return '^';
+"|"			return '|';
+"?"			return '?';
+
+[\n]                    {compteurLigne++;}
+[ \r\t]+           	;
 
 "->"                    return PTR_OP;
 "&&"                    return AND_OP;
@@ -75,9 +77,10 @@ int line = 1;
 "=="                    return EQ_OP;
 "!="                    return NE_OP;
 
-{S}+					{comptposition();}
 
-.                       {printf("Caractere non reconnu à la ligne : %d, colonne : %d \n", line, col);}
+
+.                       {printf("Caractere non reconnu ligne %d \n", compteurLigne);};
+
 %%
 
 int yywrap(void)
@@ -85,57 +88,14 @@ int yywrap(void)
   return 1;
 }
 
-void comment()
-{
-	int c;
-	int startLine = line, startCol = prevCol;
-	while (c = input())
-	{
-		if (c == '*')
-		{
-			while ((c = input()) == '*') ;
-			if (c == '/') return;
-			prevCol = col;
-			if (c == 0) break;
-		}
-
-		if (c == '\n')
-		{
-			col = 1;
-			line++;
-		}
-
-		else if (c == '\t')
-		{
-			col += 4;
-		}
-		else
-		{
-			col++;
-		}
-	}
-	printf("Commentaire non ferme à la ligne : %d, colonne : %d \n", startLine,startCol);
-}
-
-void comptposition(void)
+void majLigne(void)
 {
 	int i;
 	for (i = 0; yytext[i] != '\0'; i++)
 	{
-		prevCol = col;
 		if (yytext[i] == '\n')
 		{
-			col = 1;
-			line++;
-		}
-		else if (yytext[i] == '\t')
-		{
-			col += 4;
-		}
-		else
-		{
-			col++;
+			compteurLigne++;
 		}
 	}
-
 }

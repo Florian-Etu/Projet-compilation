@@ -11,13 +11,14 @@ void yyerror (char const *s)
   fprintf (stderr, "%s\n", s);
 }
 void comment();
+void majLigne();
 
 int compteurLigne = 1;
 
 %}
 
 %%
-^\/\*(.*)\*\/ {printf("Detection d'un commentaire\n"); }
+[/][*][^*]*[*]+([^*/][^*]*[*]+)*[/] {printf("Detection d'un commentaire\n"); majLigne();}
 [/][*]    { yyerror("Commentaire non ferme\n"); }
 "auto"                  return AUTO;
 "break"                 return BREAK;
@@ -78,4 +79,16 @@ int compteurLigne = 1;
 int yywrap(void)
 {
   return 1;
+}
+
+void majLigne(void)
+{
+	int i;
+	for (i = 0; yytext[i] != '\0'; i++)
+	{
+		if (yytext[i] == '\n')
+		{
+			compteurLigne++;
+		}
+	}
 }

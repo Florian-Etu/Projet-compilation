@@ -7,6 +7,11 @@ int main() {
   int b ;
   a = 0 ;
   b = 1 ;
+  /* Commentaire
+  sur 
+  plusieurs
+  lignes */
+  #
   if(a!=0) {
       return 1 ;
   }
