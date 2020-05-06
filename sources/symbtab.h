@@ -1,11 +1,15 @@
-#define MAXSYMB 100
+#define MAXSYMB 103
 
-struct symtab {
-    char *name;
-    char *type;
-	int size;
-	int pos;
-} symtab[MAXSYMB];
+typedef struct _symbtab{
+    	char *name;
+    	char *type;
+	int val;
+	struct symbtab *next;
+} symbtab;
 
-struct symtab *add();
-struct symtab *find();
+symbtab *table[MAXSYMB];
+
+
+symbtab *add(char *name);
+void reset();
+

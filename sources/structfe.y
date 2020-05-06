@@ -6,24 +6,28 @@
 %}
 
 
-%token IDENTIFIER CONSTANT SIZEOF
 %token PTR_OP LE_OP GE_OP EQ_OP NE_OP SHIFTRIGHT_OP SHIFTLEFT_OP
 %token EQ
 %token AND_OP OR_OP
 %token EXTERN
-%token INT VOID
-%token STRUCT 
+%token VOID
+%token STRUCT SIZEOF
 %token IF ELSE WHILE FOR RETURN
 %token PLUS MINUS STAR SLASH INC_OP DEC_OP
 
 %union {
-	char *name;
-	char type;
-	struct symtab *symp;
+	int val;
+	struct symbtab *var;
 }
+
+%token <var> IDENTIFIER
+%token <val> CONSTANT
+%token <val> INT
 
 %left PLUS MINUS
 %left STAR SLASH
+
+
 
 %start program
 %%

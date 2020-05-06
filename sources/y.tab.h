@@ -45,78 +45,77 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    IDENTIFIER = 258,
-    CONSTANT = 259,
-    SIZEOF = 260,
-    PTR_OP = 261,
-    LE_OP = 262,
-    GE_OP = 263,
-    EQ_OP = 264,
-    NE_OP = 265,
-    SHIFTRIGHT_OP = 266,
-    SHIFTLEFT_OP = 267,
-    EQ = 268,
-    AND_OP = 269,
-    OR_OP = 270,
-    EXTERN = 271,
-    INT = 272,
-    VOID = 273,
-    STRUCT = 274,
-    IF = 275,
-    ELSE = 276,
-    WHILE = 277,
-    FOR = 278,
-    RETURN = 279,
-    PLUS = 280,
-    MINUS = 281,
-    STAR = 282,
-    SLASH = 283,
-    INC_OP = 284,
-    DEC_OP = 285
+    PTR_OP = 258,
+    LE_OP = 259,
+    GE_OP = 260,
+    EQ_OP = 261,
+    NE_OP = 262,
+    SHIFTRIGHT_OP = 263,
+    SHIFTLEFT_OP = 264,
+    EQ = 265,
+    AND_OP = 266,
+    OR_OP = 267,
+    EXTERN = 268,
+    VOID = 269,
+    STRUCT = 270,
+    SIZEOF = 271,
+    IF = 272,
+    ELSE = 273,
+    WHILE = 274,
+    FOR = 275,
+    RETURN = 276,
+    PLUS = 277,
+    MINUS = 278,
+    STAR = 279,
+    SLASH = 280,
+    INC_OP = 281,
+    DEC_OP = 282,
+    IDENTIFIER = 283,
+    CONSTANT = 284,
+    INT = 285
   };
 #endif
 /* Tokens.  */
-#define IDENTIFIER 258
-#define CONSTANT 259
-#define SIZEOF 260
-#define PTR_OP 261
-#define LE_OP 262
-#define GE_OP 263
-#define EQ_OP 264
-#define NE_OP 265
-#define SHIFTRIGHT_OP 266
-#define SHIFTLEFT_OP 267
-#define EQ 268
-#define AND_OP 269
-#define OR_OP 270
-#define EXTERN 271
-#define INT 272
-#define VOID 273
-#define STRUCT 274
-#define IF 275
-#define ELSE 276
-#define WHILE 277
-#define FOR 278
-#define RETURN 279
-#define PLUS 280
-#define MINUS 281
-#define STAR 282
-#define SLASH 283
-#define INC_OP 284
-#define DEC_OP 285
+#define PTR_OP 258
+#define LE_OP 259
+#define GE_OP 260
+#define EQ_OP 261
+#define NE_OP 262
+#define SHIFTRIGHT_OP 263
+#define SHIFTLEFT_OP 264
+#define EQ 265
+#define AND_OP 266
+#define OR_OP 267
+#define EXTERN 268
+#define VOID 269
+#define STRUCT 270
+#define SIZEOF 271
+#define IF 272
+#define ELSE 273
+#define WHILE 274
+#define FOR 275
+#define RETURN 276
+#define PLUS 277
+#define MINUS 278
+#define STAR 279
+#define SLASH 280
+#define INC_OP 281
+#define DEC_OP 282
+#define IDENTIFIER 283
+#define CONSTANT 284
+#define INT 285
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 
 union YYSTYPE
 {
-#line 19 "structfe.y" /* yacc.c:1909  */
+#line 18 "structfe.y" /* yacc.c:1909  */
 
-	char *name;
-	char type;
-	struct symtab *symp;
+	int val;
+	struct symbtab *var;
 
-#line 120 "y.tab.h" /* yacc.c:1909  */
+#line 119 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

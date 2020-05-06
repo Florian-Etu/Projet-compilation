@@ -6,6 +6,7 @@ S						[ \t\v\n\f\s\r]
 %{
 #include <stdio.h>
 #include "y.tab.h"
+#include "symbtab.h"
 void comment();
 
 %}
@@ -26,8 +27,8 @@ void comment();
 "void"                 return VOID;
 "while"                return WHILE;
 
-{D}*                   return CONSTANT;
-{L}({L}|{D})*          return IDENTIFIER;
+{D}*                  {yylval.val = atoi(yytext); return CONSTANT; }
+{L}({L}|{D})*         {yylval.var = add(yytext); return IDENTIFIER; }
 
 "="                    return EQ;
 
@@ -84,4 +85,46 @@ void comment();
 int yywrap(void)
 {
   return 1;
+}
+
+
+int hash( char *name ) {
+  int i, r;
+  int taille = strlen(name);
+  r = 0;
+  for ( i = 0; i < MAXSYMB; i++ )
+    r = ((r << 8) + name[i]) % MAXSYMB;
+  return r;
+}
+
+void reset() {
+  int i;
+  for( i = 0; i < MAXSYMB; i++ )
+    table[i] = NULL;
+}
+
+symbtab * add( char *name ) {
+  int h;
+  symbtab *s;
+  symbtab *precedent;
+  h = hash(name);
+  s = table[h];
+  precedent = NULL;
+  while ( s != NULL ) {
+    if ( strcmp( s->name, name ) == 0 )
+      return s;
+    precedent = s;
+    s = s->next;
+  }
+  if ( precedent == NULL ) {
+    table[h] = (symbtab *) malloc(sizeof(symbtab));
+    s = table[h];
+  }
+  else {
+    precedent->next = (symbtab *) malloc(sizeof(symbtab));
+    s = precedent->next;
+  }
+  s->name = strdup(name);
+  s->next = NULL;
+  return s;
 }
