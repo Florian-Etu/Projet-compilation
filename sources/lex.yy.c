@@ -886,7 +886,7 @@ return WHILE;
 case 13:
 YY_RULE_SETUP
 #line 30 "structfe.l"
-{yylval.val = atoi(yytext); return CONSTANT; }
+{yylval.val = yytext; return CONSTANT; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP

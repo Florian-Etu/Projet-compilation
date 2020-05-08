@@ -27,7 +27,7 @@ void comment();
 "void"                 return VOID;
 "while"                return WHILE;
 
-{D}*                  {yylval.val = atoi(yytext); return CONSTANT; }
+{D}*                  {yylval.val = yytext; return CONSTANT; }
 {L}({L}|{D})*         {yylval.var = add(yytext); return IDENTIFIER; }
 
 "="                    return EQ;

@@ -1,8 +1,15 @@
 %{
     	#include <stdio.h>
    	#include <stdlib.h>
+	#include <string.h>
 	#include "symbtab.h"
+	
 	void yyerror(char *s);
+	
+	int tempAmount = 0;
+	char *createTemp();
+	
+	
 %}
 
 
@@ -16,7 +23,7 @@
 %token PLUS MINUS STAR SLASH INC_OP DEC_OP
 
 %union {
-	int val;
+	char *val;
 	struct symbtab *var;
 }
 
@@ -27,6 +34,7 @@
 %left PLUS MINUS
 %left STAR SLASH
 
+%type <val> multiplicative_expression additive_expression relational_expression shift_expression equality_expression logical_and_expression logical_or_expression
 
 
 %start program
@@ -44,8 +52,8 @@ postfix_expression
         | postfix_expression '(' argument_expression_list ')'
         | postfix_expression '.' IDENTIFIER
         | postfix_expression PTR_OP IDENTIFIER
-	| postfix_expression INC_OP
-	| postfix_expression DEC_OP
+		| postfix_expression INC_OP
+		| postfix_expression DEC_OP
         ;
 
 argument_expression_list
@@ -81,33 +89,33 @@ additive_expression
         ;
 
 shift_expression
-	: additive_expression
-	| shift_expression SHIFTRIGHT_OP additive_expression
-	| shift_expression SHIFTLEFT_OP additive_expression
-	;
+		: additive_expression
+		| shift_expression SHIFTRIGHT_OP additive_expression
+		| shift_expression SHIFTLEFT_OP additive_expression
+		;
 
 relational_expression
         : shift_expression
-        | relational_expression '<' shift_expression
-        | relational_expression '>' shift_expression
-        | relational_expression LE_OP shift_expression
-        | relational_expression GE_OP shift_expression
+        | relational_expression '<' shift_expression { printf("%s < %s ;\n", $1 , $3 ) ;  }
+        | relational_expression '>' shift_expression { printf("%s > %s ;\n", $1 , $3 ) ;  }
+        | relational_expression LE_OP shift_expression { printf("%s <= %s ;\n", $1 , $3 ) ;  }
+        | relational_expression GE_OP shift_expression { printf("%s >= %s ;\n", $1 , $3 ) ;  }
         ;
 
 equality_expression
         : relational_expression
-        | equality_expression EQ_OP relational_expression
-        | equality_expression NE_OP relational_expression
+        | equality_expression EQ_OP relational_expression { printf("( %s == %s ;\n", $1 , $3 ) ;  }
+        | equality_expression NE_OP relational_expression { printf("( %s != %s ;\n", $1 , $3 ) ;  }
         ;
 
 logical_and_expression
         : equality_expression
-        | logical_and_expression AND_OP equality_expression
+        | logical_and_expression AND_OP equality_expression { printf("( %s && %s ;\n", $1 , $3 ) ;  }
         ;
 
 logical_or_expression
         : logical_and_expression
-        | logical_or_expression OR_OP logical_and_expression
+        | logical_or_expression OR_OP logical_and_expression { printf("( %s || %s ;\n", $1 , $3 ) ;  }
         ;
 
 expression
@@ -202,8 +210,8 @@ if_statement
         ;
 
 else_statement
-	: ELSE statement
-	;
+		: ELSE statement
+		;
 
 iteration_statement
         : WHILE '(' expression ')' statement
@@ -246,3 +254,31 @@ void yyerror (char *s)
   extern int yylineno;
   fprintf (stderr, "line %d : %s\n", yylineno ,s);
 }
+
+char *createTemp()
+{
+	char random[6] = "";
+	char randomletter;
+	for (int i =0; i < 6; i++){
+		randomletter = 'a' + (rand() % 26);
+		
+		random[i]=randomletter;
+	}
+
+	char *temp_specifier;	
+	temp_specifier= strdup("Z");
+	return  strcat(temp_specifier, random); 
+}
+
+int istemp(char *s)
+{ 
+    char * temps = "Z";
+    if(s[0] == temps[0]){
+        return 1;
+    }
+    
+    else{
+        return 0;
+    }
+}
+

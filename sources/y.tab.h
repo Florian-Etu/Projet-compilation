@@ -110,9 +110,9 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 18 "structfe.y" /* yacc.c:1909  */
+#line 25 "structfe.y" /* yacc.c:1909  */
 
-	int val;
+	char *val;
 	struct symbtab *var;
 
 #line 119 "y.tab.h" /* yacc.c:1909  */

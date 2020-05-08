@@ -66,10 +66,17 @@
 
     	#include <stdio.h>
    	#include <stdlib.h>
+	#include <string.h>
 	#include "symbtab.h"
+	
 	void yyerror(char *s);
+	
+	int tempAmount = 0;
+	char *createTemp();
+	
+	
 
-#line 73 "y.tab.c" /* yacc.c:339  */
+#line 80 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -169,12 +176,12 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 18 "structfe.y" /* yacc.c:355  */
+#line 25 "structfe.y" /* yacc.c:355  */
 
-	int val;
+	char *val;
 	struct symbtab *var;
 
-#line 178 "y.tab.c" /* yacc.c:355  */
+#line 185 "y.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -191,7 +198,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 195 "y.tab.c" /* yacc.c:358  */
+#line 202 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -491,16 +498,16 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    36,    36,    37,    38,    42,    43,    44,    45,    46,
-      47,    48,    52,    53,    57,    58,    59,    60,    61,    62,
-      66,    67,    68,    72,    73,    74,    78,    79,    80,    84,
-      85,    86,    90,    91,    92,    93,    94,    98,    99,   100,
-     104,   105,   109,   110,   114,   115,   119,   120,   124,   125,
-     129,   130,   131,   135,   136,   137,   141,   142,   146,   150,
-     151,   155,   156,   157,   158,   162,   163,   167,   171,   172,
-     173,   174,   175,   176,   180,   181,   182,   183,   187,   188,
-     192,   193,   197,   198,   201,   205,   209,   210,   214,   215,
-     219,   220,   224,   225,   229
+       0,    44,    44,    45,    46,    50,    51,    52,    53,    54,
+      55,    56,    60,    61,    65,    66,    67,    68,    69,    70,
+      74,    75,    76,    80,    81,    82,    86,    87,    88,    92,
+      93,    94,    98,    99,   100,   101,   102,   106,   107,   108,
+     112,   113,   117,   118,   122,   123,   127,   128,   132,   133,
+     137,   138,   139,   143,   144,   145,   149,   150,   154,   158,
+     159,   163,   164,   165,   166,   170,   171,   175,   179,   180,
+     181,   182,   183,   184,   188,   189,   190,   191,   195,   196,
+     200,   201,   205,   206,   209,   213,   217,   218,   222,   223,
+     227,   228,   232,   233,   237
 };
 #endif
 
@@ -1427,8 +1434,56 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-      
-#line 1432 "y.tab.c" /* yacc.c:1646  */
+        case 33:
+#line 99 "structfe.y" /* yacc.c:1646  */
+    { printf("%s < %s ;\n", (yyvsp[-2].val) , (yyvsp[0].val) ) ;  }
+#line 1441 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 34:
+#line 100 "structfe.y" /* yacc.c:1646  */
+    { printf("%s > %s ;\n", (yyvsp[-2].val) , (yyvsp[0].val) ) ;  }
+#line 1447 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 35:
+#line 101 "structfe.y" /* yacc.c:1646  */
+    { printf("%s <= %s ;\n", (yyvsp[-2].val) , (yyvsp[0].val) ) ;  }
+#line 1453 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 36:
+#line 102 "structfe.y" /* yacc.c:1646  */
+    { printf("%s >= %s ;\n", (yyvsp[-2].val) , (yyvsp[0].val) ) ;  }
+#line 1459 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 38:
+#line 107 "structfe.y" /* yacc.c:1646  */
+    { printf("( %s == %s ;\n", (yyvsp[-2].val) , (yyvsp[0].val) ) ;  }
+#line 1465 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 39:
+#line 108 "structfe.y" /* yacc.c:1646  */
+    { printf("( %s != %s ;\n", (yyvsp[-2].val) , (yyvsp[0].val) ) ;  }
+#line 1471 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 41:
+#line 113 "structfe.y" /* yacc.c:1646  */
+    { printf("( %s && %s ;\n", (yyvsp[-2].val) , (yyvsp[0].val) ) ;  }
+#line 1477 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 43:
+#line 118 "structfe.y" /* yacc.c:1646  */
+    { printf("( %s || %s ;\n", (yyvsp[-2].val) , (yyvsp[0].val) ) ;  }
+#line 1483 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+
+#line 1487 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1656,7 +1711,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 232 "structfe.y" /* yacc.c:1906  */
+#line 240 "structfe.y" /* yacc.c:1906  */
 
 #include<ctype.h>
 
@@ -1674,3 +1729,31 @@ void yyerror (char *s)
   extern int yylineno;
   fprintf (stderr, "line %d : %s\n", yylineno ,s);
 }
+
+char *createTemp()
+{
+	char random[6] = "";
+	char randomletter;
+	for (int i =0; i < 6; i++){
+		randomletter = 'a' + (rand() % 26);
+		
+		random[i]=randomletter;
+	}
+
+	char *temp_specifier;	
+	temp_specifier= strdup("Z");
+	return  strcat(temp_specifier, random); 
+}
+
+int istemp(char *s)
+{ 
+    char * temps = "Z";
+    if(s[0] == temps[0]){
+        return 1;
+    }
+    
+    else{
+        return 0;
+    }
+}
+
