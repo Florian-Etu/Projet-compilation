@@ -9,6 +9,7 @@ void yyerror(char *s);
 int tempAmount = 0;
 char *createTemp();
 extern int yylineno;
+char* dernierID;
 
 extern char* strdup(const char*);
 extern char *strcat(char *destination, const char *source);
@@ -31,7 +32,6 @@ extern size_t strlen( const char * theString );
 	char* val;
 	struct symbtab *var;
 }
-
 %token <var> IDENTIFIER
 %token <val> CONSTANT
 %token <val> INT
@@ -46,7 +46,7 @@ extern size_t strlen( const char * theString );
 %%
 
 primary_expression
-        : IDENTIFIER
+        : IDENTIFIER {dernierID=$1->name;}
         | CONSTANT
         | '(' expression ')'
         ;
@@ -110,7 +110,7 @@ relational_expression
 equality_expression
         : relational_expression
         | equality_expression EQ_OP relational_expression { printf("%s == %s (ligne %d) ;\n", $1 , $3 ,yylineno) ;}
-        | equality_expression NE_OP relational_expression {printf("%s != %s (ligne %d) ;\n", $1, $3, yylineno) ;  }
+        | equality_expression NE_OP relational_expression {printf("(%s != %s (ligne %d) ;\n", dernierID, $3, yylineno) ;  }
         ;
 
 logical_and_expression

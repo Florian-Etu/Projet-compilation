@@ -78,9 +78,9 @@
 void yyerror(char *s);
 	
 int tempAmount = 0;
-char* s;
 char *createTemp();
 extern int yylineno;
+char* dernierID;
 
 extern char* strdup(const char*);
 extern char *strcat(char *destination, const char *source);
@@ -527,16 +527,16 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    50,    50,    51,    52,    56,    57,    58,    59,    60,
-      61,    62,    66,    67,    71,    72,    73,    74,    75,    76,
-      80,    81,    82,    86,    87,    88,    92,    93,    94,    98,
-      99,   100,   104,   105,   106,   107,   108,   112,   113,   114,
-     118,   119,   123,   124,   128,   129,   133,   134,   138,   139,
-     143,   144,   145,   149,   150,   151,   155,   156,   160,   164,
-     165,   169,   170,   171,   172,   176,   177,   181,   185,   186,
-     187,   188,   189,   190,   194,   195,   196,   197,   201,   202,
-     206,   207,   211,   212,   215,   219,   223,   224,   228,   229,
-     233,   234,   238,   239,   243
+       0,    49,    49,    50,    51,    55,    56,    57,    58,    59,
+      60,    61,    65,    66,    70,    71,    72,    73,    74,    75,
+      79,    80,    81,    85,    86,    87,    91,    92,    93,    97,
+      98,    99,   103,   104,   105,   106,   107,   111,   112,   113,
+     117,   118,   122,   123,   127,   128,   132,   133,   137,   138,
+     142,   143,   144,   148,   149,   150,   154,   155,   159,   163,
+     164,   168,   169,   170,   171,   175,   176,   180,   184,   185,
+     186,   187,   188,   189,   193,   194,   195,   196,   200,   201,
+     205,   206,   210,   211,   214,   218,   222,   223,   227,   228,
+     232,   233,   237,   238,   242
 };
 #endif
 
@@ -1591,73 +1591,80 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-        case 23:
+        case 2:
 
 /* Line 1455 of yacc.c  */
-#line 86 "structfe.y"
+#line 49 "structfe.y"
+    {dernierID=(yyvsp[(1) - (1)].var)->name;}
+    break;
+
+  case 23:
+
+/* Line 1455 of yacc.c  */
+#line 85 "structfe.y"
     {(yyval.val) = (yyval.val);}
     break;
 
   case 33:
 
 /* Line 1455 of yacc.c  */
-#line 105 "structfe.y"
+#line 104 "structfe.y"
     { printf("%s < %s (ligne %d) ;\n", (yyvsp[(1) - (3)].val) , (yyvsp[(3) - (3)].val) ,yylineno) ;  }
     break;
 
   case 34:
 
 /* Line 1455 of yacc.c  */
-#line 106 "structfe.y"
+#line 105 "structfe.y"
     { printf("%s > %s (ligne %d) ;\n", (yyvsp[(1) - (3)].val) , (yyvsp[(3) - (3)].val) ,yylineno) ;  }
     break;
 
   case 35:
 
 /* Line 1455 of yacc.c  */
-#line 107 "structfe.y"
+#line 106 "structfe.y"
     { printf("%s <= %s (ligne %d) ;\n", (yyvsp[(1) - (3)].val) , (yyvsp[(3) - (3)].val) ,yylineno) ;  }
     break;
 
   case 36:
 
 /* Line 1455 of yacc.c  */
-#line 108 "structfe.y"
+#line 107 "structfe.y"
     { printf("%s >= %s (ligne %d) ;\n", (yyvsp[(1) - (3)].val) , (yyvsp[(3) - (3)].val) ,yylineno) ;  }
     break;
 
   case 38:
 
 /* Line 1455 of yacc.c  */
-#line 113 "structfe.y"
+#line 112 "structfe.y"
     { printf("%s == %s (ligne %d) ;\n", (yyvsp[(1) - (3)].val) , (yyvsp[(3) - (3)].val) ,yylineno) ;}
     break;
 
   case 39:
 
 /* Line 1455 of yacc.c  */
-#line 114 "structfe.y"
-    {printf("%s != %s (ligne %d) ;\n", (yyvsp[(1) - (3)].val), (yyvsp[(3) - (3)].val), yylineno) ;  }
+#line 113 "structfe.y"
+    {printf("(%s != %s (ligne %d) ;\n", dernierID, (yyvsp[(3) - (3)].val), yylineno) ;  }
     break;
 
   case 41:
 
 /* Line 1455 of yacc.c  */
-#line 119 "structfe.y"
+#line 118 "structfe.y"
     { printf("%s && %s (ligne %d) ;\n", (yyvsp[(1) - (3)].val) , (yyvsp[(3) - (3)].val) ,yylineno) ;  }
     break;
 
   case 43:
 
 /* Line 1455 of yacc.c  */
-#line 124 "structfe.y"
+#line 123 "structfe.y"
     { printf("%s || %s (ligne %d) ;\n", (yyvsp[(1) - (3)].val) , (yyvsp[(3) - (3)].val) ,yylineno) ;  }
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 1661 "y.tab.c"
+#line 1668 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1869,7 +1876,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 246 "structfe.y"
+#line 245 "structfe.y"
 
 int main(void)
 {

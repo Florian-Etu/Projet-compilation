@@ -1,6 +1,6 @@
 #define MAXSYMB 103
 
-typedef struct _symbtab{
+typedef struct symbtab{
     	char *name;
     	char *type;
 	int val;
