@@ -6,20 +6,15 @@ H                       [a-fA-F0-9]
 %{
 #include <stdio.h>
 #include "TestLex.h"
-void yyerror (char const *s)
-{
-  fprintf (stderr, "%s\n", s);
-}
-void comment();
-void majLigne();
 
-int compteurLigne = 1;
+void comment();
 
 %}
 
+%option yylineno
 %%
-[/][*][^*]*[*]+([^*/][^*]*[*]+)*[/] {printf("Detection d'un commentaire\n"); majLigne();}
-[/][*]    { yyerror("Commentaire non ferme\n"); }
+[/][*][^*]*[*]+([^*/][^*]*[*]+)*[/] {printf("Detection d'un commentaire ligne %d\n", yylineno);}
+[/][*]    { yyerror("Commentaire non ferme ligne\n", yylineno); }
 "auto"                  return AUTO;
 "break"                 return BREAK;
 "case"                  return CASE;
@@ -64,8 +59,7 @@ int compteurLigne = 1;
 "(" 			return '(';
 ")" 			return ')';
 
-[\n]                    {compteurLigne++;}
-[ \r\t]+           	;
+[ \r\t\n]+           	;
 "&&"                    return AND_OP;
 "||"                    return OR_OP;
 "<="                    return LE_OP;
@@ -73,22 +67,10 @@ int compteurLigne = 1;
 "=="                    return EQ_OP;
 "!="                    return NE_OP;
 
-.                       {printf("Caractere non reconnu ligne %d \n", compteurLigne);};
+.                       {printf("Echec analyse lexicale ligne %d \n", yylineno);};
 %%
 
 int yywrap(void)
 {
   return 1;
-}
-
-void majLigne(void)
-{
-	int i;
-	for (i = 0; yytext[i] != '\0'; i++)
-	{
-		if (yytext[i] == '\n')
-		{
-			compteurLigne++;
-		}
-	}
 }

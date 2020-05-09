@@ -14,8 +14,8 @@ void comment();
 %option yylineno
 
 %%
-[/][*][^*]*[*]+([^*/][^*]*[*]+)*[/] {printf("Detection d'un commentaire\n");}
-[/][*]    { printf("Commentaire non ferme\n"); }
+[/][*][^*]*[*]+([^*/][^*]*[*]+)*[/] {printf("Detection d'un commentaire ligne %d\n", yylineno);}
+[/][*]    { printf("Commentaire non ferme ligne %d\n", yylineno); }
 "else"                 return ELSE; 
 "extern"               return EXTERN;
 "for"                  return FOR;
@@ -78,7 +78,7 @@ void comment();
 "++"			return INC_OP;
 "--"			return DEC_OP;
 
-.                       {printf("Caractere non reconnu ligne %d \n", yylineno);};
+.                       {printf("Echec analyse lexicale ligne %d \n", yylineno);};
 
 %%
 
