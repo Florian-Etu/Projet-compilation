@@ -5,6 +5,7 @@ S						[ \t\v\n\f\s\r]
 
 %{
 #include <stdio.h>
+#include <string.h>
 #include "y.tab.h"
 #include "symbtab.h"
 void comment();
@@ -103,7 +104,7 @@ void reset() {
     table[i] = NULL;
 }
 
-symbtab * add( char *name ) {
+symbtab* add(char *name ) {
   int h;
   symbtab *s;
   symbtab *precedent;

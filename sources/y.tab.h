@@ -107,9 +107,9 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 26 "structfe.y"
+#line 31 "structfe.y"
 
-	char *val;
+	char* val;
 	struct symbtab *var;
 
 

@@ -456,11 +456,12 @@ char *yytext;
 #define INITIAL 0
 #line 7 "structfe.l"
 #include <stdio.h>
+#include <string.h>
 #include "y.tab.h"
 #include "symbtab.h"
 void comment();
 
-#line 464 "lex.yy.c"
+#line 465 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -611,9 +612,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 16 "structfe.l"
+#line 17 "structfe.l"
 
-#line 617 "lex.yy.c"
+#line 618 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -706,270 +707,270 @@ do_action:	/* This label is used only to access EOF actions. */
 	{ /* beginning of action switch */
 case 1:
 YY_RULE_SETUP
-#line 17 "structfe.l"
+#line 18 "structfe.l"
 {printf("Detection d'un commentaire ligne %d\n", yylineno);}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 18 "structfe.l"
+#line 19 "structfe.l"
 { printf("Commentaire non ferme ligne %d\n", yylineno); }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 19 "structfe.l"
+#line 20 "structfe.l"
 return ELSE; 
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 20 "structfe.l"
+#line 21 "structfe.l"
 return EXTERN;
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 21 "structfe.l"
+#line 22 "structfe.l"
 return FOR;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 22 "structfe.l"
+#line 23 "structfe.l"
 return IF;
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 23 "structfe.l"
+#line 24 "structfe.l"
 return INT;
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 24 "structfe.l"
+#line 25 "structfe.l"
 return RETURN;
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 25 "structfe.l"
+#line 26 "structfe.l"
 return SIZEOF;
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 26 "structfe.l"
+#line 27 "structfe.l"
 return STRUCT;
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 27 "structfe.l"
+#line 28 "structfe.l"
 return VOID;
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 28 "structfe.l"
+#line 29 "structfe.l"
 return WHILE;
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 30 "structfe.l"
+#line 31 "structfe.l"
 {yylval.val = yytext; return CONSTANT; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 31 "structfe.l"
+#line 32 "structfe.l"
 {yylval.var = add(yytext); return IDENTIFIER; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 33 "structfe.l"
+#line 34 "structfe.l"
 return EQ;
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 35 "structfe.l"
+#line 36 "structfe.l"
 return ';';
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 36 "structfe.l"
+#line 37 "structfe.l"
 return '{';
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 37 "structfe.l"
+#line 38 "structfe.l"
 return '}';
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 38 "structfe.l"
+#line 39 "structfe.l"
 return '[';
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 39 "structfe.l"
+#line 40 "structfe.l"
 return ']';
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 40 "structfe.l"
+#line 41 "structfe.l"
 return '(';
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 41 "structfe.l"
+#line 42 "structfe.l"
 return ')';
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 46 "structfe.l"
+#line 47 "structfe.l"
 return '&';
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 47 "structfe.l"
+#line 48 "structfe.l"
 return STAR;
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 48 "structfe.l"
+#line 49 "structfe.l"
 return MINUS; 
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 49 "structfe.l"
+#line 50 "structfe.l"
 return SLASH; 
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 50 "structfe.l"
+#line 51 "structfe.l"
 return PLUS;
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 51 "structfe.l"
+#line 52 "structfe.l"
 return '<';
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 52 "structfe.l"
+#line 53 "structfe.l"
 return '>'; 
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 53 "structfe.l"
+#line 54 "structfe.l"
 return ',';
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 54 "structfe.l"
+#line 55 "structfe.l"
 return '.';
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 55 "structfe.l"
+#line 56 "structfe.l"
 return ':';
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 58 "structfe.l"
+#line 59 "structfe.l"
 return '!';
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 59 "structfe.l"
+#line 60 "structfe.l"
 return '~';
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 60 "structfe.l"
+#line 61 "structfe.l"
 return '%';
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 61 "structfe.l"
+#line 62 "structfe.l"
 return '^';
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 62 "structfe.l"
+#line 63 "structfe.l"
 return '|';
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 63 "structfe.l"
+#line 64 "structfe.l"
 return '?';
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 65 "structfe.l"
+#line 66 "structfe.l"
 {}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 66 "structfe.l"
+#line 67 "structfe.l"
 ;
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 68 "structfe.l"
+#line 69 "structfe.l"
 return PTR_OP;
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 69 "structfe.l"
+#line 70 "structfe.l"
 return AND_OP;
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 70 "structfe.l"
+#line 71 "structfe.l"
 return OR_OP;
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 71 "structfe.l"
+#line 72 "structfe.l"
 return LE_OP;
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 72 "structfe.l"
+#line 73 "structfe.l"
 return GE_OP;
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 73 "structfe.l"
+#line 74 "structfe.l"
 return EQ_OP;
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 74 "structfe.l"
+#line 75 "structfe.l"
 return NE_OP;
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 76 "structfe.l"
+#line 77 "structfe.l"
 return SHIFTRIGHT_OP;
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 77 "structfe.l"
+#line 78 "structfe.l"
 return SHIFTLEFT_OP;
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 78 "structfe.l"
+#line 79 "structfe.l"
 return INC_OP;
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 79 "structfe.l"
+#line 80 "structfe.l"
 return DEC_OP;
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 81 "structfe.l"
+#line 82 "structfe.l"
 {printf("Echec analyse lexicale ligne %d \n", yylineno);};
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 83 "structfe.l"
+#line 84 "structfe.l"
 ECHO;
 	YY_BREAK
-#line 973 "lex.yy.c"
+#line 974 "lex.yy.c"
 			case YY_STATE_EOF(INITIAL):
 				yyterminate();
 
@@ -1853,7 +1854,7 @@ int main()
 	return 0;
 	}
 #endif
-#line 83 "structfe.l"
+#line 84 "structfe.l"
 
 
 int yywrap(void)
@@ -1877,7 +1878,7 @@ void reset() {
     table[i] = NULL;
 }
 
-symbtab * add( char *name ) {
+symbtab* add(char *name ) {
   int h;
   symbtab *s;
   symbtab *precedent;
