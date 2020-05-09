@@ -28,8 +28,8 @@ void comment();
 "void"                 return VOID;
 "while"                return WHILE;
 
-{D}*                  {yylval.val = yytext; return CONSTANT; }
-{L}({L}|{D})*         {yylval.var = add(yytext); return IDENTIFIER; }
+{D}*                  {yylval.num = atoi(yytext); return CONSTANT; }
+{L}({L}|{D})*         {yylval.var = add(yytext); yylval.id=yytext; return IDENTIFIER; }
 
 "="                    return EQ;
 

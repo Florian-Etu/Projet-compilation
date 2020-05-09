@@ -9,7 +9,6 @@ void yyerror(char *s);
 int tempAmount = 0;
 char *createTemp();
 extern int yylineno;
-char* dernierID;
 
 extern char* strdup(const char*);
 extern char *strcat(char *destination, const char *source);
@@ -29,24 +28,25 @@ extern size_t strlen( const char * theString );
 %token PLUS MINUS STAR SLASH INC_OP DEC_OP
 
 %union {
-	char* val;
+	int num;
+        char* id;
 	struct symbtab *var;
 }
-%token <var> IDENTIFIER
-%token <val> CONSTANT
-%token <val> INT
+%token <id> IDENTIFIER
+%token <num> CONSTANT
+%token <num> INT
 
 %left PLUS MINUS
 %left STAR SLASH
 
-%type <val> multiplicative_expression additive_expression relational_expression shift_expression equality_expression logical_and_expression logical_or_expression
+%type <num> multiplicative_expression additive_expression relational_expression shift_expression equality_expression logical_and_expression logical_or_expression
 
 
 %start program
 %%
 
 primary_expression
-        : IDENTIFIER {dernierID=$1->name;}
+        : IDENTIFIER
         | CONSTANT
         | '(' expression ')'
         ;
@@ -110,7 +110,7 @@ relational_expression
 equality_expression
         : relational_expression
         | equality_expression EQ_OP relational_expression { printf("%s == %s (ligne %d) ;\n", $1 , $3 ,yylineno) ;}
-        | equality_expression NE_OP relational_expression {printf("(%s != %s (ligne %d) ;\n", dernierID, $3, yylineno) ;  }
+        | equality_expression NE_OP relational_expression { printf("%.1s != %d (ligne %d) ;\n", $1,  $3, yylineno) ;  }
         ;
 
 logical_and_expression

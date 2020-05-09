@@ -768,12 +768,12 @@ return WHILE;
 case 13:
 YY_RULE_SETUP
 #line 31 "structfe.l"
-{yylval.val = yytext; return CONSTANT; }
+{yylval.num = atoi(yytext); return CONSTANT; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 32 "structfe.l"
-{yylval.var = add(yytext); return IDENTIFIER; }
+{yylval.var = add(yytext); yylval.id=yytext; return IDENTIFIER; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP

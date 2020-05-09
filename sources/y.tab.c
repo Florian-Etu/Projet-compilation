@@ -80,7 +80,6 @@ void yyerror(char *s);
 int tempAmount = 0;
 char *createTemp();
 extern int yylineno;
-char* dernierID;
 
 extern char* strdup(const char*);
 extern char *strcat(char *destination, const char *source);
@@ -90,7 +89,7 @@ extern size_t strlen( const char * theString );
 
 
 /* Line 189 of yacc.c  */
-#line 94 "y.tab.c"
+#line 93 "y.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -185,9 +184,10 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 31 "structfe.y"
+#line 30 "structfe.y"
 
-	char* val;
+	int num;
+        char* id;
 	struct symbtab *var;
 
 
@@ -1591,80 +1591,73 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-        case 2:
-
-/* Line 1455 of yacc.c  */
-#line 49 "structfe.y"
-    {dernierID=(yyvsp[(1) - (1)].var)->name;}
-    break;
-
-  case 23:
+        case 23:
 
 /* Line 1455 of yacc.c  */
 #line 85 "structfe.y"
-    {(yyval.val) = (yyval.val);}
+    {(yyval.num) = (yyval.num);}
     break;
 
   case 33:
 
 /* Line 1455 of yacc.c  */
 #line 104 "structfe.y"
-    { printf("%s < %s (ligne %d) ;\n", (yyvsp[(1) - (3)].val) , (yyvsp[(3) - (3)].val) ,yylineno) ;  }
+    { printf("%s < %s (ligne %d) ;\n", (yyvsp[(1) - (3)].num) , (yyvsp[(3) - (3)].num) ,yylineno) ;  }
     break;
 
   case 34:
 
 /* Line 1455 of yacc.c  */
 #line 105 "structfe.y"
-    { printf("%s > %s (ligne %d) ;\n", (yyvsp[(1) - (3)].val) , (yyvsp[(3) - (3)].val) ,yylineno) ;  }
+    { printf("%s > %s (ligne %d) ;\n", (yyvsp[(1) - (3)].num) , (yyvsp[(3) - (3)].num) ,yylineno) ;  }
     break;
 
   case 35:
 
 /* Line 1455 of yacc.c  */
 #line 106 "structfe.y"
-    { printf("%s <= %s (ligne %d) ;\n", (yyvsp[(1) - (3)].val) , (yyvsp[(3) - (3)].val) ,yylineno) ;  }
+    { printf("%s <= %s (ligne %d) ;\n", (yyvsp[(1) - (3)].num) , (yyvsp[(3) - (3)].num) ,yylineno) ;  }
     break;
 
   case 36:
 
 /* Line 1455 of yacc.c  */
 #line 107 "structfe.y"
-    { printf("%s >= %s (ligne %d) ;\n", (yyvsp[(1) - (3)].val) , (yyvsp[(3) - (3)].val) ,yylineno) ;  }
+    { printf("%s >= %s (ligne %d) ;\n", (yyvsp[(1) - (3)].num) , (yyvsp[(3) - (3)].num) ,yylineno) ;  }
     break;
 
   case 38:
 
 /* Line 1455 of yacc.c  */
 #line 112 "structfe.y"
-    { printf("%s == %s (ligne %d) ;\n", (yyvsp[(1) - (3)].val) , (yyvsp[(3) - (3)].val) ,yylineno) ;}
+    { printf("%s == %s (ligne %d) ;\n", (yyvsp[(1) - (3)].num) , (yyvsp[(3) - (3)].num) ,yylineno) ;}
     break;
 
   case 39:
 
 /* Line 1455 of yacc.c  */
 #line 113 "structfe.y"
-    {printf("(%s != %s (ligne %d) ;\n", dernierID, (yyvsp[(3) - (3)].val), yylineno) ;  }
+    { printf("%.1s != %d (ligne %d) ;\n", (yyvsp[(1) - (3)].num),  (yyvsp[(3) - (3)].num), yylineno) ;  }
     break;
 
   case 41:
 
 /* Line 1455 of yacc.c  */
 #line 118 "structfe.y"
-    { printf("%s && %s (ligne %d) ;\n", (yyvsp[(1) - (3)].val) , (yyvsp[(3) - (3)].val) ,yylineno) ;  }
+    { printf("%s && %s (ligne %d) ;\n", (yyvsp[(1) - (3)].num) , (yyvsp[(3) - (3)].num) ,yylineno) ;  }
     break;
 
   case 43:
 
 /* Line 1455 of yacc.c  */
 #line 123 "structfe.y"
-    { printf("%s || %s (ligne %d) ;\n", (yyvsp[(1) - (3)].val) , (yyvsp[(3) - (3)].val) ,yylineno) ;  }
+    { printf("%s || %s (ligne %d) ;\n", (yyvsp[(1) - (3)].num) , (yyvsp[(3) - (3)].num) ,yylineno) ;  }
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 1668 "y.tab.c"
+#line 1661 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
