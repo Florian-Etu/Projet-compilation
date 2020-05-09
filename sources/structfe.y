@@ -1,15 +1,16 @@
 %{
-    	#include <stdio.h>
-   	#include <stdlib.h>
-	#include <string.h>
-	#include "symbtab.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "symbtab.h"
 	
-	void yyerror(char *s);
+void yyerror(char *s);
 	
-	int tempAmount = 0;
-	char *createTemp();
-	
-	
+int tempAmount = 0;
+char *createTemp();
+extern int yylineno;
+
+
 %}
 
 
@@ -96,26 +97,26 @@ shift_expression
 
 relational_expression
         : shift_expression
-        | relational_expression '<' shift_expression { printf("%f < %f ;\n", $1 , $3 ) ;  }
-        | relational_expression '>' shift_expression { printf("%f > %f ;\n", $1 , $3 ) ;  }
-        | relational_expression LE_OP shift_expression { printf("%f <= %f ;\n", $1 , $3 ) ;  }
-        | relational_expression GE_OP shift_expression { printf("%f >= %f ;\n", $1 , $3 ) ;  }
+        | relational_expression '<' shift_expression { printf("%f < %f (ligne %d) ;\n", $1 , $3 ,yylineno) ;  }
+        | relational_expression '>' shift_expression { printf("%f > %f (ligne %d) ;\n", $1 , $3 ,yylineno) ;  }
+        | relational_expression LE_OP shift_expression { printf("%f <= %f (ligne %d) ;\n", $1 , $3 ,yylineno) ;  }
+        | relational_expression GE_OP shift_expression { printf("%f >= %f (ligne %d) ;\n", $1 , $3 ,yylineno) ;  }
         ;
 
 equality_expression
         : relational_expression
-        | equality_expression EQ_OP relational_expression { printf("%f == %f ;\n", $1 , $3 ) ;  }
-        | equality_expression NE_OP relational_expression { printf("%f != %f ;\n", $1 , $3 ) ;  }
+        | equality_expression EQ_OP relational_expression { printf("%f == %f (ligne %d) ;\n", $1 , $3 ,yylineno) ;  }
+        | equality_expression NE_OP relational_expression { printf("%f != %f (ligne %d) ;\n", $1 , $3 ,yylineno) ;  }
         ;
 
 logical_and_expression
         : equality_expression
-        | logical_and_expression AND_OP equality_expression { printf("%f && %f ;\n", $1 , $3 ) ;  }
+        | logical_and_expression AND_OP equality_expression { printf("%f && %f (ligne %d) ;\n", $1 , $3 ,yylineno) ;  }
         ;
 
 logical_or_expression
         : logical_and_expression
-        | logical_or_expression OR_OP logical_and_expression { printf("( %f || %f ;\n", $1 , $3 ) ;  }
+        | logical_or_expression OR_OP logical_and_expression { printf("( %f || %f (ligne %d) ;\n", $1 , $3 ,yylineno) ;  }
         ;
 
 expression
@@ -251,7 +252,6 @@ int main(void)
 
 void yyerror (char *s)
 {
-  extern int yylineno;
   fprintf (stderr, "line %d : %s\n", yylineno ,s);
 }
 
