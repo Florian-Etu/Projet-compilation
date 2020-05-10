@@ -8,6 +8,7 @@ void yyerror(char *s);
 	
 int tempAmount = 0;
 char *createTemp();
+int istemp(char *s);
 extern int yylineno;
 
 extern char* strdup(const char*);
@@ -105,8 +106,8 @@ relational_expression
 
 equality_expression
         : relational_expression
-        | equality_expression EQ_OP relational_expression { printf("%s == %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ;  }
-        | equality_expression NE_OP relational_expression { printf("%s != %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ;  }
+        | equality_expression EQ_OP relational_expression { printf("%s == %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno);}
+        | equality_expression NE_OP relational_expression { printf("%s != %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno);}
         ;
 
 logical_and_expression
@@ -116,7 +117,7 @@ logical_and_expression
 
 logical_or_expression
         : logical_and_expression
-        | logical_or_expression OR_OP logical_and_expression { printf("%s || %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ;  }
+        | logical_or_expression OR_OP logical_and_expression { printf("%s || %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno);}
         ;
 
 expression
@@ -244,7 +245,7 @@ int main(void)
    if(!yyparse())
 		printf("\nAnalyse syntaxique reussite\n");
 	else
-		printf("\nL'analyse syntaxique a echoue\n");
+		yyerror("\nL'analyse syntaxique a echoue\n");
     return 0;
 }
 

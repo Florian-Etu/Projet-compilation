@@ -4,6 +4,8 @@ L                       [a-zA-Z_]
 %{
 #include "y.tab.h"
 #include "symbtab.h"
+#define ID_TYPE 0
+#define INT_TYPE 1
 
 extern size_t strlen( const char * theString );
 extern char* strdup(const char*);
@@ -25,8 +27,8 @@ extern char* strdup(const char*);
 "void"                 return VOID;
 "while"                return WHILE;
 
-{D}*                  {yylval.symbolValue = add(yytext); return CONSTANT;}
-{L}({L}|{D})*         {yylval.symbolValue = add(yytext); return IDENTIFIER;}
+{D}*                  {yylval.symbolValue = addTS(yytext, INT_TYPE); return CONSTANT;}
+{L}({L}|{D})*         {yylval.symbolValue = addTS(yytext, ID_TYPE); return IDENTIFIER;}
 
 "="     return EQ;
 
@@ -77,7 +79,7 @@ void reset() {
     table[i] = NULL;
 }
 
-tablesymboles* add(char *name ) {
+tablesymboles* addTS(char* name, int type) {
   int h;
   tablesymboles *s;
   tablesymboles *precedent;
@@ -88,21 +90,26 @@ tablesymboles* add(char *name ) {
     if ( strcmp( s->name, name ) == 0 )
       return s;
     precedent = s;
-    s = s->next;
+    s = s->suivant;
   }
   if ( precedent == NULL ) {
     table[h] = (tablesymboles*) malloc(sizeof(tablesymboles));
     s = table[h];
   }
   else {
-    precedent->next = (tablesymboles*) malloc(sizeof(tablesymboles));
-    s = precedent->next;
+    precedent->suivant = (tablesymboles*) malloc(sizeof(tablesymboles));
+    s = precedent->suivant;
   }
   s->name = strdup(name);
-  s->next = NULL;
+  s->type = type;
+  s->suivant = NULL;
   return s;
 }
 
 char* nomTable(tablesymboles* symbolTable) {
   return symbolTable->name;
+}
+
+void affichageTable(tablesymboles* symbolTable) {
+  printf("Affichage table des symboles : name = %s, type = %d, val = %d, suivant = %p\n",symbolTable->name, symbolTable->type, symbolTable->val, symbolTable->suivant);
 }

@@ -4,3 +4,4 @@
 *.swo
 .Rhistory
 *.exe
+*.gch

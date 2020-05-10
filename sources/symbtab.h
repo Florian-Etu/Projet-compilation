@@ -2,13 +2,13 @@
 
 typedef struct tablesymboles{
     char* name;
-    char* type;
+    int type;
 	int val;
-	struct tablesymboles *next;
+	struct tablesymboles* suivant;
 } tablesymboles;
 
 tablesymboles* table[MAXSYMB];
 
 
-tablesymboles* add(char *name);
+tablesymboles* addTS(char* name, int type);
 void reset();
