@@ -1,3 +1,10 @@
+%{
+#include <stdio.h>
+#include <stdlib.h>
+void yyerror(char *s);
+extern int yylineno;
+%}
+
 %token IDENTIFIER CONSTANT 
 %token LE_OP GE_OP EQ_OP NE_OP
 %token EXTERN
@@ -158,18 +165,16 @@ function_definition
         ;
 
 %%
-
-#include <stdio.h>
-
-extern char yytext[];
-extern int column;
-
-void yyerror(char const *s)
+int main(void)
 {
-	fflush(stdout);
-	printf("\n%*s\n%*s\n", column, "^", column, s);
+   if(!yyparse())
+		printf("\nAnalyse syntaxique reussite\n");
+	else
+		printf("\nL'analyse syntaxique a echoue\n");
+    return 0;
 }
 
-void main() {
-    yyparse();
- }
+void yyerror (char *s)
+{
+  fprintf (stderr, "Erreur (yyerror) ligne %d : %s\n", yylineno ,s);
+}

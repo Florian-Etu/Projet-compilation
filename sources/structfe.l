@@ -1,15 +1,12 @@
 D                       [0-9]
 L                       [a-zA-Z_]
-H                       [a-fA-F0-9]
-S						[ \t\v\n\f\s\r]
 
 %{
-#include <stdio.h>
-#include <string.h>
 #include "y.tab.h"
 #include "symbtab.h"
-void comment();
 
+extern size_t strlen( const char * theString );
+extern char* strdup(const char*);
 %}
 
 %option yylineno
@@ -63,8 +60,7 @@ void comment();
 "|"			return '|';
 "?"			return '?';
 
-[\n]                    {}
-[ \r\t]+           	;
+[ \r\t\n]+           	;
 
 "->"                    return PTR_OP;
 "&&"                    return AND_OP;
