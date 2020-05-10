@@ -7,7 +7,7 @@
 1) flex structfe.l
 2) bison -dy structfe.y
 3) gcc lex.yy.c y.tab.c -o structfe.exe
-4) structfe.exe <Minimal.c
+4) structfe.exe Minimal.c
 
 Note : un message devrait afficher si le parsage s'est bien effectué correctement (ou non)
 

@@ -76,11 +76,18 @@
 #include <ctype.h>
 	
 void yyerror(char *s);
-	
-int tempAmount = 0;
+FILE *yyin;
+FILE *yyout;
+
 char *createTemp();
 int istemp(char *s);
+char* nomFichierDestination(char *nom);
+char *substring(char *string, int position, int length);
+
+
 extern int yylineno;
+extern FILE *yyin;
+extern FILE *yyout;
 
 extern char* strdup(const char*);
 extern char *strcat(char *destination, const char *source);
@@ -90,7 +97,7 @@ extern size_t strlen( const char * theString );
 
 
 /* Line 189 of yacc.c  */
-#line 94 "y.tab.c"
+#line 101 "y.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -185,14 +192,14 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 20 "structfe.y"
+#line 27 "structfe.y"
 
 	struct tablesymboles* symbolValue;
 
 
 
 /* Line 214 of yacc.c  */
-#line 196 "y.tab.c"
+#line 203 "y.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -204,7 +211,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 208 "y.tab.c"
+#line 215 "y.tab.c"
 
 #ifdef short
 # undef short
@@ -526,16 +533,16 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    46,    46,    47,    48,    52,    53,    54,    55,    56,
-      57,    58,    62,    63,    67,    68,    69,    70,    71,    72,
-      76,    77,    78,    82,    83,    84,    88,    89,    90,    94,
-      95,    96,   100,   101,   102,   103,   104,   108,   109,   110,
-     114,   115,   119,   120,   124,   125,   129,   130,   134,   135,
-     139,   140,   141,   145,   146,   147,   151,   152,   156,   160,
-     161,   165,   166,   167,   168,   172,   173,   177,   181,   182,
-     183,   184,   185,   186,   190,   191,   192,   193,   197,   198,
-     202,   203,   207,   208,   211,   215,   219,   220,   224,   225,
-     229,   230,   234,   235,   239
+       0,    53,    53,    54,    55,    59,    60,    61,    62,    63,
+      64,    65,    69,    70,    74,    75,    76,    77,    78,    79,
+      83,    84,    85,    89,    90,    91,    95,    96,    97,   101,
+     102,   103,   107,   108,   109,   110,   111,   115,   116,   117,
+     121,   122,   126,   127,   131,   132,   136,   137,   141,   142,
+     146,   147,   148,   152,   153,   154,   158,   159,   163,   167,
+     168,   172,   173,   174,   175,   179,   180,   184,   188,   189,
+     190,   191,   192,   193,   197,   198,   199,   200,   204,   205,
+     209,   210,   214,   215,   218,   222,   226,   227,   231,   232,
+     236,   237,   241,   242,   246
 };
 #endif
 
@@ -1591,70 +1598,70 @@ yyreduce:
         case 4:
 
 /* Line 1455 of yacc.c  */
-#line 48 "structfe.y"
+#line 55 "structfe.y"
     {(yyval.symbolValue)=(yyvsp[(2) - (3)].symbolValue);}
     break;
 
   case 33:
 
 /* Line 1455 of yacc.c  */
-#line 101 "structfe.y"
+#line 108 "structfe.y"
     { printf("%s < %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno) ;  }
     break;
 
   case 34:
 
 /* Line 1455 of yacc.c  */
-#line 102 "structfe.y"
+#line 109 "structfe.y"
     { printf("%s > %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno) ;  }
     break;
 
   case 35:
 
 /* Line 1455 of yacc.c  */
-#line 103 "structfe.y"
+#line 110 "structfe.y"
     { printf("%s <= %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno) ;  }
     break;
 
   case 36:
 
 /* Line 1455 of yacc.c  */
-#line 104 "structfe.y"
+#line 111 "structfe.y"
     { printf("%s >= %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno) ;  }
     break;
 
   case 38:
 
 /* Line 1455 of yacc.c  */
-#line 109 "structfe.y"
-    { printf("%s == %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno) ;  }
+#line 116 "structfe.y"
+    { printf("%s == %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno);}
     break;
 
   case 39:
 
 /* Line 1455 of yacc.c  */
-#line 110 "structfe.y"
-    { printf("%s != %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno) ;  affichageTable((yyvsp[(1) - (3)].symbolValue)); affichageTable((yyvsp[(3) - (3)].symbolValue));}
+#line 117 "structfe.y"
+    { printf("%s != %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno);}
     break;
 
   case 41:
 
 /* Line 1455 of yacc.c  */
-#line 115 "structfe.y"
+#line 122 "structfe.y"
     { printf("%s && %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno) ;  }
     break;
 
   case 43:
 
 /* Line 1455 of yacc.c  */
-#line 120 "structfe.y"
+#line 127 "structfe.y"
     { printf("%s || %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno);}
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 1658 "y.tab.c"
+#line 1665 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1866,15 +1873,66 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 242 "structfe.y"
+#line 249 "structfe.y"
 
-int main(void)
+int main(int argc, char* argv[])
 {
-   if(!yyparse())
+        if(argc > 1)
+	{
+		FILE *fp = fopen(argv[1], "r");
+		if(fp) {
+			yyin = fp;
+                        char* nomDestination = nomFichierDestination(argv[1]);
+                        printf("Generation du fichier : %s\n", nomDestination);
+                        yyout = fopen(nomDestination, "w");
+                }
+	}
+        if(!yyparse())
 		printf("\nAnalyse syntaxique reussite\n");
 	else
-		printf("\nL'analyse syntaxique a echoue\n");
+		yyerror("\nL'analyse syntaxique a echoue\n");
+        fclose(yyin);
+        fclose(yyout);
     return 0;
+}
+
+
+char* nomFichierDestination(char *nom)
+{
+   char *f, *e;
+   int length;
+   
+   length = strlen(nom);
+
+   int position = length-1;
+   f = substring(nom, 1, position - 1 );      
+   e = substring(nom, position, length-position+1);
+
+   strcpy(nom, "");
+   strcat(nom, f);
+   free(f);
+   strcat(nom, "_3");
+   strcat(nom, e);
+   free(e);
+   return nom;
+}
+
+char *substring(char *string, int position, int length)
+{
+   char *pointer;
+   int c;
+ 
+   pointer = malloc(length+1);
+   
+   if( pointer == NULL )
+       exit(EXIT_FAILURE);
+ 
+   for( c = 0 ; c < length ; c++ )
+      *(pointer+c) = *((string+position-1)+c);      
+       
+   *(pointer+c) = '\0';
+ 
+   return pointer;
 }
 
 void yyerror (char *s)
@@ -1889,7 +1947,6 @@ char *createTemp()
 	int i=0;
 	for (i; i < 6; i++){
 		randomletter = 'a' + (rand() % 26);
-		
 		random[i]=randomletter;
 	}
 
@@ -1904,7 +1961,6 @@ int istemp(char *s)
     if(s[0] == temps[0]){
         return 1;
     }
-    
     else{
         return 0;
     }

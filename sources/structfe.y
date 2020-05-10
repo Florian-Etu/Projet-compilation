@@ -5,11 +5,18 @@
 #include <ctype.h>
 	
 void yyerror(char *s);
-	
-int tempAmount = 0;
+FILE *yyin;
+FILE *yyout;
+
 char *createTemp();
 int istemp(char *s);
+char* nomFichierDestination(char *nom);
+char *substring(char *string, int position, int length);
+
+
 extern int yylineno;
+extern FILE *yyin;
+extern FILE *yyout;
 
 extern char* strdup(const char*);
 extern char *strcat(char *destination, const char *source);
@@ -240,13 +247,64 @@ function_definition
         ;
 
 %%
-int main(void)
+int main(int argc, char* argv[])
 {
-   if(!yyparse())
+        if(argc > 1)
+	{
+		FILE *fp = fopen(argv[1], "r");
+		if(fp) {
+			yyin = fp;
+                        char* nomDestination = nomFichierDestination(argv[1]);
+                        printf("Generation du fichier : %s\n", nomDestination);
+                        yyout = fopen(nomDestination, "w");
+                }
+	}
+        if(!yyparse())
 		printf("\nAnalyse syntaxique reussite\n");
 	else
 		yyerror("\nL'analyse syntaxique a echoue\n");
+        fclose(yyin);
+        fclose(yyout);
     return 0;
+}
+
+
+char* nomFichierDestination(char *nom)
+{
+   char *f, *e;
+   int length;
+   
+   length = strlen(nom);
+
+   int position = length-1;
+   f = substring(nom, 1, position - 1 );      
+   e = substring(nom, position, length-position+1);
+
+   strcpy(nom, "");
+   strcat(nom, f);
+   free(f);
+   strcat(nom, "_3");
+   strcat(nom, e);
+   free(e);
+   return nom;
+}
+
+char *substring(char *string, int position, int length)
+{
+   char *pointer;
+   int c;
+ 
+   pointer = malloc(length+1);
+   
+   if( pointer == NULL )
+       exit(EXIT_FAILURE);
+ 
+   for( c = 0 ; c < length ; c++ )
+      *(pointer+c) = *((string+position-1)+c);      
+       
+   *(pointer+c) = '\0';
+ 
+   return pointer;
 }
 
 void yyerror (char *s)
@@ -261,7 +319,6 @@ char *createTemp()
 	int i=0;
 	for (i; i < 6; i++){
 		randomletter = 'a' + (rand() % 26);
-		
 		random[i]=randomletter;
 	}
 
@@ -276,7 +333,6 @@ int istemp(char *s)
     if(s[0] == temps[0]){
         return 1;
     }
-    
     else{
         return 0;
     }

@@ -14,7 +14,7 @@ extern char* strdup(const char*);
 %option yylineno
 
 %%
-[/][*][^*]*[*]+([^*/][^*]*[*]+)*[/] {printf("Detection d'un commentaire (ignore pour l'analyse syntaxique) ligne %d\n", yylineno);}
+[/][*][^*]*[*]+([^*/][^*]*[*]+)*[/] {printf("Detection d'un commentaire (ignore pour l'analyse syntaxique) ligne %d\n", yylineno); fprintf(yyout, "%s\n", yytext);}
 [/][*]    {yyerror("Commentaire non ferme");}
 "else"                 return ELSE; 
 "extern"               return EXTERN;

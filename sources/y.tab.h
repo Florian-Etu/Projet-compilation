@@ -107,7 +107,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 20 "structfe.y"
+#line 27 "structfe.y"
 
 	struct tablesymboles* symbolValue;
 
