@@ -14,7 +14,7 @@ void comment();
 %option yylineno
 %%
 [/][*][^*]*[*]+([^*/][^*]*[*]+)*[/] {printf("Detection d'un commentaire ligne %d\n", yylineno);}
-[/][*]    { yyerror("Commentaire non ferme ligne\n", yylineno); }
+[/][*]    {yyerror("Commentaire non ferme");}
 "auto"                  return AUTO;
 "break"                 return BREAK;
 "case"                  return CASE;
@@ -67,7 +67,7 @@ void comment();
 "=="                    return EQ_OP;
 "!="                    return NE_OP;
 
-.                       {printf("Echec analyse lexicale ligne %d \n", yylineno);};
+.                       {yyerror("Caractere non reconnu");};
 %%
 
 int yywrap(void)

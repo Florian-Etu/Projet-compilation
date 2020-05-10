@@ -9,8 +9,8 @@ L                       [a-zA-Z_]
 
 %option yylineno
 %%
-[/][*][^*]*[*]+([^*/][^*]*[*]+)*[/] {printf("Detection d'un commentaire ligne %d\n", yylineno);}
-[/][*]    { yyerror("Commentaire non ferme ligne\n", yylineno); }
+[/][*][^*]*[*]+([^*/][^*]*[*]+)*[/] {printf("Detection d'un commentaire (ignore pour l'analyse syntaxique) ligne %d\n", yylineno);}
+[/][*]    {yyerror("Commentaire non ferme");}
 "extern"                return EXTERN;
 "goto"                  return GOTO;
 "if"                    return IF;
@@ -21,30 +21,7 @@ L                       [a-zA-Z_]
 {D}*                    return CONSTANT;
 {L}({L}|{D})*           return IDENTIFIER;
 
-"="     return '=';
-";"			return ';';
-("{")		return '{';
-("}")		return '}';
-("[")		return '[';
-("]")		return ']';
-"("			return '(';
-")"			return ')';
-"&"			return '&';
-"*"			return '*';
-"-"			return '-'; 
-"/"			return '/'; 
-"+"			return '+';
-"<"			return '<';
-">"			return '>'; 
-","			return ',';
-"."			return '.';
-":"			return ':';
-"!"			return '!';
-"~"			return '~';
-"%"			return '%';
-"^"			return '^';
-"|"			return '|';
-"?"			return '?';
+[+-/&;\{\}\[\]\(\)\<\>,.:!~%^|?\*=] return *yytext;
 
 [ \r\t\n]+        ;
 
@@ -53,7 +30,7 @@ L                       [a-zA-Z_]
 "=="    return EQ_OP;
 "!="    return NE_OP;
 
-.       {printf("Echec analyse lexicale ligne %d \n", yylineno);};
+.       yyerror("Detection d'un caractere invalide");
 %%
 
 int yywrap(void)

@@ -254,7 +254,7 @@ int main(void)
 
 void yyerror (char *s)
 {
-  fprintf (stderr, "line %d : %s\n", yylineno ,s);
+  fprintf (stderr, "ERREUR : %s (ligne %d)\n", s, yylineno);
 }
 
 char *createTemp()

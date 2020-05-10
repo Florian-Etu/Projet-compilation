@@ -12,8 +12,8 @@ extern char* strdup(const char*);
 %option yylineno
 
 %%
-[/][*][^*]*[*]+([^*/][^*]*[*]+)*[/] {printf("Detection d'un commentaire ligne %d\n", yylineno);}
-[/][*]    { printf("Commentaire non ferme ligne %d\n", yylineno); }
+[/][*][^*]*[*]+([^*/][^*]*[*]+)*[/] {printf("Detection d'un commentaire (ignore pour l'analyse syntaxique) ligne %d\n", yylineno);}
+[/][*]    {yyerror("Commentaire non ferme");}
 "else"                 return ELSE; 
 "extern"               return EXTERN;
 "for"                  return FOR;
@@ -28,54 +28,31 @@ extern char* strdup(const char*);
 {D}*                  {yylval.num = atoi(yytext); return CONSTANT; }
 {L}({L}|{D})*         {yylval.var = add(yytext); yylval.id=yytext; return IDENTIFIER; }
 
-"="                    return EQ;
+"="     return EQ;
 
-";"			return ';';
-("{")			return '{';
-("}")			return '}';
-("[")			return '[';
-("]")			return ']';
-"("			return '(';
-")"			return ')';
-
-
-
-
-"&"			return '&';
+[;\{\}\[\]\(\)\<\>,.:!~%^|?&] return *yytext;
 "*"			return STAR;
 "-"			return MINUS; 
 "/"			return SLASH; 
 "+"			return PLUS;
-"<"			return '<';
-">"			return '>'; 
-","			return ',';
-"."			return '.';
-":"			return ':';
-
-
-"!"			return '!';
-"~"			return '~';
-"%"			return '%';
-"^"			return '^';
-"|"			return '|';
-"?"			return '?';
 
 [ \r\t\n]+           	;
 
-"->"                    return PTR_OP;
-"&&"                    return AND_OP;
-"||"                    return OR_OP;
-"<="                    return LE_OP;
-">="                    return GE_OP;
-"=="                    return EQ_OP;
-"!="                    return NE_OP;
+"->"      return PTR_OP;
+"&&"      return AND_OP;
+"||"      return OR_OP;
+"<="      return LE_OP;
+">="      return GE_OP;
+"=="      return EQ_OP;
+"!="      return NE_OP;
 
 ">>"			return SHIFTRIGHT_OP;
 "<<"			return SHIFTLEFT_OP;
 "++"			return INC_OP;
 "--"			return DEC_OP;
 
-.                       {printf("Echec analyse lexicale ligne %d \n", yylineno);};
+.         yyerror("Detection d'un caractere invalide");
+
 
 %%
 
