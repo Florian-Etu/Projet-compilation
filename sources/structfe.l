@@ -25,8 +25,8 @@ extern char* strdup(const char*);
 "void"                 return VOID;
 "while"                return WHILE;
 
-{D}*                  {yylval.num = atoi(yytext); return CONSTANT; }
-{L}({L}|{D})*         {yylval.var = add(yytext); yylval.id=yytext; return IDENTIFIER; }
+{D}*                  {yylval.symbolValue = add(yytext); return CONSTANT;}
+{L}({L}|{D})*         {yylval.symbolValue = add(yytext); return IDENTIFIER;}
 
 "="     return EQ;
 
@@ -62,7 +62,7 @@ int yywrap(void)
 }
 
 
-int hash( char *name ) {
+int hash(char *name) {
   int i, r;
   int taille = strlen(name);
   r = 0;
@@ -77,28 +77,32 @@ void reset() {
     table[i] = NULL;
 }
 
-symbtab* add(char *name ) {
+tablesymboles* add(char *name ) {
   int h;
-  symbtab *s;
-  symbtab *precedent;
+  tablesymboles *s;
+  tablesymboles *precedent;
   h = hash(name);
   s = table[h];
   precedent = NULL;
-  while ( s != NULL ) {
+  while (s != NULL) {
     if ( strcmp( s->name, name ) == 0 )
       return s;
     precedent = s;
     s = s->next;
   }
   if ( precedent == NULL ) {
-    table[h] = (symbtab *) malloc(sizeof(symbtab));
+    table[h] = (tablesymboles*) malloc(sizeof(tablesymboles));
     s = table[h];
   }
   else {
-    precedent->next = (symbtab *) malloc(sizeof(symbtab));
+    precedent->next = (tablesymboles*) malloc(sizeof(tablesymboles));
     s = precedent->next;
   }
   s->name = strdup(name);
   s->next = NULL;
   return s;
+}
+
+char* nomTable(tablesymboles* symbolTable) {
+  return symbolTable->name;
 }

@@ -107,16 +107,14 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 30 "structfe.y"
+#line 19 "structfe.y"
 
-	int num;
-        char* id;
-	struct symbtab *var;
+	struct tablesymboles* symbolValue;
 
 
 
 /* Line 1676 of yacc.c  */
-#line 120 "y.tab.h"
+#line 118 "y.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

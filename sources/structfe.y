@@ -16,31 +16,27 @@ extern char * strcpy( char * destination, const char * source );
 extern size_t strlen( const char * theString );
 
 %}
-
+%union {
+	struct tablesymboles* symbolValue;
+}
 
 %token PTR_OP LE_OP GE_OP EQ_OP NE_OP SHIFTRIGHT_OP SHIFTLEFT_OP
 %token EQ
 %token AND_OP OR_OP
 %token EXTERN
-%token VOID
-%token STRUCT SIZEOF
+%token <symbolValue> VOID
+%token <symbolValue> STRUCT SIZEOF
 %token IF ELSE WHILE FOR RETURN
-%token PLUS MINUS STAR SLASH INC_OP DEC_OP
-
-%union {
-	int num;
-        char* id;
-	struct symbtab *var;
-}
-%token <id> IDENTIFIER
-%token <num> CONSTANT
-%token <num> INT
+%token <symbolValue> PLUS MINUS STAR SLASH INC_OP DEC_OP
+%token <symbolValue> IDENTIFIER
+%token <symbolValue> CONSTANT
+%token <symbolValue> INT
+%token <symbolValue> '&'
 
 %left PLUS MINUS
 %left STAR SLASH
 
-%type <num> multiplicative_expression additive_expression relational_expression shift_expression equality_expression logical_and_expression logical_or_expression
-
+%type <symbolValue> multiplicative_expression additive_expression relational_expression shift_expression equality_expression logical_and_expression logical_or_expression unary_expression postfix_expression primary_expression expression type_specifier struct_specifier unary_operator
 
 %start program
 %%
@@ -48,7 +44,7 @@ extern size_t strlen( const char * theString );
 primary_expression
         : IDENTIFIER
         | CONSTANT
-        | '(' expression ')'
+        | '(' expression ')' {$$=$2;}
         ;
 
 postfix_expression
@@ -82,7 +78,7 @@ unary_operator
         ;
 
 multiplicative_expression
-        : unary_expression {$$ = $$;}
+        : unary_expression
         | multiplicative_expression STAR unary_expression
         | multiplicative_expression SLASH unary_expression
         ;
@@ -101,26 +97,26 @@ shift_expression
 
 relational_expression
         : shift_expression
-        | relational_expression '<' shift_expression { printf("%s < %s (ligne %d) ;\n", $1 , $3 ,yylineno) ;  }
-        | relational_expression '>' shift_expression { printf("%s > %s (ligne %d) ;\n", $1 , $3 ,yylineno) ;  }
-        | relational_expression LE_OP shift_expression { printf("%s <= %s (ligne %d) ;\n", $1 , $3 ,yylineno) ;  }
-        | relational_expression GE_OP shift_expression { printf("%s >= %s (ligne %d) ;\n", $1 , $3 ,yylineno) ;  }
+        | relational_expression '<' shift_expression { printf("%s < %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ;  }
+        | relational_expression '>' shift_expression { printf("%s > %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ;  }
+        | relational_expression LE_OP shift_expression { printf("%s <= %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ;  }
+        | relational_expression GE_OP shift_expression { printf("%s >= %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ;  }
         ;
 
 equality_expression
         : relational_expression
-        | equality_expression EQ_OP relational_expression { printf("%s == %s (ligne %d) ;\n", $1 , $3 ,yylineno) ;}
-        | equality_expression NE_OP relational_expression { printf("%.1s != %d (ligne %d) ;\n", $1,  $3, yylineno) ;  }
+        | equality_expression EQ_OP relational_expression { printf("%s == %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ;  }
+        | equality_expression NE_OP relational_expression { printf("%s != %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ;  }
         ;
 
 logical_and_expression
         : equality_expression
-        | logical_and_expression AND_OP equality_expression { printf("%s && %s (ligne %d) ;\n", $1 , $3 ,yylineno) ;  }
+        | logical_and_expression AND_OP equality_expression { printf("%s && %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ;  }
         ;
 
 logical_or_expression
         : logical_and_expression
-        | logical_or_expression OR_OP logical_and_expression { printf("%s || %s (ligne %d) ;\n", $1 , $3 ,yylineno) ;  }
+        | logical_or_expression OR_OP logical_and_expression { printf("%s || %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ;  }
         ;
 
 expression
@@ -146,7 +142,7 @@ type_specifier
 
 struct_specifier
         : STRUCT IDENTIFIER '{' struct_declaration_list '}'
-        | STRUCT '{' struct_declaration_list '}'
+        | STRUCT '{' struct_declaration_list '}' 
         | STRUCT IDENTIFIER
         ;
 
