@@ -25,6 +25,9 @@ extern size_t strlen( const char * theString );
 
 %}
 %union {
+        char *nom;
+        int entier;
+        int type;
 	struct tablesymboles* symbolValue;
 }
 
@@ -32,27 +35,27 @@ extern size_t strlen( const char * theString );
 %token EQ
 %token AND_OP OR_OP
 %token EXTERN
-%token <symbolValue> VOID
+%token <type> VOID
 %token <symbolValue> STRUCT SIZEOF
 %token IF ELSE WHILE FOR RETURN
 %token <symbolValue> PLUS MINUS STAR SLASH INC_OP DEC_OP
-%token <symbolValue> IDENTIFIER
-%token <symbolValue> CONSTANT
-%token <symbolValue> INT
+%token <type> IDENTIFIER
+%token <entier> CONSTANT
+%token <type> INT
 %token <symbolValue> '&'
 
 %left PLUS MINUS
 %left STAR SLASH
 
-%type <symbolValue> multiplicative_expression additive_expression relational_expression shift_expression equality_expression logical_and_expression logical_or_expression unary_expression postfix_expression primary_expression expression type_specifier struct_specifier unary_operator
+%type <symbolValue> multiplicative_expression additive_expression relational_expression direct_declarator declarator shift_expression equality_expression logical_and_expression logical_or_expression unary_expression postfix_expression primary_expression expression type_specifier struct_specifier unary_operator
 
 %start program
 %%
 
 primary_expression
-        : IDENTIFIER
-        | CONSTANT
-        | '(' expression ')' {$$=$2;}
+        : IDENTIFIER {$$->type = ID_TYPE;}
+        | CONSTANT {$$->type = INT_TYPE;}
+        | '(' expression ')' {$$ = $2;}
         ;
 
 postfix_expression
@@ -114,7 +117,7 @@ relational_expression
 equality_expression
         : relational_expression
         | equality_expression EQ_OP relational_expression { printf("%s == %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno);}
-        | equality_expression NE_OP relational_expression { printf("%s != %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno);}
+        | equality_expression NE_OP relational_expression { printf("%s != %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno); printf("Type 1 : %d Type 2 : %d (0 = INT, 1 = VOID, 2 = ID)\n", $1->type, $3->type);}
         ;
 
 logical_and_expression
@@ -143,8 +146,8 @@ declaration_specifiers
         ;
 
 type_specifier
-        : VOID
-        | INT
+        : VOID {$1 = VOID_TYPE;}
+        | INT {$1 = INT_TYPE;}
         | struct_specifier
         ;
 
@@ -164,13 +167,13 @@ struct_declaration
         ;
 
 declarator
-        : STAR direct_declarator
+        : STAR direct_declarator {$$=$2;}
         | direct_declarator
         ;
 
 direct_declarator
-        : IDENTIFIER
-        | '(' declarator ')'
+        : IDENTIFIER {$$->type=ID_TYPE;}
+        | '(' declarator ')' {$$=$2;}
         | direct_declarator '(' parameter_list ')'
         | direct_declarator '(' ')'
         ;

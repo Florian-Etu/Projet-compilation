@@ -4,8 +4,6 @@ L                       [a-zA-Z_]
 %{
 #include "y.tab.h"
 #include "symbtab.h"
-#define ID_TYPE 0
-#define INT_TYPE 1
 
 extern size_t strlen( const char * theString );
 extern char* strdup(const char*);
@@ -20,15 +18,15 @@ extern char* strdup(const char*);
 "extern"               return EXTERN;
 "for"                  return FOR;
 "if"                   return IF;
-"int"                  return INT;
+"int"                  return INT; {yylval.symbolValue = addTS(yytext);}
 "return"               return RETURN;
 "sizeof"               return SIZEOF;
 "struct"               return STRUCT;
 "void"                 return VOID;
 "while"                return WHILE;
 
-{D}*                  {yylval.symbolValue = addTS(yytext, INT_TYPE); return CONSTANT;}
-{L}({L}|{D})*         {yylval.symbolValue = addTS(yytext, ID_TYPE); return IDENTIFIER;}
+{D}*                  {yylval.symbolValue = addTS(yytext); return CONSTANT;}
+{L}({L}|{D})*         {yylval.symbolValue = addTS(yytext); return IDENTIFIER;}
 
 "="     return EQ;
 
@@ -79,7 +77,7 @@ void reset() {
     table[i] = NULL;
 }
 
-tablesymboles* addTS(char* name, int type) {
+tablesymboles* addTS(char* name) {
   int h;
   tablesymboles *s;
   tablesymboles *precedent;
@@ -101,7 +99,6 @@ tablesymboles* addTS(char* name, int type) {
     s = precedent->suivant;
   }
   s->name = strdup(name);
-  s->type = type;
   s->suivant = NULL;
   return s;
 }

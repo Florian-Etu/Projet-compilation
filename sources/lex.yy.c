@@ -443,12 +443,10 @@ char *yytext;
 #line 5 "structfe.l"
 #include "y.tab.h"
 #include "symbtab.h"
-#define ID_TYPE 0
-#define INT_TYPE 1
 
 extern size_t strlen( const char * theString );
 extern char* strdup(const char*);
-#line 452 "lex.yy.c"
+#line 450 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -599,9 +597,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 16 "structfe.l"
+#line 14 "structfe.l"
 
-#line 605 "lex.yy.c"
+#line 603 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -694,175 +692,175 @@ do_action:	/* This label is used only to access EOF actions. */
 	{ /* beginning of action switch */
 case 1:
 YY_RULE_SETUP
-#line 17 "structfe.l"
+#line 15 "structfe.l"
 {printf("Detection d'un commentaire (ignore pour l'analyse syntaxique) ligne %d\n", yylineno); fprintf(yyout, "%s\n", yytext);}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 18 "structfe.l"
+#line 16 "structfe.l"
 {yyerror("Commentaire non ferme");}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 19 "structfe.l"
+#line 17 "structfe.l"
 return ELSE; 
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 20 "structfe.l"
+#line 18 "structfe.l"
 return EXTERN;
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 21 "structfe.l"
+#line 19 "structfe.l"
 return FOR;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 22 "structfe.l"
+#line 20 "structfe.l"
 return IF;
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 23 "structfe.l"
-return INT;
+#line 21 "structfe.l"
+return INT; {yylval.symbolValue = addTS(yytext);}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 24 "structfe.l"
+#line 22 "structfe.l"
 return RETURN;
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 25 "structfe.l"
+#line 23 "structfe.l"
 return SIZEOF;
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 26 "structfe.l"
+#line 24 "structfe.l"
 return STRUCT;
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 27 "structfe.l"
+#line 25 "structfe.l"
 return VOID;
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 28 "structfe.l"
+#line 26 "structfe.l"
 return WHILE;
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 30 "structfe.l"
-{yylval.symbolValue = addTS(yytext, INT_TYPE); return CONSTANT;}
+#line 28 "structfe.l"
+{yylval.symbolValue = addTS(yytext); return CONSTANT;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 31 "structfe.l"
-{yylval.symbolValue = addTS(yytext, ID_TYPE); return IDENTIFIER;}
+#line 29 "structfe.l"
+{yylval.symbolValue = addTS(yytext); return IDENTIFIER;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 33 "structfe.l"
+#line 31 "structfe.l"
 return EQ;
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 35 "structfe.l"
+#line 33 "structfe.l"
 return *yytext;
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 36 "structfe.l"
+#line 34 "structfe.l"
 return STAR;
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 37 "structfe.l"
+#line 35 "structfe.l"
 return MINUS; 
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 38 "structfe.l"
+#line 36 "structfe.l"
 return SLASH; 
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 39 "structfe.l"
+#line 37 "structfe.l"
 return PLUS;
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 41 "structfe.l"
+#line 39 "structfe.l"
 ;
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 43 "structfe.l"
+#line 41 "structfe.l"
 return PTR_OP;
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 44 "structfe.l"
+#line 42 "structfe.l"
 return AND_OP;
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 45 "structfe.l"
+#line 43 "structfe.l"
 return OR_OP;
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 46 "structfe.l"
+#line 44 "structfe.l"
 return LE_OP;
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 47 "structfe.l"
+#line 45 "structfe.l"
 return GE_OP;
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 48 "structfe.l"
+#line 46 "structfe.l"
 return EQ_OP;
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 49 "structfe.l"
+#line 47 "structfe.l"
 return NE_OP;
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 51 "structfe.l"
+#line 49 "structfe.l"
 return SHIFTRIGHT_OP;
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 52 "structfe.l"
+#line 50 "structfe.l"
 return SHIFTLEFT_OP;
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 53 "structfe.l"
+#line 51 "structfe.l"
 return INC_OP;
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 54 "structfe.l"
+#line 52 "structfe.l"
 return DEC_OP;
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 56 "structfe.l"
+#line 54 "structfe.l"
 yyerror("Detection d'un caractere invalide");
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 59 "structfe.l"
+#line 57 "structfe.l"
 ECHO;
 	YY_BREAK
-#line 866 "lex.yy.c"
+#line 864 "lex.yy.c"
 			case YY_STATE_EOF(INITIAL):
 				yyterminate();
 
@@ -1746,7 +1744,7 @@ int main()
 	return 0;
 	}
 #endif
-#line 59 "structfe.l"
+#line 57 "structfe.l"
 
 
 int yywrap(void)
@@ -1770,7 +1768,7 @@ void reset() {
     table[i] = NULL;
 }
 
-tablesymboles* addTS(char* name, int type) {
+tablesymboles* addTS(char* name) {
   int h;
   tablesymboles *s;
   tablesymboles *precedent;
@@ -1792,7 +1790,6 @@ tablesymboles* addTS(char* name, int type) {
     s = precedent->suivant;
   }
   s->name = strdup(name);
-  s->type = type;
   s->suivant = NULL;
   return s;
 }

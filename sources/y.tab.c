@@ -194,12 +194,15 @@ typedef union YYSTYPE
 /* Line 214 of yacc.c  */
 #line 27 "structfe.y"
 
+        char *nom;
+        int entier;
+        int type;
 	struct tablesymboles* symbolValue;
 
 
 
 /* Line 214 of yacc.c  */
-#line 203 "y.tab.c"
+#line 206 "y.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -211,7 +214,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 215 "y.tab.c"
+#line 218 "y.tab.c"
 
 #ifdef short
 # undef short
@@ -533,16 +536,16 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    53,    53,    54,    55,    59,    60,    61,    62,    63,
-      64,    65,    69,    70,    74,    75,    76,    77,    78,    79,
-      83,    84,    85,    89,    90,    91,    95,    96,    97,   101,
-     102,   103,   107,   108,   109,   110,   111,   115,   116,   117,
-     121,   122,   126,   127,   131,   132,   136,   137,   141,   142,
-     146,   147,   148,   152,   153,   154,   158,   159,   163,   167,
-     168,   172,   173,   174,   175,   179,   180,   184,   188,   189,
-     190,   191,   192,   193,   197,   198,   199,   200,   204,   205,
-     209,   210,   214,   215,   218,   222,   226,   227,   231,   232,
-     236,   237,   241,   242,   246
+       0,    56,    56,    57,    58,    62,    63,    64,    65,    66,
+      67,    68,    72,    73,    77,    78,    79,    80,    81,    82,
+      86,    87,    88,    92,    93,    94,    98,    99,   100,   104,
+     105,   106,   110,   111,   112,   113,   114,   118,   119,   120,
+     124,   125,   129,   130,   134,   135,   139,   140,   144,   145,
+     149,   150,   151,   155,   156,   157,   161,   162,   166,   170,
+     171,   175,   176,   177,   178,   182,   183,   187,   191,   192,
+     193,   194,   195,   196,   200,   201,   202,   203,   207,   208,
+     212,   213,   217,   218,   221,   225,   229,   230,   234,   235,
+     239,   240,   244,   245,   249
 };
 #endif
 
@@ -1595,73 +1598,122 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-        case 4:
+        case 2:
 
 /* Line 1455 of yacc.c  */
-#line 55 "structfe.y"
-    {(yyval.symbolValue)=(yyvsp[(2) - (3)].symbolValue);}
+#line 56 "structfe.y"
+    {(yyval.symbolValue)->type = ID_TYPE;}
+    break;
+
+  case 3:
+
+/* Line 1455 of yacc.c  */
+#line 57 "structfe.y"
+    {(yyval.symbolValue)->type = INT_TYPE;}
+    break;
+
+  case 4:
+
+/* Line 1455 of yacc.c  */
+#line 58 "structfe.y"
+    {(yyval.symbolValue) = (yyvsp[(2) - (3)].symbolValue);}
     break;
 
   case 33:
 
 /* Line 1455 of yacc.c  */
-#line 108 "structfe.y"
+#line 111 "structfe.y"
     { printf("%s < %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno) ;  }
     break;
 
   case 34:
 
 /* Line 1455 of yacc.c  */
-#line 109 "structfe.y"
+#line 112 "structfe.y"
     { printf("%s > %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno) ;  }
     break;
 
   case 35:
 
 /* Line 1455 of yacc.c  */
-#line 110 "structfe.y"
+#line 113 "structfe.y"
     { printf("%s <= %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno) ;  }
     break;
 
   case 36:
 
 /* Line 1455 of yacc.c  */
-#line 111 "structfe.y"
+#line 114 "structfe.y"
     { printf("%s >= %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno) ;  }
     break;
 
   case 38:
 
 /* Line 1455 of yacc.c  */
-#line 116 "structfe.y"
+#line 119 "structfe.y"
     { printf("%s == %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno);}
     break;
 
   case 39:
 
 /* Line 1455 of yacc.c  */
-#line 117 "structfe.y"
-    { printf("%s != %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno);}
+#line 120 "structfe.y"
+    { printf("%s != %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno); printf("Type 1 : %d Type 2 : %d (0 = INT, 1 = VOID, 2 = ID)\n", (yyvsp[(1) - (3)].symbolValue)->type, (yyvsp[(3) - (3)].symbolValue)->type);}
     break;
 
   case 41:
 
 /* Line 1455 of yacc.c  */
-#line 122 "structfe.y"
+#line 125 "structfe.y"
     { printf("%s && %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno) ;  }
     break;
 
   case 43:
 
 /* Line 1455 of yacc.c  */
-#line 127 "structfe.y"
+#line 130 "structfe.y"
     { printf("%s || %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno);}
+    break;
+
+  case 50:
+
+/* Line 1455 of yacc.c  */
+#line 149 "structfe.y"
+    {(yyvsp[(1) - (1)].type) = VOID_TYPE;}
+    break;
+
+  case 51:
+
+/* Line 1455 of yacc.c  */
+#line 150 "structfe.y"
+    {(yyvsp[(1) - (1)].type) = INT_TYPE;}
+    break;
+
+  case 59:
+
+/* Line 1455 of yacc.c  */
+#line 170 "structfe.y"
+    {(yyval.symbolValue)=(yyvsp[(2) - (2)].symbolValue);}
+    break;
+
+  case 61:
+
+/* Line 1455 of yacc.c  */
+#line 175 "structfe.y"
+    {(yyval.symbolValue)->type=ID_TYPE;}
+    break;
+
+  case 62:
+
+/* Line 1455 of yacc.c  */
+#line 176 "structfe.y"
+    {(yyval.symbolValue)=(yyvsp[(2) - (3)].symbolValue);}
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 1665 "y.tab.c"
+#line 1717 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1873,7 +1925,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 249 "structfe.y"
+#line 252 "structfe.y"
 
 int main(int argc, char* argv[])
 {
