@@ -753,7 +753,7 @@ return WHILE;
 case 13:
 YY_RULE_SETUP
 #line 28 "structfe.l"
-{yylval.symbolValue = addTS(yytext); return CONSTANT;}
+{yylval.symbolValue = addDTS(yytext); return CONSTANT;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
@@ -1794,10 +1794,23 @@ tablesymboles* addTS(char* name) {
   return s;
 }
 
+tablesymboles* addDTS(char* name) {
+  tablesymboles* TS = addTS(name);
+  TS->val=atoi(name);
+  return TS;
+}
+
 char* nomTable(tablesymboles* symbolTable) {
   return symbolTable->name;
 }
 
 void affichageTable(tablesymboles* symbolTable) {
   printf("Affichage table des symboles : name = %s, type = %d, val = %d, suivant = %p\n",symbolTable->name, symbolTable->type, symbolTable->val, symbolTable->suivant);
+}
+
+void affectation(tablesymboles* destination, tablesymboles* valeur) {
+  if(destination->type == 2 && valeur->type == 0) {
+    destination->val=atoi(nomTable(valeur));
+    printf("La valeur %d a bien ete affectee a la variable %s\n", destination->val, nomTable(destination));
+  }
 }

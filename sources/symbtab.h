@@ -1,6 +1,6 @@
 #define MAXSYMB 103
 
-typedef enum {INT_TYPE, VOID_TYPE, ID_TYPE} type_t; 
+typedef enum {INT_TYPE, VOID_TYPE, ID_TYPE, STRUCT_TYPE} type_t; 
 
 typedef struct tablesymboles{
     char* name;
@@ -12,4 +12,5 @@ typedef struct tablesymboles{
 tablesymboles* table[MAXSYMB];
 
 tablesymboles* addTS(char* name);
+tablesymboles* addDTS(char* name);
 void reset();

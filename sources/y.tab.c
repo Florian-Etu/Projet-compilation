@@ -1675,6 +1675,13 @@ yyreduce:
     { printf("%s || %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno);}
     break;
 
+  case 45:
+
+/* Line 1455 of yacc.c  */
+#line 135 "structfe.y"
+    {affectation((yyvsp[(1) - (3)].symbolValue), (yyvsp[(3) - (3)].symbolValue)); (yyval.symbolValue)=(yyvsp[(1) - (3)].symbolValue);}
+    break;
+
   case 50:
 
 /* Line 1455 of yacc.c  */
@@ -1687,6 +1694,13 @@ yyreduce:
 /* Line 1455 of yacc.c  */
 #line 150 "structfe.y"
     {(yyvsp[(1) - (1)].type) = INT_TYPE;}
+    break;
+
+  case 52:
+
+/* Line 1455 of yacc.c  */
+#line 151 "structfe.y"
+    {(yyvsp[(1) - (1)].symbolValue)->type = STRUCT_TYPE;}
     break;
 
   case 59:
@@ -1713,7 +1727,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 1717 "y.tab.c"
+#line 1731 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1937,6 +1951,10 @@ int main(int argc, char* argv[])
                         char* nomDestination = nomFichierDestination(argv[1]);
                         printf("Generation du fichier : %s\n", nomDestination);
                         yyout = fopen(nomDestination, "w");
+                }
+                else {
+                        printf("Le fichier %s est introuvable (arret du compilateur)\n", argv[1]);
+                        exit(1);
                 }
 	}
         if(!yyparse())

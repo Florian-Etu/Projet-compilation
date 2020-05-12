@@ -132,7 +132,7 @@ logical_or_expression
 
 expression
         : logical_or_expression
-        | unary_expression EQ expression
+        | unary_expression EQ expression {affectation($1, $3); $$=$1;}
         ;
 
 declaration
@@ -148,12 +148,12 @@ declaration_specifiers
 type_specifier
         : VOID {$1 = VOID_TYPE;}
         | INT {$1 = INT_TYPE;}
-        | struct_specifier
+        | struct_specifier {$1->type = STRUCT_TYPE;}
         ;
 
 struct_specifier
         : STRUCT IDENTIFIER '{' struct_declaration_list '}'
-        | STRUCT '{' struct_declaration_list '}' 
+        | STRUCT '{' struct_declaration_list '}'
         | STRUCT IDENTIFIER
         ;
 
@@ -260,6 +260,10 @@ int main(int argc, char* argv[])
                         char* nomDestination = nomFichierDestination(argv[1]);
                         printf("Generation du fichier : %s\n", nomDestination);
                         yyout = fopen(nomDestination, "w");
+                }
+                else {
+                        printf("Le fichier %s est introuvable (arret du compilateur)\n", argv[1]);
+                        exit(1);
                 }
 	}
         if(!yyparse())
