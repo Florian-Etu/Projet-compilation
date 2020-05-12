@@ -2069,3 +2069,4 @@ void affectation(tablesymboles* destination, tablesymboles* valeur) {
     printf("La valeur %d a bien ete affectee a la variable %s\n", destination->val, nomTable(destination));
   }
 }
+
