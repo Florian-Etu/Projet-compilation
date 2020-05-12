@@ -108,26 +108,26 @@ shift_expression
 
 relational_expression
         : shift_expression
-        | relational_expression '<' shift_expression { printf("%s < %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ;  }
-        | relational_expression '>' shift_expression { printf("%s > %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ;  }
-        | relational_expression LE_OP shift_expression { printf("%s <= %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ;  }
-        | relational_expression GE_OP shift_expression { printf("%s >= %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ;  }
-        ;
+        | relational_expression '<' shift_expression {printf("%s < %s (ligne %d) ;\n", $1->name,  $3->name, yylineno) ;}
+        | relational_expression '>' shift_expression {printf("%s > %s (ligne %d) ;\n", $1->name,  $3->name, yylineno) ;}
+        | relational_expression LE_OP shift_expression {printf("%s <= %s (ligne %d) ;\n", $1->name,  $3->name, yylineno) ;}
+        | relational_expression GE_OP shift_expression {printf("%s >= %s (ligne %d) ;\n", $1->name,  $3->name, yylineno) ;}
+        
 
 equality_expression
         : relational_expression
-        | equality_expression EQ_OP relational_expression { printf("%s == %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno);}
-        | equality_expression NE_OP relational_expression { printf("%s != %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno); printf("Type 1 : %d Type 2 : %d (0 = INT, 1 = VOID, 2 = ID)\n", $1->type, $3->type);}
+        | equality_expression EQ_OP relational_expression {printf("%s == %s (ligne %d) ;\n", $1->name,  $3->name, yylineno);}
+        | equality_expression NE_OP relational_expression {printf("%s != %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); printf("Type 1 : %d Type 2 : %d (0 = INT, 1 = VOID, 2 = ID)\n", $1->type, $3->type);}
         ;
 
 logical_and_expression
         : equality_expression
-        | logical_and_expression AND_OP equality_expression { printf("%s && %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ;  }
+        | logical_and_expression AND_OP equality_expression {printf("%s && %s (ligne %d) ;\n", $1->name,  $3->name, yylineno) ;}
         ;
 
 logical_or_expression
         : logical_and_expression
-        | logical_or_expression OR_OP logical_and_expression { printf("%s || %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno);}
+        | logical_or_expression OR_OP logical_and_expression {printf("%s || %s (ligne %d) ;\n", $1->name,  $3->name, yylineno);}
         ;
 
 expression

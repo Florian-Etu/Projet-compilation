@@ -49,37 +49,81 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    IDENTIFIER = 258,
-    CONSTANT = 259,
-    LE_OP = 260,
-    GE_OP = 261,
-    EQ_OP = 262,
-    NE_OP = 263,
-    EXTERN = 264,
-    INT = 265,
-    VOID = 266,
-    IF = 267,
-    RETURN = 268,
-    GOTO = 269
+    PTR_OP = 258,
+    LE_OP = 259,
+    GE_OP = 260,
+    EQ_OP = 261,
+    NE_OP = 262,
+    SHIFTRIGHT_OP = 263,
+    SHIFTLEFT_OP = 264,
+    EQ = 265,
+    AND_OP = 266,
+    OR_OP = 267,
+    EXTERN = 268,
+    VOID = 269,
+    STRUCT = 270,
+    SIZEOF = 271,
+    IF = 272,
+    ELSE = 273,
+    WHILE = 274,
+    FOR = 275,
+    RETURN = 276,
+    PLUS = 277,
+    MINUS = 278,
+    STAR = 279,
+    SLASH = 280,
+    INC_OP = 281,
+    DEC_OP = 282,
+    IDENTIFIER = 283,
+    CONSTANT = 284,
+    INT = 285
   };
 #endif
 /* Tokens.  */
-#define IDENTIFIER 258
-#define CONSTANT 259
-#define LE_OP 260
-#define GE_OP 261
-#define EQ_OP 262
-#define NE_OP 263
-#define EXTERN 264
-#define INT 265
-#define VOID 266
-#define IF 267
-#define RETURN 268
-#define GOTO 269
+#define PTR_OP 258
+#define LE_OP 259
+#define GE_OP 260
+#define EQ_OP 261
+#define NE_OP 262
+#define SHIFTRIGHT_OP 263
+#define SHIFTLEFT_OP 264
+#define EQ 265
+#define AND_OP 266
+#define OR_OP 267
+#define EXTERN 268
+#define VOID 269
+#define STRUCT 270
+#define SIZEOF 271
+#define IF 272
+#define ELSE 273
+#define WHILE 274
+#define FOR 275
+#define RETURN 276
+#define PLUS 277
+#define MINUS 278
+#define STAR 279
+#define SLASH 280
+#define INC_OP 281
+#define DEC_OP 282
+#define IDENTIFIER 283
+#define CONSTANT 284
+#define INT 285
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+union YYSTYPE
+{
+#line 27 "structfe.y"
+
+        char *nom;
+        int entier;
+        int type;
+	struct tablesymboles* symbolValue;
+
+#line 124 "y.tab.h"
+
+};
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
