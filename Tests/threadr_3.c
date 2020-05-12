@@ -1,0 +1,1 @@
+/* Ceci est un test du code trois adresse */

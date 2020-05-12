@@ -53,13 +53,13 @@ extern size_t strlen( const char * theString );
 %%
 
 primary_expression
-        : IDENTIFIER {$$->type = ID_TYPE;}
+        : IDENTIFIER {$$->type = ID_TYPE;  }
         | CONSTANT {$$->type = INT_TYPE;}
         | '(' expression ')' {$$ = $2;}
         ;
 
 postfix_expression
-        : primary_expression
+        : primary_expression { $$ = $1 ;}
         | postfix_expression '(' ')'
         | postfix_expression '(' argument_expression_list ')'
         | postfix_expression '.' IDENTIFIER
@@ -74,8 +74,10 @@ argument_expression_list
         ;
 
 unary_expression
-        : postfix_expression
-        | unary_operator unary_expression
+        : postfix_expression { $$ = $1 ;}
+        | unary_operator unary_expression { if ($1 == MINUS) { $$->val = -$$->val} 
+						else if ($1 == STAR) { } 
+						else {} }
 	| INC_OP unary_expression
 	| DEC_OP unary_expression
         | SIZEOF unary_expression
@@ -89,49 +91,49 @@ unary_operator
         ;
 
 multiplicative_expression
-        : unary_expression
-        | multiplicative_expression STAR unary_expression
-        | multiplicative_expression SLASH unary_expression
+        : unary_expression { $$ = $1 ;}
+        | multiplicative_expression STAR unary_expression {fprintf(yyout,"%s = %s * %s ;\n", &&=createTemp(), $1, $3);}
+        | multiplicative_expression SLASH unary_expression {fprintf(yyout,"%s = %s / %s ;\n", &&=createTemp(), $1, $3);}
         ;
 
 additive_expression
-        : multiplicative_expression
-        | additive_expression PLUS multiplicative_expression
-        | additive_expression MINUS multiplicative_expression
+        : multiplicative_expression { $$ = $1 ;}
+        | additive_expression PLUS multiplicative_expression {printf("TESTS"); fprintf(yyout,"%s = %s + %s ;\n", &&=createTemp(), $1, $3);}
+        | additive_expression MINUS multiplicative_expression {fprintf(yyout,"%s = %s - %s ;\n", &&=createTemp(), $1, $3);}
         ;
 
 shift_expression
-		: additive_expression
-		| shift_expression SHIFTRIGHT_OP additive_expression
-		| shift_expression SHIFTLEFT_OP additive_expression
+		: additive_expression { $$ = $1 ;}
+		| shift_expression SHIFTRIGHT_OP additive_expression {fprintf(yyout,"%s = %s >> %s ;\n", &&=createTemp(), $1, $3);}
+		| shift_expression SHIFTLEFT_OP additive_expression {fprintf(yyout,"%s = %s << %s ;\n", &&=createTemp(), $1, $3);}
 		;
 
 relational_expression
-        : shift_expression
-        | relational_expression '<' shift_expression { printf("%s < %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ;  }
-        | relational_expression '>' shift_expression { printf("%s > %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ;  }
-        | relational_expression LE_OP shift_expression { printf("%s <= %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ;  }
-        | relational_expression GE_OP shift_expression { printf("%s >= %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ;  }
+        : shift_expression { $$ = $1 ;}
+        | relational_expression '<' shift_expression { fprintf(yyout,"%s < %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ;  }
+        | relational_expression '>' shift_expression { fprintf(yyout,"%s > %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ;  }
+        | relational_expression LE_OP shift_expression { fprintf(yyout,"%s <= %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ;  }
+        | relational_expression GE_OP shift_expression { fprintf(yyout,"%s >= %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ;  }
         ;
 
 equality_expression
-        : relational_expression
-        | equality_expression EQ_OP relational_expression { printf("%s == %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno);}
-        | equality_expression NE_OP relational_expression { printf("%s != %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno); printf("Type 1 : %d Type 2 : %d (0 = INT, 1 = VOID, 2 = ID)\n", $1->type, $3->type);}
+        : relational_expression { $$ = $1 ;}
+        | equality_expression EQ_OP relational_expression { fprintf(yyout,"%s == %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno);}
+        | equality_expression NE_OP relational_expression {fprintf(yyout,"%s != %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); printf("Type 1 : %d Type 2 : %d (0 = INT, 1 = VOID, 2 = ID)\n", $1->type, $3->type);}
         ;
 
-logical_and_expression
-        : equality_expression
-        | logical_and_expression AND_OP equality_expression { printf("%s && %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ;  }
+logical_and_expression 
+        : equality_expression { $$ = $1 ;}
+        | logical_and_expression AND_OP equality_expression {fprintf(yyout,"%s && %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ;  }
         ;
 
 logical_or_expression
-        : logical_and_expression
-        | logical_or_expression OR_OP logical_and_expression { printf("%s || %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno);}
+        : logical_and_expression { $$ = $1 ;}
+        | logical_or_expression OR_OP logical_and_expression {fprintf(yyout,"%s || %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno);}
         ;
 
 expression
-        : logical_or_expression
+        : logical_or_expression 
         | unary_expression EQ expression {affectation($1, $3); $$=$1;}
         ;
 
