@@ -12,7 +12,7 @@ char *createTemp();
 int istemp(char *s);
 char* nomFichierDestination(char *nom);
 char *substring(char *string, int position, int length);
-
+int isnumber(char *s);
 
 extern int yylineno;
 extern FILE *yyin;
@@ -64,8 +64,8 @@ postfix_expression
         | postfix_expression '(' argument_expression_list ')'
         | postfix_expression '.' IDENTIFIER
         | postfix_expression PTR_OP IDENTIFIER
-		| postfix_expression INC_OP
-		| postfix_expression DEC_OP
+	| postfix_expression INC_OP {fprintf(yyout,"%s = %s + 1 ;\n", $1->name, $1->name);}
+	| postfix_expression DEC_OP {fprintf(yyout,"%s = %s - 1 ;\n", $1->name, $1->name);}
         ;
 
 argument_expression_list
@@ -76,8 +76,13 @@ argument_expression_list
 unary_expression
         : postfix_expression
         | unary_operator unary_expression 
+<<<<<<< Updated upstream
 	| INC_OP unary_expression
 	| DEC_OP unary_expression
+=======
+	| INC_OP unary_expression {fprintf(yyout,"%s = %s + 1 ;\n", $2->name, $2->name); fprintf(yyout,"%s = %s ;\n", $$->name, $2->name);}
+	| DEC_OP unary_expression {fprintf(yyout,"%s = %s - 1 ;\n", $2->name, $2->name); fprintf(yyout,"%s = %s ;\n", $$->name, $2->name);}
+>>>>>>> Stashed changes
         | SIZEOF unary_expression
 	| SIZEOF '(' type_specifier ')'
         ;
@@ -105,8 +110,41 @@ additive_expression
 
 shift_expression
 		: additive_expression 
+<<<<<<< Updated upstream
 		| shift_expression SHIFTRIGHT_OP additive_expression {char* temp=$1->name; $$->name=createTemp(); fprintf(yyout,"%s = %s >> %s ;\n", $$->name, temp, $3->name);}
 		| shift_expression SHIFTLEFT_OP additive_expression {char* temp=$1->name; $$->name=createTemp(); fprintf(yyout,"%s = %s << %s ;\n", $$->name, temp, $3->name);}
+=======
+		| shift_expression SHIFTRIGHT_OP additive_expression {if(isnumber($3->name))
+									{	
+										int l = atoi($3->name);
+										char* leftid=$1->name;
+										char* prevtemp;
+										$$->name=createTemp();
+										fprintf(yyout,"%s = %s / 2 ;\n", $$->name, leftid);
+										for (int i =0; i<(l-1) ; i++)
+										{
+											prevtemp=$$->name;
+											$$->name=createTemp();
+											fprintf(yyout,"%s = %s / 2 ;\n", $$->name, prevtemp);
+										}
+									}}
+										
+
+		| shift_expression SHIFTLEFT_OP additive_expression  {if(isnumber($3->name))
+									{	
+										int l = atoi($3->name);
+										char* leftid=$1->name;
+										char* prevtemp;
+										$$->name=createTemp();
+										fprintf(yyout,"%s = %s * 2 ;\n", $$->name, leftid);
+										for (int i =0; i<(l-1) ; i++)
+										{
+											prevtemp=$$->name;
+											$$->name=createTemp();
+											fprintf(yyout,"%s = %s * 2 ;\n", $$->name, prevtemp);
+										}
+									}}
+>>>>>>> Stashed changes
 		;
 
 relational_expression
@@ -135,7 +173,17 @@ logical_or_expression
 
 expression
         : logical_or_expression 
+<<<<<<< Updated upstream
         | unary_expression EQ expression {fprintf(yyout,"%s = %s\n", $1->name, $3->name); affectation($1, $3); $$=$1;}
+=======
+        | unary_expression EQ expression {if (strcmp($1->name,$3->name))
+						{
+							fprintf(yyout,"%s = %s ;\n", $1->name, $3->name); 
+							affectation($1, $3); 
+							$$=$1;
+						}
+					}
+>>>>>>> Stashed changes
         ;
 
 declaration
@@ -347,3 +395,20 @@ int istemp(char *s)
         return 0;
     }
 }
+<<<<<<< Updated upstream
+=======
+
+int isnumber(char *s)
+{
+	int l= strlen(s);
+	for(int i =0; i< l; i++)
+	{
+		if(!isdigit(s[i]))
+		{
+			return 0;
+		}
+	}
+	return 1;
+}
+	
+>>>>>>> Stashed changes

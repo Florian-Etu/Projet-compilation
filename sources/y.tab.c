@@ -77,7 +77,11 @@ char *createTemp();
 int istemp(char *s);
 char* nomFichierDestination(char *nom);
 char *substring(char *string, int position, int length);
+<<<<<<< Updated upstream
 
+=======
+int isnumber(char *s);
+>>>>>>> Stashed changes
 
 extern int yylineno;
 extern FILE *yyin;
@@ -221,10 +225,30 @@ int yyparse (void);
 
 #ifdef YYTYPE_UINT8
 typedef YYTYPE_UINT8 yytype_uint8;
+<<<<<<< Updated upstream
 #else
 typedef unsigned char yytype_uint8;
 #endif
 
+#ifdef YYTYPE_INT8
+typedef YYTYPE_INT8 yytype_int8;
+=======
+>>>>>>> Stashed changes
+#else
+typedef unsigned char yytype_uint8;
+#endif
+
+<<<<<<< Updated upstream
+#ifdef YYTYPE_UINT16
+typedef YYTYPE_UINT16 yytype_uint16;
+#else
+typedef unsigned short int yytype_uint16;
+#endif
+
+#ifdef YYTYPE_INT16
+typedef YYTYPE_INT16 yytype_int16;
+#else
+=======
 #ifdef YYTYPE_INT8
 typedef YYTYPE_INT8 yytype_int8;
 #else
@@ -240,6 +264,7 @@ typedef unsigned short int yytype_uint16;
 #ifdef YYTYPE_INT16
 typedef YYTYPE_INT16 yytype_int16;
 #else
+>>>>>>> Stashed changes
 typedef short int yytype_int16;
 #endif
 
@@ -453,18 +478,30 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
+<<<<<<< Updated upstream
 #define YYFINAL  24
+=======
+#define YYFINAL  23
+>>>>>>> Stashed changes
 /* YYLAST -- Last index in YYTABLE.  */
 #define YYLAST   345
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  41
 /* YYNNTS -- Number of nonterminals.  */
+<<<<<<< Updated upstream
 #define YYNNTS  38
 /* YYNRULES -- Number of rules.  */
 #define YYNRULES  96
 /* YYNSTATES -- Number of states.  */
 #define YYNSTATES  169
+=======
+#define YYNNTS  37
+/* YYNRULES -- Number of rules.  */
+#define YYNRULES  95
+/* YYNSTATES -- Number of states.  */
+#define YYNSTATES  168
+>>>>>>> Stashed changes
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
@@ -511,11 +548,12 @@ static const yytype_uint8 yytranslate[] =
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_uint8 yyrline[] =
+static const yytype_uint16 yyrline[] =
 {
        0,    56,    56,    57,    58,    62,    63,    64,    65,    66,
       67,    68,    72,    73,    77,    78,    79,    80,    81,    82,
       86,    87,    88,    92,    93,    97,   101,   102,   103,   107,
+<<<<<<< Updated upstream
      108,   109,   113,   114,   115,   116,   117,   121,   122,   123,
      127,   128,   132,   133,   137,   138,   142,   143,   147,   148,
      152,   152,   153,   153,   154,   158,   159,   160,   164,   165,
@@ -523,6 +561,15 @@ static const yytype_uint8 yyrline[] =
      194,   195,   196,   197,   198,   199,   203,   204,   205,   206,
      210,   211,   215,   216,   220,   221,   224,   228,   232,   233,
      237,   238,   242,   243,   247,   248,   252
+=======
+     108,   124,   141,   142,   143,   144,   145,   149,   150,   151,
+     155,   156,   160,   161,   165,   166,   176,   177,   181,   182,
+     186,   187,   187,   188,   192,   193,   194,   198,   199,   203,
+     207,   208,   212,   213,   214,   215,   219,   220,   224,   228,
+     229,   230,   231,   232,   233,   237,   238,   239,   240,   244,
+     245,   249,   250,   254,   255,   258,   262,   266,   267,   271,
+     272,   276,   277,   281,   282,   286
+>>>>>>> Stashed changes
 };
 #endif
 
@@ -541,7 +588,11 @@ static const char *const yytname[] =
   "unary_operator", "multiplicative_expression", "additive_expression",
   "shift_expression", "relational_expression", "equality_expression",
   "logical_and_expression", "logical_or_expression", "expression",
+<<<<<<< Updated upstream
   "declaration", "declaration_specifiers", "type_specifier", "$@1", "$@2",
+=======
+  "declaration", "declaration_specifiers", "type_specifier", "$@1",
+>>>>>>> Stashed changes
   "struct_specifier", "struct_declaration_list", "struct_declaration",
   "declarator", "direct_declarator", "parameter_list",
   "parameter_declaration", "statement", "compound_statement",
@@ -565,10 +616,17 @@ static const yytype_uint16 yytoknum[] =
 };
 # endif
 
+<<<<<<< Updated upstream
 #define YYPACT_NINF -83
 
 #define yypact_value_is_default(Yystate) \
   (!!((Yystate) == (-83)))
+=======
+#define YYPACT_NINF -82
+
+#define yypact_value_is_default(Yystate) \
+  (!!((Yystate) == (-82)))
+>>>>>>> Stashed changes
 
 #define YYTABLE_NINF -1
 
@@ -579,6 +637,7 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int16 yypact[] =
 {
+<<<<<<< Updated upstream
       62,     6,   -83,   -17,   -83,   -83,    57,   -83,   -23,    10,
      -83,   -83,   -83,   -83,   -83,   -11,     6,   -83,    -2,   -83,
       57,    44,    13,   -83,   -83,   -83,     6,    57,    50,   -83,
@@ -596,6 +655,25 @@ static const yytype_int16 yypact[] =
      -83,   -83,   -83,    69,    69,    89,    89,   105,   105,   105,
      105,    14,    14,   139,    73,   -83,   -83,   -83,   215,   215,
      313,   -83,   313,   -83,   -83,   144,   -83,   215,   -83
+=======
+     132,    10,   -82,    46,   -82,   -82,    89,   -82,   -21,     8,
+     -82,   -82,   -82,   -82,   -29,    10,   -82,   -17,   -82,    89,
+      37,   -12,   -82,   -82,   -82,    10,    89,    15,   -82,   -12,
+      28,   -82,   112,   -82,    58,    50,    31,   -82,   -82,   -82,
+     299,    34,   215,    55,    57,   232,   -82,   -82,   313,   313,
+     -82,   -82,   -82,   313,   -82,   -82,   -82,    36,    84,   313,
+      68,   100,   103,    14,    26,    67,   102,    81,   -82,    89,
+     -82,   -82,   140,   165,   -82,   -82,   -82,   -82,   -82,   -82,
+      89,    19,   -82,   -82,   -82,   268,   -82,   313,   -82,   313,
+     249,   -82,    96,   -82,   -82,    63,   109,   -82,   -82,   285,
+     137,   313,   -82,   313,   313,   313,   313,   313,   313,   313,
+     313,   313,   313,   313,   313,   313,   313,   -82,   139,   -82,
+     -82,   190,   -82,   -82,   -82,   -82,   132,   154,   157,   162,
+     249,   -82,   -82,   -82,   -82,    24,   -82,   -82,   -82,   -82,
+     -82,   -82,    68,    68,   100,   100,   103,   103,   103,   103,
+      14,    14,    26,    67,   -82,   -82,   -82,   215,   215,   313,
+     -82,   313,   -82,   -82,   166,   -82,   215,   -82
+>>>>>>> Stashed changes
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -603,6 +681,7 @@ static const yytype_int16 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
+<<<<<<< Updated upstream
        0,     0,    50,     0,    52,    95,     0,    49,    54,     0,
       92,    94,    48,    54,    51,    57,     0,    53,     0,    63,
        0,     0,    62,    47,     1,    93,     0,     0,     0,    58,
@@ -620,24 +699,57 @@ static const yytype_uint8 yydefact[] =
       24,    25,    23,    27,    28,    30,    31,    35,    36,    33,
       34,    38,    39,    41,    43,    79,    68,    19,     0,     0,
        0,     7,     0,    86,    88,     0,    13,     0,    89
+=======
+       0,     0,    50,     0,    51,    94,     0,    49,    53,     0,
+      91,    93,    48,    53,    56,     0,    52,     0,    62,     0,
+       0,    61,    47,     1,    92,     0,     0,     0,    57,    60,
+       0,    46,     0,    95,     0,     0,     0,    55,    58,    63,
+       0,     0,     0,     0,     0,     0,    22,    21,     0,     0,
+       2,     3,    20,     0,    83,    75,     5,    14,    23,     0,
+      26,    29,    32,    37,    40,    42,    44,     0,    79,     0,
+      81,    69,     0,     0,    70,    71,    72,    73,    74,    65,
+       0,     0,    66,    54,    59,     0,    18,     0,    86,     0,
+       0,    89,     0,    16,    17,     0,     0,    10,    11,     0,
+       0,     0,    15,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,    84,     0,    77,
+      80,     0,    76,    82,    68,    64,     0,     0,     0,     0,
+       0,    90,     4,     9,     6,     0,    12,     8,    45,    24,
+      25,    23,    27,    28,    30,    31,    35,    36,    33,    34,
+      38,    39,    41,    43,    78,    67,    19,     0,     0,     0,
+       7,     0,    85,    87,     0,    13,     0,    88
+>>>>>>> Stashed changes
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int16 yypgoto[] =
 {
+<<<<<<< Updated upstream
      -83,   -83,   -83,   -83,    -7,   -83,    42,    90,    63,    86,
       71,    78,   -83,   -42,   -26,   -32,     1,   -83,   -83,     5,
      164,   -20,   -14,   184,   -83,    88,   -43,   191,   -83,   147,
      -82,   -83,   -83,   -83,   -83,   -83,   214,   -83
+=======
+     -82,   -82,   -82,   -82,    -6,   -82,    43,    66,   -28,    62,
+      83,    85,   -82,   -41,   -25,   -31,     1,   -82,     5,   175,
+       0,   -13,   185,   -82,    86,   -42,   195,   -82,   148,   -81,
+     -82,   -82,   -82,   -82,   -82,   214,   -82
+>>>>>>> Stashed changes
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int16 yydefgoto[] =
 {
+<<<<<<< Updated upstream
       -1,    57,    58,   136,    59,    60,    61,    62,    63,    64,
       65,    66,    67,    68,     5,     6,     7,    14,    17,    13,
       28,    29,    21,    22,    82,    83,    71,    72,    73,    74,
       75,    76,    77,    78,    79,     9,    10,    11
+=======
+      -1,    56,    57,   135,    58,    59,    60,    61,    62,    63,
+      64,    65,    66,    67,     5,     6,     7,    16,    13,    27,
+      28,    20,    21,    81,    82,    70,    71,    72,    73,    74,
+      75,    76,    77,    78,     9,    10,    11
+>>>>>>> Stashed changes
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -645,6 +757,7 @@ static const yytype_int16 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
+<<<<<<< Updated upstream
       89,    70,    12,    81,    93,     8,    31,    69,    39,   131,
       24,    15,    96,    37,     8,    23,    39,    27,   110,   111,
        2,     3,    16,     1,     2,     3,    19,    27,    26,    27,
@@ -680,10 +793,48 @@ static const yytype_uint8 yytable[] =
        0,     0,    47,    48,     0,    49,    50,    51,    52,    41,
       53,    86,     0,     0,     0,     0,    47,    48,     0,    49,
       50,    51,    52,     0,    53,    54
+=======
+      88,    69,    12,    80,    92,     8,    30,    68,    23,   130,
+      25,    18,    95,    36,     8,    19,    26,    22,   109,   110,
+      34,     1,     2,     3,     2,     3,    26,    38,    26,     2,
+       3,   123,   113,   114,    86,    38,    26,     8,     4,    96,
+       4,    69,    93,    94,    95,     4,   128,   120,   129,   159,
+     111,   112,   125,   102,   126,    37,   118,   160,   136,   161,
+     138,    39,    97,    98,     2,     3,    87,   124,    99,    84,
+     100,     1,     2,     3,    14,    31,    32,     8,   115,   123,
+       4,   146,   147,   148,   149,    15,   127,    89,     4,    90,
+      83,    79,   103,   104,   101,    80,   132,   139,   140,   141,
+     141,   141,   141,   141,   141,   141,   141,   141,   141,   141,
+     141,   107,   108,    17,   116,   162,   163,    18,   164,   117,
+     165,    19,   105,   106,   167,     1,     2,     3,    40,    41,
+      42,    43,    44,    45,   131,    46,    47,   133,    48,    49,
+      50,    51,     4,    52,    53,     1,     2,     3,   142,   143,
+      54,    32,    55,     1,     2,     3,    40,    41,    42,    43,
+      44,    45,     4,    46,    47,   137,    48,    49,    50,    51,
+       4,    52,    53,   144,   145,   150,   151,    31,    54,    32,
+     119,    40,    41,    42,    43,    44,    45,   156,    46,    47,
+     157,    48,    49,    50,    51,   158,    52,    53,   152,   166,
+      35,   153,    29,    54,    32,   122,    40,    41,    42,    43,
+      44,    45,   155,    46,    47,    33,    48,    49,    50,    51,
+     121,    52,    53,    24,     0,     0,     0,     0,    54,    32,
+     154,    40,    41,    42,    43,    44,    45,     0,    46,    47,
+       0,    48,    49,    50,    51,     0,    52,    53,    40,     0,
+       0,     0,     0,    54,    32,    46,    47,     0,    48,    49,
+      50,    51,     0,    52,    53,    40,     0,     0,     0,     0,
+      91,     0,    46,    47,     0,    48,    49,    50,    51,     0,
+      52,    53,     2,     3,    40,     0,     0,    54,     0,     0,
+       0,    46,    47,     0,    48,    49,    50,    51,     4,    52,
+      53,    40,     0,     0,     0,     0,     0,     0,    46,    47,
+       0,    48,    49,    50,    51,    40,    52,    53,   134,     0,
+       0,     0,    46,    47,     0,    48,    49,    50,    51,    40,
+      52,    85,     0,     0,     0,     0,    46,    47,     0,    48,
+      49,    50,    51,     0,    52,    53
+>>>>>>> Stashed changes
 };
 
 static const yytype_int16 yycheck[] =
 {
+<<<<<<< Updated upstream
       43,    33,     1,    35,    46,     0,    20,    33,    28,    91,
        0,    28,    54,    27,     9,    38,    36,    16,     4,     5,
       14,    15,    39,    13,    14,    15,    28,    26,    39,    28,
@@ -707,6 +858,31 @@ static const yytype_int16 yycheck[] =
      114,   115,    18,    38,    39,    40,    16,    17,    18,    19,
       20,    21,    21,    23,    24,   127,    26,    27,    28,    29,
       73,    31,    32,     9,    -1,    -1,    -1,    -1,    38,    39,
+=======
+      42,    32,     1,    34,    45,     0,    19,    32,     0,    90,
+      39,    28,    53,    26,     9,    32,    15,    38,     4,     5,
+      32,    13,    14,    15,    14,    15,    25,    27,    27,    14,
+      15,    73,     6,     7,    40,    35,    35,    32,    30,     3,
+      30,    72,    48,    49,    85,    30,    87,    72,    89,   130,
+      36,    37,    33,    59,    35,    40,    69,    33,    99,    35,
+     101,    33,    26,    27,    14,    15,    32,    80,    32,    38,
+      34,    13,    14,    15,    28,    38,    39,    72,    11,   121,
+      30,   109,   110,   111,   112,    39,    85,    32,    30,    32,
+      40,    33,    24,    25,    10,   126,    33,   103,   104,   105,
+     106,   107,   108,   109,   110,   111,   112,   113,   114,   115,
+     116,     8,     9,    24,    12,   157,   158,    28,   159,    38,
+     161,    32,    22,    23,   166,    13,    14,    15,    16,    17,
+      18,    19,    20,    21,    38,    23,    24,    28,    26,    27,
+      28,    29,    30,    31,    32,    13,    14,    15,   105,   106,
+      38,    39,    40,    13,    14,    15,    16,    17,    18,    19,
+      20,    21,    30,    23,    24,    28,    26,    27,    28,    29,
+      30,    31,    32,   107,   108,   113,   114,    38,    38,    39,
+      40,    16,    17,    18,    19,    20,    21,    33,    23,    24,
+      33,    26,    27,    28,    29,    33,    31,    32,   115,    33,
+      25,   116,    17,    38,    39,    40,    16,    17,    18,    19,
+      20,    21,   126,    23,    24,    20,    26,    27,    28,    29,
+      72,    31,    32,     9,    -1,    -1,    -1,    -1,    38,    39,
+>>>>>>> Stashed changes
       40,    16,    17,    18,    19,    20,    21,    -1,    23,    24,
       -1,    26,    27,    28,    29,    -1,    31,    32,    16,    -1,
       -1,    -1,    -1,    38,    39,    23,    24,    -1,    26,    27,
@@ -725,6 +901,7 @@ static const yytype_int16 yycheck[] =
      symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
+<<<<<<< Updated upstream
        0,    13,    14,    15,    30,    55,    56,    57,    60,    76,
       77,    78,    57,    60,    58,    28,    39,    59,    24,    28,
       32,    63,    64,    38,     0,    77,    39,    57,    61,    62,
@@ -742,6 +919,25 @@ static const yytype_uint8 yystos[] =
       45,    45,    45,    47,    47,    48,    48,    49,    49,    49,
       49,    50,    50,    51,    52,    40,    66,    33,    33,    33,
       71,    33,    35,    67,    67,    54,    54,    33,    67
+=======
+       0,    13,    14,    15,    30,    55,    56,    57,    59,    75,
+      76,    77,    57,    59,    28,    39,    58,    24,    28,    32,
+      62,    63,    38,     0,    76,    39,    57,    60,    61,    63,
+      62,    38,    39,    67,    32,    60,    62,    40,    61,    33,
+      16,    17,    18,    19,    20,    21,    23,    24,    26,    27,
+      28,    29,    31,    32,    38,    40,    42,    43,    45,    46,
+      47,    48,    49,    50,    51,    52,    53,    54,    55,    56,
+      66,    67,    68,    69,    70,    71,    72,    73,    74,    33,
+      56,    64,    65,    40,    38,    32,    45,    32,    66,    32,
+      32,    38,    54,    45,    45,    54,     3,    26,    27,    32,
+      34,    10,    45,    24,    25,    22,    23,     8,     9,     4,
+       5,    36,    37,     6,     7,    11,    12,    38,    62,    40,
+      55,    69,    40,    66,    62,    33,    35,    57,    54,    54,
+      70,    38,    33,    28,    33,    44,    54,    28,    54,    45,
+      45,    45,    47,    47,    48,    48,    49,    49,    49,    49,
+      50,    50,    51,    52,    40,    65,    33,    33,    33,    70,
+      33,    35,    66,    66,    54,    54,    33,    66
+>>>>>>> Stashed changes
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
@@ -752,11 +948,19 @@ static const yytype_uint8 yyr1[] =
       46,    46,    46,    47,    47,    47,    48,    48,    48,    49,
       49,    49,    50,    50,    50,    50,    50,    51,    51,    51,
       52,    52,    53,    53,    54,    54,    55,    55,    56,    56,
+<<<<<<< Updated upstream
       58,    57,    59,    57,    57,    60,    60,    60,    61,    61,
       62,    63,    63,    64,    64,    64,    64,    65,    65,    66,
       67,    67,    67,    67,    67,    67,    68,    68,    68,    68,
       69,    69,    70,    70,    71,    71,    72,    73,    74,    74,
       75,    75,    76,    76,    77,    77,    78
+=======
+      57,    58,    57,    57,    59,    59,    59,    60,    60,    61,
+      62,    62,    63,    63,    63,    63,    64,    64,    65,    66,
+      66,    66,    66,    66,    66,    67,    67,    67,    67,    68,
+      68,    69,    69,    70,    70,    71,    72,    73,    73,    74,
+      74,    75,    75,    76,    76,    77
+>>>>>>> Stashed changes
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
@@ -767,11 +971,19 @@ static const yytype_uint8 yyr2[] =
        1,     1,     1,     1,     3,     3,     1,     3,     3,     1,
        3,     3,     1,     3,     3,     3,     3,     1,     3,     3,
        1,     3,     1,     3,     1,     3,     3,     2,     2,     1,
+<<<<<<< Updated upstream
        0,     2,     0,     2,     1,     5,     4,     2,     1,     2,
        3,     2,     1,     1,     3,     4,     3,     1,     3,     2,
        1,     1,     1,     1,     1,     1,     2,     3,     3,     4,
        1,     2,     1,     2,     1,     2,     5,     2,     5,     7,
        2,     3,     1,     2,     1,     1,     3
+=======
+       1,     0,     2,     1,     5,     4,     2,     1,     2,     3,
+       2,     1,     1,     3,     4,     3,     1,     3,     2,     1,
+       1,     1,     1,     1,     1,     2,     3,     3,     4,     1,
+       2,     1,     2,     1,     2,     5,     2,     5,     7,     2,
+       3,     1,     2,     1,     1,     3
+>>>>>>> Stashed changes
 };
 
 
@@ -1465,32 +1677,76 @@ yyreduce:
 #line 1466 "y.tab.c" /* yacc.c:1646  */
     break;
 
+<<<<<<< Updated upstream
   case 24:
 #line 93 "structfe.y" /* yacc.c:1646  */
     {char* temp=(yyvsp[-2].symbolValue)->name; (yyval.symbolValue)->name=createTemp(); fprintf(yyout,"%s = %s * %s ;\n", (yyval.symbolValue)->name, temp, (yyvsp[0].symbolValue)->name);}
 #line 1472 "y.tab.c" /* yacc.c:1646  */
+=======
+  case 10:
+#line 67 "structfe.y" /* yacc.c:1646  */
+    {fprintf(yyout,"%s = %s + 1 ;\n", (yyvsp[-1].symbolValue)->name, (yyvsp[-1].symbolValue)->name);}
+#line 1472 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 11:
+#line 68 "structfe.y" /* yacc.c:1646  */
+    {fprintf(yyout,"%s = %s - 1 ;\n", (yyvsp[-1].symbolValue)->name, (yyvsp[-1].symbolValue)->name);}
+#line 1478 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 16:
+#line 79 "structfe.y" /* yacc.c:1646  */
+    {fprintf(yyout,"%s = %s + 1 ;\n", (yyvsp[0].symbolValue)->name, (yyvsp[0].symbolValue)->name); fprintf(yyout,"%s = %s ;\n", (yyval.symbolValue)->name, (yyvsp[0].symbolValue)->name);}
+#line 1484 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 17:
+#line 80 "structfe.y" /* yacc.c:1646  */
+    {fprintf(yyout,"%s = %s - 1 ;\n", (yyvsp[0].symbolValue)->name, (yyvsp[0].symbolValue)->name); fprintf(yyout,"%s = %s ;\n", (yyval.symbolValue)->name, (yyvsp[0].symbolValue)->name);}
+#line 1490 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 24:
+#line 93 "structfe.y" /* yacc.c:1646  */
+    {char* temp=(yyvsp[-2].symbolValue)->name; (yyval.symbolValue)->name=createTemp(); fprintf(yyout,"%s = %s * %s ;\n", (yyval.symbolValue)->name, temp, (yyvsp[0].symbolValue)->name);}
+#line 1496 "y.tab.c" /* yacc.c:1646  */
+>>>>>>> Stashed changes
     break;
 
   case 25:
 #line 97 "structfe.y" /* yacc.c:1646  */
     {char* temp=(yyvsp[-2].symbolValue)->name; (yyval.symbolValue)->name=createTemp(); fprintf(yyout,"%s = %s / %s ;\n", (yyval.symbolValue)->name, temp, (yyvsp[0].symbolValue)->name);}
+<<<<<<< Updated upstream
 #line 1478 "y.tab.c" /* yacc.c:1646  */
+=======
+#line 1502 "y.tab.c" /* yacc.c:1646  */
+>>>>>>> Stashed changes
     break;
 
   case 27:
 #line 102 "structfe.y" /* yacc.c:1646  */
     {char* temp=(yyvsp[-2].symbolValue)->name; (yyval.symbolValue)->name=createTemp(); fprintf(yyout,"%s = %s + %s ;\n", (yyval.symbolValue)->name, temp, (yyvsp[0].symbolValue)->name);}
+<<<<<<< Updated upstream
 #line 1484 "y.tab.c" /* yacc.c:1646  */
+=======
+#line 1508 "y.tab.c" /* yacc.c:1646  */
+>>>>>>> Stashed changes
     break;
 
   case 28:
 #line 103 "structfe.y" /* yacc.c:1646  */
     {char* temp=(yyvsp[-2].symbolValue)->name; (yyval.symbolValue)->name=createTemp(); fprintf(yyout,"%s = %s - %s ;\n", (yyval.symbolValue)->name, temp, (yyvsp[0].symbolValue)->name);}
+<<<<<<< Updated upstream
 #line 1490 "y.tab.c" /* yacc.c:1646  */
+=======
+#line 1514 "y.tab.c" /* yacc.c:1646  */
+>>>>>>> Stashed changes
     break;
 
   case 30:
 #line 108 "structfe.y" /* yacc.c:1646  */
+<<<<<<< Updated upstream
     {char* temp=(yyvsp[-2].symbolValue)->name; (yyval.symbolValue)->name=createTemp(); fprintf(yyout,"%s = %s >> %s ;\n", (yyval.symbolValue)->name, temp, (yyvsp[0].symbolValue)->name);}
 #line 1496 "y.tab.c" /* yacc.c:1646  */
     break;
@@ -1605,6 +1861,148 @@ yyreduce:
 
 
 #line 1608 "y.tab.c" /* yacc.c:1646  */
+=======
+    {if(isnumber((yyvsp[0].symbolValue)->name))
+									{	
+										int l = atoi((yyvsp[0].symbolValue)->name);
+										char* leftid=(yyvsp[-2].symbolValue)->name;
+										char* prevtemp;
+										(yyval.symbolValue)->name=createTemp();
+										fprintf(yyout,"%s = %s / 2 ;\n", (yyval.symbolValue)->name, leftid);
+										for (int i =0; i<(l-1) ; i++)
+										{
+											prevtemp=(yyval.symbolValue)->name;
+											(yyval.symbolValue)->name=createTemp();
+											fprintf(yyout,"%s = %s / 2 ;\n", (yyval.symbolValue)->name, prevtemp);
+										}
+									}}
+#line 1533 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 31:
+#line 124 "structfe.y" /* yacc.c:1646  */
+    {if(isnumber((yyvsp[0].symbolValue)->name))
+									{	
+										int l = atoi((yyvsp[0].symbolValue)->name);
+										char* leftid=(yyvsp[-2].symbolValue)->name;
+										char* prevtemp;
+										(yyval.symbolValue)->name=createTemp();
+										fprintf(yyout,"%s = %s * 2 ;\n", (yyval.symbolValue)->name, leftid);
+										for (int i =0; i<(l-1) ; i++)
+										{
+											prevtemp=(yyval.symbolValue)->name;
+											(yyval.symbolValue)->name=createTemp();
+											fprintf(yyout,"%s = %s * 2 ;\n", (yyval.symbolValue)->name, prevtemp);
+										}
+									}}
+#line 1552 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 33:
+#line 142 "structfe.y" /* yacc.c:1646  */
+    { fprintf(yyout,"%s < %s (ligne %d) ;\n", nomTable((yyvsp[-2].symbolValue)),  nomTable((yyvsp[0].symbolValue)), yylineno) ;  }
+#line 1558 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 34:
+#line 143 "structfe.y" /* yacc.c:1646  */
+    { fprintf(yyout,"%s > %s (ligne %d) ;\n", nomTable((yyvsp[-2].symbolValue)),  nomTable((yyvsp[0].symbolValue)), yylineno) ;  }
+#line 1564 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 35:
+#line 144 "structfe.y" /* yacc.c:1646  */
+    { fprintf(yyout,"%s <= %s (ligne %d) ;\n", nomTable((yyvsp[-2].symbolValue)),  nomTable((yyvsp[0].symbolValue)), yylineno) ;  }
+#line 1570 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 36:
+#line 145 "structfe.y" /* yacc.c:1646  */
+    { fprintf(yyout,"%s >= %s (ligne %d) ;\n", nomTable((yyvsp[-2].symbolValue)),  nomTable((yyvsp[0].symbolValue)), yylineno) ;  }
+#line 1576 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 38:
+#line 150 "structfe.y" /* yacc.c:1646  */
+    { fprintf(yyout,"%s == %s (ligne %d) ;\n", nomTable((yyvsp[-2].symbolValue)),  nomTable((yyvsp[0].symbolValue)), yylineno);}
+#line 1582 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 39:
+#line 151 "structfe.y" /* yacc.c:1646  */
+    {fprintf(yyout,"%s != %s (ligne %d) ;\n", (yyvsp[-2].symbolValue)->name,  (yyvsp[0].symbolValue)->name, yylineno); printf("Type 1 : %d Type 2 : %d (0 = INT, 1 = VOID, 2 = ID)\n", (yyvsp[-2].symbolValue)->type, (yyvsp[0].symbolValue)->type);}
+#line 1588 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 41:
+#line 156 "structfe.y" /* yacc.c:1646  */
+    {fprintf(yyout,"%s && %s (ligne %d) ;\n", nomTable((yyvsp[-2].symbolValue)),  nomTable((yyvsp[0].symbolValue)), yylineno) ;  }
+#line 1594 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 43:
+#line 161 "structfe.y" /* yacc.c:1646  */
+    {fprintf(yyout,"%s || %s (ligne %d) ;\n", nomTable((yyvsp[-2].symbolValue)),  nomTable((yyvsp[0].symbolValue)), yylineno);}
+#line 1600 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 45:
+#line 166 "structfe.y" /* yacc.c:1646  */
+    {if (strcmp((yyvsp[-2].symbolValue)->name,(yyvsp[0].symbolValue)->name))
+						{
+							fprintf(yyout,"%s = %s ;\n", (yyvsp[-2].symbolValue)->name, (yyvsp[0].symbolValue)->name); 
+							affectation((yyvsp[-2].symbolValue), (yyvsp[0].symbolValue)); 
+							(yyval.symbolValue)=(yyvsp[-2].symbolValue);
+						}
+					}
+#line 1612 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 50:
+#line 186 "structfe.y" /* yacc.c:1646  */
+    {(yyvsp[0].type) = VOID_TYPE; fprintf(yyout,"void");}
+#line 1618 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 51:
+#line 187 "structfe.y" /* yacc.c:1646  */
+    {(yyvsp[0].type) = INT_TYPE;}
+#line 1624 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 52:
+#line 187 "structfe.y" /* yacc.c:1646  */
+    {fprintf(yyout,"int ");}
+#line 1630 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 53:
+#line 188 "structfe.y" /* yacc.c:1646  */
+    {(yyvsp[0].symbolValue)->type = STRUCT_TYPE;}
+#line 1636 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 60:
+#line 207 "structfe.y" /* yacc.c:1646  */
+    {(yyval.symbolValue)=(yyvsp[0].symbolValue);}
+#line 1642 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 62:
+#line 212 "structfe.y" /* yacc.c:1646  */
+    {(yyval.symbolValue)->type=ID_TYPE; fprintf(yyout,"%s\n", (yyval.symbolValue)->name);}
+#line 1648 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 63:
+#line 213 "structfe.y" /* yacc.c:1646  */
+    {(yyval.symbolValue)=(yyvsp[-1].symbolValue);}
+#line 1654 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+
+#line 1658 "y.tab.c" /* yacc.c:1646  */
+>>>>>>> Stashed changes
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1832,7 +2230,11 @@ yyreturn:
 #endif
   return yyresult;
 }
+<<<<<<< Updated upstream
 #line 255 "structfe.y" /* yacc.c:1906  */
+=======
+#line 289 "structfe.y" /* yacc.c:1906  */
+>>>>>>> Stashed changes
 
 int main(int argc, char* argv[])
 {
@@ -1928,3 +2330,20 @@ int istemp(char *s)
         return 0;
     }
 }
+<<<<<<< Updated upstream
+=======
+
+int isnumber(char *s)
+{
+	int l= strlen(s);
+	for(int i =0; i< l; i++)
+	{
+		if(!isdigit(s[i]))
+		{
+			return 0;
+		}
+	}
+	return 1;
+}
+	
+>>>>>>> Stashed changes
