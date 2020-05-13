@@ -3,10 +3,10 @@
 #include <stdlib.h>
 #include "symbtab.h"
 #include <ctype.h>
+#define MAXSIZEVARTEMP 50
 	
 void yyerror(char *s);
 FILE *yyin;
-FILE *yyout;
 
 char *createTemp();
 int istemp(char *s);
@@ -15,6 +15,7 @@ char *substring(char *string, int position, int length);
 int isnumber(char *s);
 
 extern int yylineno;
+extern int compteurGoto;
 extern FILE *yyin;
 extern FILE *yyout;
 
@@ -141,26 +142,26 @@ shift_expression
 
 relational_expression
         : shift_expression 
-        | relational_expression '<' shift_expression { fprintf(yyout,"%s < %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ;  }
-        | relational_expression '>' shift_expression { fprintf(yyout,"%s > %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ;  }
-        | relational_expression LE_OP shift_expression { fprintf(yyout,"%s <= %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ;  }
-        | relational_expression GE_OP shift_expression { fprintf(yyout,"%s >= %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ;  }
+        | relational_expression '<' shift_expression {printf("%s < %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno); fprintf(yyout, "if (%s>=%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++;}
+        | relational_expression '>' shift_expression {printf("%s > %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ; fprintf(yyout, "if (%s<=%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++;}
+        | relational_expression LE_OP shift_expression {printf("%s <= %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno); fprintf(yyout, "if (%s>%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++;} 
+        | relational_expression GE_OP shift_expression {printf("%s >= %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno); fprintf(yyout, "if (%s<%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++;}
         ;
 
 equality_expression
         : relational_expression
-        | equality_expression EQ_OP relational_expression { fprintf(yyout,"%s == %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno);}
-        | equality_expression NE_OP relational_expression {fprintf(yyout,"%s != %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); printf("Type 1 : %d Type 2 : %d (0 = INT, 1 = VOID, 2 = ID)\n", $1->type, $3->type);}
+        | equality_expression EQ_OP relational_expression {printf("%s == %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno); fprintf(yyout, "if (%s!=%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++;}
+        | equality_expression NE_OP relational_expression {printf("%s != %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); printf("Type 1 : %d Type 2 : %d (0 = INT, 1 = VOID, 2 = ID)\n", $1->type, $3->type); fprintf(yyout, "if (%s==%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++;}
         ;
 
 logical_and_expression 
         : equality_expression
-        | logical_and_expression AND_OP equality_expression {fprintf(yyout,"%s && %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ;  }
+        | logical_and_expression AND_OP equality_expression {printf("%s && %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno) ;  }
         ;
 
 logical_or_expression
         : logical_and_expression
-        | logical_or_expression OR_OP logical_and_expression {fprintf(yyout,"%s || %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno);}
+        | logical_or_expression OR_OP logical_and_expression {printf("%s || %s (ligne %d) ;\n", nomTable($1),  nomTable($3), yylineno);}
         ;
 
 expression
@@ -211,7 +212,7 @@ declarator
         ;
 
 direct_declarator
-        : IDENTIFIER {$$->type=ID_TYPE; fprintf(yyout,"%s\n", $$->name);}
+        : IDENTIFIER {$$->type=ID_TYPE; fprintf(yyout,"%s;\n", $$->name);}
         | '(' declarator ')' {$$=$2;}
         | direct_declarator '(' parameter_list ')'
         | direct_declarator '(' ')'
@@ -257,11 +258,11 @@ expression_statement
         | expression ';'
         ;
 if_statement
-        : IF '(' expression ')' statement
+        : IF '(' expression ')' statement {fprintf(yyout, "}\n\n");}
         ;
 
 else_statement
-		: ELSE statement
+		: ELSE statement {fprintf(yyout, "}\n\n");}
 		;
 
 iteration_statement
@@ -270,8 +271,8 @@ iteration_statement
         ;
 
 jump_statement
-        : RETURN ';'
-        | RETURN expression ';'
+        : RETURN ';' {fprintf(yyout, "return;");}
+        | RETURN expression ';' {fprintf(yyout, "return %s;\n", $2->name);}
         ;
 
 program
@@ -358,19 +359,17 @@ void yyerror (char *s)
   fprintf (stderr, "ERREUR : %s (ligne %d)\n", s, yylineno);
 }
 
-char *createTemp()
+char* createTemp()
 {
-	char random[6] = "";
-	char randomletter;
-	int i=0;
-	for (i; i < 6; i++){
-		randomletter = 'a' + (rand() % 26);
-		random[i]=randomletter;
-	}
-
-	char *temp_specifier;	
-	temp_specifier= strdup("Z");
-	return  strcat(temp_specifier, random); 
+        char* t = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
+        sprintf(t, "t1");
+        int compteur=1;
+	while(findTS(t)!=NULL) {
+                sprintf(t, "t%d", compteur);
+                compteur++;
+        }
+        addTS(t);
+	return  t;
 }
 
 int istemp(char *s)

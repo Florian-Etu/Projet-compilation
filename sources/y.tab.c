@@ -74,10 +74,10 @@
 #include <stdlib.h>
 #include "symbtab.h"
 #include <ctype.h>
+#define MAXSIZEVARTEMP 50
 	
 void yyerror(char *s);
 FILE *yyin;
-FILE *yyout;
 
 char *createTemp();
 int istemp(char *s);
@@ -86,6 +86,7 @@ char *substring(char *string, int position, int length);
 int isnumber(char *s);
 
 extern int yylineno;
+extern int compteurGoto;
 extern FILE *yyin;
 extern FILE *yyout;
 
@@ -97,7 +98,7 @@ extern size_t strlen( const char * theString );
 
 
 /* Line 189 of yacc.c  */
-#line 101 "y.tab.c"
+#line 102 "y.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -192,7 +193,7 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 27 "structfe.y"
+#line 28 "structfe.y"
 
         char *nom;
         int entier;
@@ -202,7 +203,7 @@ typedef union YYSTYPE
 
 
 /* Line 214 of yacc.c  */
-#line 206 "y.tab.c"
+#line 207 "y.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -214,7 +215,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 218 "y.tab.c"
+#line 219 "y.tab.c"
 
 #ifdef short
 # undef short
@@ -537,16 +538,16 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    56,    56,    57,    58,    62,    63,    64,    65,    66,
-      67,    68,    72,    73,    77,    78,    79,    80,    81,    82,
-      86,    87,    88,    92,    93,    97,   101,   102,   103,   107,
-     108,   125,   143,   144,   145,   146,   147,   151,   152,   153,
-     157,   158,   162,   163,   167,   168,   180,   181,   185,   186,
-     190,   191,   191,   192,   196,   197,   198,   202,   203,   207,
-     211,   212,   216,   217,   218,   219,   223,   224,   228,   232,
-     233,   234,   235,   236,   237,   241,   242,   243,   244,   248,
-     249,   253,   254,   258,   259,   262,   266,   270,   271,   275,
-     276,   280,   281,   285,   286,   290
+       0,    57,    57,    58,    59,    63,    64,    65,    66,    67,
+      68,    69,    73,    74,    78,    79,    80,    81,    82,    83,
+      87,    88,    89,    93,    94,    98,   102,   103,   104,   108,
+     109,   126,   144,   145,   146,   147,   148,   152,   153,   154,
+     158,   159,   163,   164,   168,   169,   179,   180,   184,   185,
+     189,   190,   190,   191,   195,   196,   197,   201,   202,   206,
+     210,   211,   215,   216,   217,   218,   222,   223,   227,   231,
+     232,   233,   234,   235,   236,   240,   241,   242,   243,   247,
+     248,   252,   253,   257,   258,   261,   265,   269,   270,   274,
+     275,   279,   280,   284,   285,   289
 };
 #endif
 
@@ -1602,84 +1603,84 @@ yyreduce:
         case 2:
 
 /* Line 1455 of yacc.c  */
-#line 56 "structfe.y"
+#line 57 "structfe.y"
     {(yyval.symbolValue)->type = ID_TYPE;}
     break;
 
   case 3:
 
 /* Line 1455 of yacc.c  */
-#line 57 "structfe.y"
+#line 58 "structfe.y"
     {(yyval.symbolValue)->type = INT_TYPE;}
     break;
 
   case 4:
 
 /* Line 1455 of yacc.c  */
-#line 58 "structfe.y"
+#line 59 "structfe.y"
     {(yyval.symbolValue) = (yyvsp[(2) - (3)].symbolValue);}
     break;
 
   case 10:
 
 /* Line 1455 of yacc.c  */
-#line 67 "structfe.y"
+#line 68 "structfe.y"
     {fprintf(yyout,"%s = %s + 1 ;\n", (yyvsp[(1) - (2)].symbolValue)->name, (yyvsp[(1) - (2)].symbolValue)->name);}
     break;
 
   case 11:
 
 /* Line 1455 of yacc.c  */
-#line 68 "structfe.y"
+#line 69 "structfe.y"
     {fprintf(yyout,"%s = %s - 1 ;\n", (yyvsp[(1) - (2)].symbolValue)->name, (yyvsp[(1) - (2)].symbolValue)->name);}
     break;
 
   case 16:
 
 /* Line 1455 of yacc.c  */
-#line 79 "structfe.y"
+#line 80 "structfe.y"
     {fprintf(yyout,"%s = %s + 1 ;\n", (yyvsp[(2) - (2)].symbolValue)->name, (yyvsp[(2) - (2)].symbolValue)->name); fprintf(yyout,"%s = %s ;\n", (yyval.symbolValue)->name, (yyvsp[(2) - (2)].symbolValue)->name);}
     break;
 
   case 17:
 
 /* Line 1455 of yacc.c  */
-#line 80 "structfe.y"
+#line 81 "structfe.y"
     {fprintf(yyout,"%s = %s - 1 ;\n", (yyvsp[(2) - (2)].symbolValue)->name, (yyvsp[(2) - (2)].symbolValue)->name); fprintf(yyout,"%s = %s ;\n", (yyval.symbolValue)->name, (yyvsp[(2) - (2)].symbolValue)->name);}
     break;
 
   case 24:
 
 /* Line 1455 of yacc.c  */
-#line 93 "structfe.y"
+#line 94 "structfe.y"
     {char* temp=(yyvsp[(1) - (3)].symbolValue)->name; (yyval.symbolValue)->name=createTemp(); fprintf(yyout,"%s = %s * %s ;\n", (yyval.symbolValue)->name, temp, (yyvsp[(3) - (3)].symbolValue)->name);}
     break;
 
   case 25:
 
 /* Line 1455 of yacc.c  */
-#line 97 "structfe.y"
+#line 98 "structfe.y"
     {char* temp=(yyvsp[(1) - (3)].symbolValue)->name; (yyval.symbolValue)->name=createTemp(); fprintf(yyout,"%s = %s / %s ;\n", (yyval.symbolValue)->name, temp, (yyvsp[(3) - (3)].symbolValue)->name);}
     break;
 
   case 27:
 
 /* Line 1455 of yacc.c  */
-#line 102 "structfe.y"
+#line 103 "structfe.y"
     {char* temp=(yyvsp[(1) - (3)].symbolValue)->name; (yyval.symbolValue)->name=createTemp(); fprintf(yyout,"%s = %s + %s ;\n", (yyval.symbolValue)->name, temp, (yyvsp[(3) - (3)].symbolValue)->name);}
     break;
 
   case 28:
 
 /* Line 1455 of yacc.c  */
-#line 103 "structfe.y"
+#line 104 "structfe.y"
     {char* temp=(yyvsp[(1) - (3)].symbolValue)->name; (yyval.symbolValue)->name=createTemp(); fprintf(yyout,"%s = %s - %s ;\n", (yyval.symbolValue)->name, temp, (yyvsp[(3) - (3)].symbolValue)->name);}
     break;
 
   case 30:
 
 /* Line 1455 of yacc.c  */
-#line 108 "structfe.y"
+#line 109 "structfe.y"
     {if(isnumber((yyvsp[(3) - (3)].symbolValue)->name))
 									{	
 										int l = atoi((yyvsp[(3) - (3)].symbolValue)->name);
@@ -1700,7 +1701,7 @@ yyreduce:
   case 31:
 
 /* Line 1455 of yacc.c  */
-#line 125 "structfe.y"
+#line 126 "structfe.y"
     {if(isnumber((yyvsp[(3) - (3)].symbolValue)->name))
 									{	
 										int l = atoi((yyvsp[(3) - (3)].symbolValue)->name);
@@ -1721,127 +1722,153 @@ yyreduce:
   case 33:
 
 /* Line 1455 of yacc.c  */
-#line 144 "structfe.y"
-    { fprintf(yyout,"%s < %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno) ;  }
+#line 145 "structfe.y"
+    {printf("%s < %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno); fprintf(yyout, "if (%s>=%s) goto Lelse%d;\n{\n", (yyvsp[(1) - (3)].symbolValue)->name, (yyvsp[(3) - (3)].symbolValue)->name, compteurGoto); compteurGoto++;}
     break;
 
   case 34:
 
 /* Line 1455 of yacc.c  */
-#line 145 "structfe.y"
-    { fprintf(yyout,"%s > %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno) ;  }
+#line 146 "structfe.y"
+    {printf("%s > %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno) ; fprintf(yyout, "if (%s<=%s) goto Lelse%d;\n{\n", (yyvsp[(1) - (3)].symbolValue)->name, (yyvsp[(3) - (3)].symbolValue)->name, compteurGoto); compteurGoto++;}
     break;
 
   case 35:
 
 /* Line 1455 of yacc.c  */
-#line 146 "structfe.y"
-    { fprintf(yyout,"%s <= %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno) ;  }
+#line 147 "structfe.y"
+    {printf("%s <= %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno); fprintf(yyout, "if (%s>%s) goto Lelse%d;\n{\n", (yyvsp[(1) - (3)].symbolValue)->name, (yyvsp[(3) - (3)].symbolValue)->name, compteurGoto); compteurGoto++;}
     break;
 
   case 36:
 
 /* Line 1455 of yacc.c  */
-#line 147 "structfe.y"
-    { fprintf(yyout,"%s >= %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno) ;  }
+#line 148 "structfe.y"
+    {printf("%s >= %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno); fprintf(yyout, "if (%s<%s) goto Lelse%d;\n{\n", (yyvsp[(1) - (3)].symbolValue)->name, (yyvsp[(3) - (3)].symbolValue)->name, compteurGoto); compteurGoto++;}
     break;
 
   case 38:
 
 /* Line 1455 of yacc.c  */
-#line 152 "structfe.y"
-    { fprintf(yyout,"%s == %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno);}
+#line 153 "structfe.y"
+    {printf("%s == %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno); fprintf(yyout, "if (%s!=%s) goto Lelse%d;\n{\n", (yyvsp[(1) - (3)].symbolValue)->name, (yyvsp[(3) - (3)].symbolValue)->name, compteurGoto); compteurGoto++;}
     break;
 
   case 39:
 
 /* Line 1455 of yacc.c  */
-#line 153 "structfe.y"
-    {fprintf(yyout,"%s != %s (ligne %d) ;\n", (yyvsp[(1) - (3)].symbolValue)->name,  (yyvsp[(3) - (3)].symbolValue)->name, yylineno); printf("Type 1 : %d Type 2 : %d (0 = INT, 1 = VOID, 2 = ID)\n", (yyvsp[(1) - (3)].symbolValue)->type, (yyvsp[(3) - (3)].symbolValue)->type);}
+#line 154 "structfe.y"
+    {printf("%s != %s (ligne %d) ;\n", (yyvsp[(1) - (3)].symbolValue)->name,  (yyvsp[(3) - (3)].symbolValue)->name, yylineno); printf("Type 1 : %d Type 2 : %d (0 = INT, 1 = VOID, 2 = ID)\n", (yyvsp[(1) - (3)].symbolValue)->type, (yyvsp[(3) - (3)].symbolValue)->type); fprintf(yyout, "if (%s==%s) goto Lelse%d;\n{\n", (yyvsp[(1) - (3)].symbolValue)->name, (yyvsp[(3) - (3)].symbolValue)->name, compteurGoto); compteurGoto++;}
     break;
 
   case 41:
 
 /* Line 1455 of yacc.c  */
-#line 158 "structfe.y"
-    {fprintf(yyout,"%s && %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno) ;  }
+#line 159 "structfe.y"
+    {printf("%s && %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno) ;  }
     break;
 
   case 43:
 
 /* Line 1455 of yacc.c  */
-#line 163 "structfe.y"
-    {fprintf(yyout,"%s || %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno);}
+#line 164 "structfe.y"
+    {printf("%s || %s (ligne %d) ;\n", nomTable((yyvsp[(1) - (3)].symbolValue)),  nomTable((yyvsp[(3) - (3)].symbolValue)), yylineno);}
     break;
 
   case 45:
 
 /* Line 1455 of yacc.c  */
-#line 168 "structfe.y"
-    {printf("TEST1 %s\n", findTS("a")->name); 
-                                        if (strcmp((yyvsp[(1) - (3)].symbolValue)->name,(yyvsp[(3) - (3)].symbolValue)->name))
+#line 169 "structfe.y"
+    {if (strcmp((yyvsp[(1) - (3)].symbolValue)->name,(yyvsp[(3) - (3)].symbolValue)->name))
 						{
 							fprintf(yyout,"%s = %s ;\n", (yyvsp[(1) - (3)].symbolValue)->name, (yyvsp[(3) - (3)].symbolValue)->name); 
 							affectation((yyvsp[(1) - (3)].symbolValue), (yyvsp[(3) - (3)].symbolValue)); 
 							(yyval.symbolValue)=(yyvsp[(1) - (3)].symbolValue);
 						}
-                                                printf("TEST2 %s\n", findTS("a")->name);
 					}
     break;
 
   case 50:
 
 /* Line 1455 of yacc.c  */
-#line 190 "structfe.y"
+#line 189 "structfe.y"
     {(yyvsp[(1) - (1)].type) = VOID_TYPE; fprintf(yyout,"void");}
     break;
 
   case 51:
 
 /* Line 1455 of yacc.c  */
-#line 191 "structfe.y"
+#line 190 "structfe.y"
     {(yyvsp[(1) - (1)].type) = INT_TYPE;}
     break;
 
   case 52:
 
 /* Line 1455 of yacc.c  */
-#line 191 "structfe.y"
+#line 190 "structfe.y"
     {fprintf(yyout,"int ");}
     break;
 
   case 53:
 
 /* Line 1455 of yacc.c  */
-#line 192 "structfe.y"
+#line 191 "structfe.y"
     {(yyvsp[(1) - (1)].symbolValue)->type = STRUCT_TYPE;}
     break;
 
   case 60:
 
 /* Line 1455 of yacc.c  */
-#line 211 "structfe.y"
+#line 210 "structfe.y"
     {(yyval.symbolValue)=(yyvsp[(2) - (2)].symbolValue);}
     break;
 
   case 62:
 
 /* Line 1455 of yacc.c  */
-#line 216 "structfe.y"
-    {(yyval.symbolValue)->type=ID_TYPE; fprintf(yyout,"%s\n", (yyval.symbolValue)->name);}
+#line 215 "structfe.y"
+    {(yyval.symbolValue)->type=ID_TYPE; fprintf(yyout,"%s;\n", (yyval.symbolValue)->name);}
     break;
 
   case 63:
 
 /* Line 1455 of yacc.c  */
-#line 217 "structfe.y"
+#line 216 "structfe.y"
     {(yyval.symbolValue)=(yyvsp[(2) - (3)].symbolValue);}
+    break;
+
+  case 85:
+
+/* Line 1455 of yacc.c  */
+#line 261 "structfe.y"
+    {fprintf(yyout, "}\n\n");}
+    break;
+
+  case 86:
+
+/* Line 1455 of yacc.c  */
+#line 265 "structfe.y"
+    {fprintf(yyout, "}\n\n");}
+    break;
+
+  case 89:
+
+/* Line 1455 of yacc.c  */
+#line 274 "structfe.y"
+    {fprintf(yyout, "return;");}
+    break;
+
+  case 90:
+
+/* Line 1455 of yacc.c  */
+#line 275 "structfe.y"
+    {fprintf(yyout, "return %s;\n", (yyvsp[(2) - (3)].symbolValue)->name);}
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 1845 "y.tab.c"
+#line 1872 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2053,7 +2080,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 293 "structfe.y"
+#line 292 "structfe.y"
 
 int main(int argc, char* argv[])
 {
@@ -2124,19 +2151,17 @@ void yyerror (char *s)
   fprintf (stderr, "ERREUR : %s (ligne %d)\n", s, yylineno);
 }
 
-char *createTemp()
+char* createTemp()
 {
-	char random[6] = "";
-	char randomletter;
-	int i=0;
-	for (i; i < 6; i++){
-		randomletter = 'a' + (rand() % 26);
-		random[i]=randomletter;
-	}
-
-	char *temp_specifier;	
-	temp_specifier= strdup("Z");
-	return  strcat(temp_specifier, random); 
+        char* t = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
+        sprintf(t, "t1");
+        int compteur=1;
+	while(findTS(t)!=NULL) {
+                sprintf(t, "t%d", compteur);
+                compteur++;
+        }
+        addTS(t);
+	return  t;
 }
 
 int istemp(char *s)

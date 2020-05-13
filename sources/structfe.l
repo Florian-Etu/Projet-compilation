@@ -7,6 +7,7 @@ L                       [a-zA-Z_]
 
 extern size_t strlen( const char * theString );
 extern char* strdup(const char*);
+int compteurGoto = 1; //Compteur goto pour avoir un id unique à chaque goto
 %}
 
 %option yylineno
@@ -14,7 +15,7 @@ extern char* strdup(const char*);
 %%
 [/][*][^*]*[*]+([^*/][^*]*[*]+)*[/] {printf("Detection d'un commentaire (ignore pour l'analyse syntaxique) ligne %d\n", yylineno); fprintf(yyout, "%s\n", yytext);}
 [/][*]    {yyerror("Commentaire non ferme");}
-"else"                 return ELSE; 
+"else"                 {fprintf(yyout, "Lelse%d:\n{\n", compteurGoto-1); return ELSE;}
 "extern"               return EXTERN;
 "for"                  return FOR;
 "if"                   return IF;

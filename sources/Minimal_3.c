@@ -10,4 +10,24 @@ b = 1 ;
   sur 
   plusieurs
   lignes */
-a != 0 (ligne 14) ;
+if (a==0) goto Lelse1;
+{
+return 1;
+}
+
+Lelse1:
+{
+return 2;
+}
+
+if (b!=0) goto Lelse2;
+{
+return 3;
+}
+
+Lelse2:
+{
+return 4;
+}
+
+return 0;
