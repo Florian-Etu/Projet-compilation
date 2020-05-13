@@ -123,17 +123,13 @@ tablesymboles* findTS(char* id) {
   return NULL;
 }
 
-char* nomTable(tablesymboles* symbolTable) {
-  return symbolTable->name;
-}
-
 void affichageTable(tablesymboles* symbolTable) {
   printf("Affichage table des symboles : name = %s, type = %d, val = %d, suivant = %p\n",symbolTable->name, symbolTable->type, symbolTable->val, symbolTable->suivant);
 }
 
 void affectation(tablesymboles* destination, tablesymboles* valeur) {
   if(destination->type == 2 && valeur->type == 0) {
-    destination->val=atoi(nomTable(valeur));
-    printf("La valeur %d a bien ete affectee a la variable %s\n", destination->val, nomTable(destination));
+    destination->val=atoi(valeur->name);
+    printf("La valeur %d a bien ete affectee a la variable %s\n", destination->val, destination->name);
   }
 }
