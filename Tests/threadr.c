@@ -1,4 +1,5 @@
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 /* Ceci est un test du code trois adresse */
 int main() {
   int x;
@@ -21,5 +22,14 @@ int main() {
   z = -- y;
   z = y ++;
   z = y --;
+}
+>>>>>>> Stashed changes
+=======
+/* Ceci est un test du code trois adresse */
+int main() {
+  int x;
+  int y;
+  int z;
+  x = 1 + (2 * x) /( 3 - 5 * (2 / x<<2));
 }
 >>>>>>> Stashed changes
