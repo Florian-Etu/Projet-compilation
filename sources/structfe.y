@@ -112,7 +112,8 @@ shift_expression
 										char* prevtemp;
 										$$->name=createTemp();
 										fprintf(yyout,"%s = %s / 2 ;\n", $$->name, leftid);
-										for (int i =0; i<(l-1) ; i++)
+                                                                                int i;
+										for (i =0; i<(l-1) ; i++)
 										{
 											prevtemp=$$->name;
 											$$->name=createTemp();
@@ -128,7 +129,8 @@ shift_expression
 										char* prevtemp;
 										$$->name=createTemp();
 										fprintf(yyout,"%s = %s * 2 ;\n", $$->name, leftid);
-										for (int i =0; i<(l-1) ; i++)
+                                                                                int i;
+										for (i =0; i<(l-1) ; i++)
 										{
 											prevtemp=$$->name;
 											$$->name=createTemp();
@@ -385,7 +387,8 @@ int istemp(char *s)
 int isnumber(char *s)
 {
 	int l= strlen(s);
-	for(int i =0; i< l; i++)
+        int i;
+	for(i =0; i< l; i++)
 	{
 		if(!isdigit(s[i]))
 		{

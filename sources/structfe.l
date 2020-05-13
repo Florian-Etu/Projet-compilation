@@ -62,13 +62,15 @@ int yywrap(void)
 }
 
 
-int hash(char *name) {
-  int i, r;
-  int taille = strlen(name);
-  r = 0;
-  for ( i = 0; i < MAXSYMB; i++ )
-    r = ((r << 8) + name[i]) % MAXSYMB;
-  return r;
+unsigned int hash(char *name) {
+  unsigned int Code = 0;
+  size_t const len = strlen (name);
+  size_t i;
+   for (i = 0; i < len; i++)
+   {
+      Code = name[i] + 31 * Code;
+   }
+   return Code % MAXSYMB;
 }
 
 void reset() {
@@ -85,7 +87,7 @@ tablesymboles* addTS(char* name) {
   s = table[h];
   precedent = NULL;
   while (s != NULL) {
-    if ( strcmp( s->name, name ) == 0 )
+    if (strcmp(s->name, name ) == 0 )
       return s;
     precedent = s;
     s = s->suivant;
@@ -107,6 +109,17 @@ tablesymboles* addDTS(char* name) {
   tablesymboles* TS = addTS(name);
   TS->val=atoi(name);
   return TS;
+}
+
+tablesymboles* findTS(char* id) {
+  tablesymboles *s;
+  s = table[hash(id)];
+  while (s != NULL) {
+    if (strcmp(s->name, id) == 0 )
+      return s;
+    s = s->suivant;
+  }
+  return NULL;
 }
 
 char* nomTable(tablesymboles* symbolTable) {

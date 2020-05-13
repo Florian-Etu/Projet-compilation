@@ -13,4 +13,5 @@ tablesymboles* table[MAXSYMB];
 
 tablesymboles* addTS(char* name);
 tablesymboles* addDTS(char* name);
+tablesymboles* findTS(char* id);
 void reset();

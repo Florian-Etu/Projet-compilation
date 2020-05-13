@@ -15,13 +15,13 @@
 3) gcc lex.yy.c y.tab.c -o structbe.exe
 4) structbe.exe <exemple-strucit-backend.c
 
-## Parsage back-end sous Linux
+## Parsage front-end sous Linux
 1) flex structfe.l
 2) bison -dy structfe.y
 3) gcc lex.yy.c y.tab.c -o structfe
 4) ./structfe Minimal.c
 
-## Parsage front-end sous Linux
+## Parsage back-end sous Linux
 1) flex structbe.l
 2) bison -dy structbe.y
 3) gcc lex.yy.c y.tab.c -o structbe
