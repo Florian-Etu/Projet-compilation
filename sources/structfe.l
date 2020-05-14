@@ -8,9 +8,12 @@ L                       [a-zA-Z_]
 
 extern size_t strlen( const char * theString );
 extern char* strdup(const char*);
+extern void yyerror(char *s);
 
+int yylex();
 int majLigneBloc(int typeBloc);
 int getLineNumber();
+void affectation(tablesymboles* destination, tablesymboles* valeur);
 
 int compteurGoto = 1; //Compteur goto pour avoir un id unique à chaque goto
 char* nomDestination; //Nom du fichier yyout

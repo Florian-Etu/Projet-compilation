@@ -5,6 +5,9 @@ L                       [a-zA-Z_]
 %{
 #include <stdio.h>
 #include "y.tab.h"
+
+int yylex();
+extern void yyerror(char *s);
 %}
 
 %option yylineno

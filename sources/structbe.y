@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 void yyerror(char *s);
+extern int yylex();
 extern int yylineno;
 %}
 

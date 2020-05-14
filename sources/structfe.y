@@ -23,12 +23,15 @@ extern char* nomDestination;
 extern int blocO[]; //Numéro de lignes des blocs ouvrants imbriqués
 extern int nblocO; //Nombre de blocs ouvrants imbriqués
 
+extern int yylex();
 extern int majLigneBloc(int typeBloc);
 extern int getLineNumber();
+extern void affectation(tablesymboles* destination, tablesymboles* valeur);
 extern char* strdup(const char*);
 extern char *strcat(char *destination, const char *source);
 extern char * strcpy( char * destination, const char * source ); 
 extern size_t strlen( const char * theString );
+extern int strcmp(const char *s1, const char *s2);
 
 %}
 %union {
