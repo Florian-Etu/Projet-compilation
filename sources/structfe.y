@@ -12,6 +12,7 @@ char *createTemp();
 int istemp(char *s);
 char* nomFichierDestination(char *nom);
 char *substring(char *string, int position, int length);
+char* concat(const char *s1, const char *s2);
 int isnumber(char *s);
 
 extern int yylineno;
@@ -49,6 +50,7 @@ extern size_t strlen( const char * theString );
 %left STAR SLASH
 
 %type <symbolValue> multiplicative_expression additive_expression relational_expression direct_declarator declarator shift_expression equality_expression logical_and_expression logical_or_expression unary_expression postfix_expression primary_expression expression type_specifier struct_specifier unary_operator
+%type <nom> argument_expression_list
 
 %start program
 %%
@@ -62,7 +64,7 @@ primary_expression
 postfix_expression
         : primary_expression 
         | postfix_expression '(' ')'
-        | postfix_expression '(' argument_expression_list ')'
+        | postfix_expression '(' argument_expression_list ')' {fprintf(yyout, "%s(%s);\n", $1->name, $3);}
         | postfix_expression '.' IDENTIFIER
         | postfix_expression PTR_OP IDENTIFIER
 	| postfix_expression INC_OP {fprintf(yyout,"%s = %s + 1 ;\n", $1->name, $1->name);}
@@ -70,8 +72,8 @@ postfix_expression
         ;
 
 argument_expression_list
-        : expression
-        | argument_expression_list ',' expression
+        : expression {$$=$1->name;}
+        | argument_expression_list ',' expression {$$ = concat(concat($1, ","), $3->name); fprintf(yyout, ", ");}
         ;
 
 unary_expression
@@ -168,7 +170,7 @@ expression
         : logical_or_expression 
         | unary_expression EQ expression {if (strcmp($1->name,$3->name))
 						{
-							fprintf(yyout,"%s = %s ;\n", $1->name, $3->name); 
+							fprintf(yyout,"%s = %s;\n", $1->name, $3->name); 
 							affectation($1, $3); 
 							$$=$1;
 						}
@@ -176,7 +178,7 @@ expression
         ;
 
 declaration
-        : declaration_specifiers declarator ';'
+        : declaration_specifiers declarator ';' {fprintf(yyout, ";\n");}
         | struct_specifier ';'
         ;
 
@@ -186,8 +188,8 @@ declaration_specifiers
         ;
 
 type_specifier
-        : VOID {$1 = VOID_TYPE; fprintf(yyout,"void");}
-        | INT {$1 = INT_TYPE;} {fprintf(yyout,"int ");}
+        : VOID {$1 = VOID_TYPE; fprintf(yyout,"void ");}
+        | INT {$1 = INT_TYPE; fprintf(yyout,"int "); }
         | struct_specifier {$1->type = STRUCT_TYPE;}
         ;
 
@@ -212,9 +214,9 @@ declarator
         ;
 
 direct_declarator
-        : IDENTIFIER {$$->type=ID_TYPE; fprintf(yyout,"%s;\n", $$->name);}
+        : IDENTIFIER {$$->type=ID_TYPE; fprintf(yyout,"%s", $$->name);}
         | '(' declarator ')' {$$=$2;}
-        | direct_declarator '(' parameter_list ')'
+        | direct_declarator '(' ACT1 parameter_list ')' {fprintf(yyout, ")");}
         | direct_declarator '(' ')'
         ;
 
@@ -237,10 +239,10 @@ statement
         ;
 
 compound_statement
-        : '{' '}'
+        : '{' ACT2 ACT3 '}'
         | '{' statement_list '}'
-        | '{' declaration_list '}'
-        | '{' declaration_list statement_list '}'
+        | '{' ACT2 declaration_list ACT3 '}'
+        | '{' ACT2 declaration_list statement_list ACT3 '}'
         ;
 
 declaration_list
@@ -271,7 +273,7 @@ iteration_statement
         ;
 
 jump_statement
-        : RETURN ';' {fprintf(yyout, "return;");}
+        : RETURN ';' {fprintf(yyout, "return;\n");}
         | RETURN expression ';' {fprintf(yyout, "return %s;\n", $2->name);}
         ;
 
@@ -289,6 +291,9 @@ function_definition
         : declaration_specifiers declarator compound_statement
         ;
 
+ACT1	: { fprintf(yyout, "(");} ; 
+ACT2	: { fprintf(yyout, "{\n");} ; 
+ACT3	: { fprintf(yyout, "}\n");} ; 
 %%
 int main(int argc, char* argv[])
 {
@@ -395,5 +400,13 @@ int isnumber(char *s)
 		}
 	}
 	return 1;
+}
+
+char* concat(const char *s1, const char *s2)
+{
+    char *result = malloc(strlen(s1) + strlen(s2) + 1); 
+    strcpy(result, s1);
+    strcat(result, s2);
+    return result;
 }
 	

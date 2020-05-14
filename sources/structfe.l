@@ -16,7 +16,7 @@ int compteurGoto = 1; //Compteur goto pour avoir un id unique à chaque goto
 [/][*][^*]*[*]+([^*/][^*]*[*]+)*[/] {printf("Detection d'un commentaire (ignore pour l'analyse syntaxique) ligne %d\n", yylineno); fprintf(yyout, "%s\n", yytext);}
 [/][*]    {yyerror("Commentaire non ferme");}
 "else"                 {fprintf(yyout, "Lelse%d:\n{\n", compteurGoto-1); return ELSE;}
-"extern"               return EXTERN;
+"extern"               {fprintf(yyout, "extern "); return EXTERN;}
 "for"                  return FOR;
 "if"                   return IF;
 "int"                  return INT; {yylval.symbolValue = addTS(yytext);}
@@ -27,7 +27,7 @@ int compteurGoto = 1; //Compteur goto pour avoir un id unique à chaque goto
 "while"                return WHILE;
 
 {D}*                  {yylval.symbolValue = addDTS(yytext); return CONSTANT;}
-{L}({L}|{D})*         {yylval.symbolValue = addTS(yytext); return IDENTIFIER;}
+{L}({L}|{D})*         {yylval.symbolValue = addTS(yytext);  return IDENTIFIER;}
 
 "="     return EQ;
 
