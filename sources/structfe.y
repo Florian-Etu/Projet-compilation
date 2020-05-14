@@ -15,6 +15,8 @@ char* concat(const char *s1, const char *s2);
 int isnumber(char *s);
 void declaration(char* nomVariable);
 
+char* conditionFor;
+
 extern int yylineno;
 extern int compteurGoto;
 extern FILE *yyin;
@@ -22,6 +24,8 @@ extern FILE *yyout;
 extern char* nomDestination;
 extern int blocO[]; //Numéro de lignes des blocs ouvrants imbriqués
 extern int nblocO; //Nombre de blocs ouvrants imbriqués
+extern int inFor;
+extern int compteurFor;
 
 extern int yylex();
 extern int majLigneBloc(int typeBloc);
@@ -57,7 +61,7 @@ extern int strcmp(const char *s1, const char *s2);
 %left PLUS MINUS
 %left STAR SLASH
 
-%type <symbolValue> multiplicative_expression additive_expression relational_expression direct_declarator declarator shift_expression equality_expression logical_and_expression logical_or_expression unary_expression postfix_expression primary_expression expression type_specifier struct_specifier unary_operator
+%type <symbolValue> multiplicative_expression additive_expression relational_expression direct_declarator declarator shift_expression equality_expression logical_and_expression logical_or_expression unary_expression postfix_expression primary_expression expression type_specifier struct_specifier unary_operator expression_statement
 %type <nom> argument_expression_list
 
 %start program
@@ -156,16 +160,44 @@ shift_expression
 
 relational_expression
         : shift_expression 
-        | relational_expression '<' shift_expression {printf("%s < %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); fprintf(yyout, "if (%s>=%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++; majLigneBloc(0);}
-        | relational_expression '>' shift_expression {printf("%s > %s (ligne %d) ;\n", $1->name,  $3->name, yylineno) ; fprintf(yyout, "if (%s<=%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++; majLigneBloc(0);}
-        | relational_expression LE_OP shift_expression {printf("%s <= %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); fprintf(yyout, "if (%s>%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++; majLigneBloc(0);} 
-        | relational_expression GE_OP shift_expression {printf("%s >= %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); fprintf(yyout, "if (%s<%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++; majLigneBloc(0);}
+        | relational_expression '<' shift_expression {
+                if(inFor) {
+                        sprintf(conditionFor, "Ltest%d:\nif (%s<%s) goto Lfor%d;\n", compteurFor, $1->name,  $3->name, compteurFor);
+                }
+                else {
+                        printf("%s < %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); fprintf(yyout, "if (%s>=%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++; majLigneBloc(0); }}
+        | relational_expression '>' shift_expression {
+                if(inFor) {
+                        sprintf(conditionFor, "Ltest%d:\nif (%s>%s) goto Lfor%d;\n", compteurFor, $1->name,  $3->name, compteurFor);
+                }
+                else {
+                printf("%s > %s (ligne %d) ;\n", $1->name,  $3->name, yylineno) ; fprintf(yyout, "if (%s<=%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++; majLigneBloc(0);}}
+        | relational_expression LE_OP shift_expression {
+                if(inFor) {
+                        sprintf(conditionFor, "Ltest%d:\nif (%s<=%s) goto Lfor%d;\n", compteurFor, $1->name,  $3->name, compteurFor);
+                }
+                else {
+                printf("%s <= %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); fprintf(yyout, "if (%s>%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++; majLigneBloc(0);}}
+        | relational_expression GE_OP shift_expression {
+                if(inFor) {
+                        sprintf(conditionFor, "Ltest%d:\nif (%s>=%s) goto Lfor%d;\n", compteurFor, $1->name,  $3->name, compteurFor);
+                }
+                else {printf("%s >= %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); fprintf(yyout, "if (%s<%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++; majLigneBloc(0);}}
         ;
 
 equality_expression
         : relational_expression
-        | equality_expression EQ_OP relational_expression {printf("%s == %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); fprintf(yyout, "if (%s!=%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++; majLigneBloc(0);}
-        | equality_expression NE_OP relational_expression {printf("%s != %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); printf("Type 1 : %d Type 2 : %d (0 = INT, 1 = VOID, 2 = ID)\n", $1->type, $3->type); fprintf(yyout, "if (%s==%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++; majLigneBloc(0);}
+        | equality_expression EQ_OP relational_expression { if(inFor) {
+                        sprintf(conditionFor, "Ltest%d:\nif (%s==%s) goto Lfor%d;\n", compteurFor, $1->name,  $3->name, compteurFor);
+                }
+                else {
+                printf("%s == %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); fprintf(yyout, "if (%s!=%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++; majLigneBloc(0);}}
+        | equality_expression NE_OP relational_expression {
+                if(inFor) {
+                        sprintf(conditionFor, "Ltest%d:\nif (%s!=%s) goto Lfor%d;\n", compteurFor, $1->name,  $3->name, compteurFor);
+                }
+                else {
+                printf("%s != %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); printf("Type 1 : %d Type 2 : %d (0 = INT, 1 = VOID, 2 = ID)\n", $1->type, $3->type); fprintf(yyout, "if (%s==%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++; majLigneBloc(0);}}
         ;
 
 logical_and_expression 
@@ -252,7 +284,7 @@ statement
 
 compound_statement
         : '{' ACT2 ACT3 '}'
-        | '{' statement_list '}'
+        | '{' ACT2 statement_list ACT3 '}'
         | '{' ACT2 declaration_list ACT3 '}'
         | '{' ACT2 declaration_list statement_list ACT3 '}'
         ;
@@ -268,7 +300,7 @@ statement_list
         ;
 
 expression_statement
-        : ';'
+        : ';' {}
         | expression ';'
         ;
 if_statement
@@ -281,7 +313,7 @@ else_statement
 
 iteration_statement
         : WHILE '(' expression ')' statement
-        | FOR '(' expression_statement expression_statement expression ')' statement
+        | FOR ACT4 '(' expression_statement expression_statement expression ')' ACT5 statement {fprintf(yyout, "\n%s\n", conditionFor); compteurFor++;}
         ;
 
 jump_statement
@@ -303,9 +335,11 @@ function_definition
         : declaration_specifiers declarator compound_statement
         ;
 
-ACT1	: {fprintf(yyout, "(");}; 
+ACT1	: {fprintf(yyout, "(");}
 ACT2	: {fprintf(yyout, "{\n"); majLigneBloc(0);};
 ACT3	: {fprintf(yyout, "}\n"); majLigneBloc(1);}; 
+ACT4    : {inFor=1; fprintf(yyout, "\ngoto Ltest%d;\n\nLfor%d:\n", compteurFor, compteurFor); conditionFor = (char*) malloc((MAXSIZEVARTEMP+30) * sizeof(char));}
+ACT5    : {inFor=0;}
 %%
 int main(int argc, char* argv[])
 {
