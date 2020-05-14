@@ -23,7 +23,7 @@ if (a==0) goto Lelse1;
 return 1;
 }
 
-		Lelse1:
+Lelse1:
 {
 return 2;
 }
@@ -31,14 +31,14 @@ return 2;
 
 goto Ltest1;
 
-		Lfor1:
+Lfor1:
 i = 0;
 t3 = i + 1 ;
 {
 printf(TEST);
 }
 
-		Ltest1:
+Ltest1:
 if (i<100) goto Lfor1;
 
 if (b!=0) goto Lelse2;
@@ -46,7 +46,7 @@ if (b!=0) goto Lelse2;
 return 3;
 }
 
-		Lelse2:
+Lelse2:
 {
 return 4;
 }

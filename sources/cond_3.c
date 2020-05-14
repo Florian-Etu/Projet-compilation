@@ -47,7 +47,7 @@ if (t1>=t2) goto Lelse1;
 printd(i);
 }
 
-	Lelse1:
+Lelse1:
 {
 printd(j);
 }
@@ -58,7 +58,7 @@ if (t3>=123) goto Lelse2;
 printd(i);
 }
 
-	Lelse2:
+Lelse2:
 {
 printd(j);
 }
@@ -69,7 +69,7 @@ if (t4>=j) goto Lelse3;
 printd(i);
 }
 
-	Lelse3:
+Lelse3:
 {
 printd(j);
 }
@@ -80,7 +80,7 @@ if (45>=t5) goto Lelse4;
 printd(i);
 }
 
-	Lelse4:
+Lelse4:
 {
 printd(j);
 }
@@ -90,7 +90,7 @@ if (45>=123) goto Lelse5;
 printd(i);
 }
 
-	Lelse5:
+Lelse5:
 {
 printd(j);
 }
@@ -100,7 +100,7 @@ if (45>=j) goto Lelse6;
 printd(i);
 }
 
-	Lelse6:
+Lelse6:
 {
 printd(j);
 }
@@ -111,7 +111,7 @@ if (i>=t6) goto Lelse7;
 printd(i);
 }
 
-	Lelse7:
+Lelse7:
 {
 printd(j);
 }
@@ -121,7 +121,7 @@ if (i>=123) goto Lelse8;
 printd(i);
 }
 
-	Lelse8:
+Lelse8:
 {
 printd(j);
 }
@@ -131,7 +131,7 @@ if (i>=j) goto Lelse9;
 printd(i);
 }
 
-	Lelse9:
+Lelse9:
 {
 printd(j);
 }
@@ -143,7 +143,7 @@ if (t7<=t8) goto Lelse10;
 printd(i);
 }
 
-	Lelse10:
+Lelse10:
 {
 printd(j);
 }
@@ -154,7 +154,7 @@ if (t9<=123) goto Lelse11;
 printd(i);
 }
 
-	Lelse11:
+Lelse11:
 {
 printd(j);
 }
@@ -165,7 +165,7 @@ if (t10<=j) goto Lelse12;
 printd(i);
 }
 
-	Lelse12:
+Lelse12:
 {
 printd(j);
 }
@@ -176,7 +176,7 @@ if (45<=t11) goto Lelse13;
 printd(i);
 }
 
-	Lelse13:
+Lelse13:
 {
 printd(j);
 }
@@ -186,7 +186,7 @@ if (45<=123) goto Lelse14;
 printd(i);
 }
 
-	Lelse14:
+Lelse14:
 {
 printd(j);
 }
@@ -196,7 +196,7 @@ if (45<=j) goto Lelse15;
 printd(i);
 }
 
-	Lelse15:
+Lelse15:
 {
 printd(j);
 }
@@ -207,7 +207,7 @@ if (i<=t12) goto Lelse16;
 printd(i);
 }
 
-	Lelse16:
+Lelse16:
 {
 printd(j);
 }
@@ -217,7 +217,7 @@ if (i<=123) goto Lelse17;
 printd(i);
 }
 
-	Lelse17:
+Lelse17:
 {
 printd(j);
 }
@@ -227,7 +227,7 @@ if (i<=j) goto Lelse18;
 printd(i);
 }
 
-	Lelse18:
+Lelse18:
 {
 printd(j);
 }
@@ -239,7 +239,7 @@ if (t13<t14) goto Lelse19;
 printd(i);
 }
 
-	Lelse19:
+Lelse19:
 {
 printd(j);
 }
@@ -250,7 +250,7 @@ if (t15<123) goto Lelse20;
 printd(i);
 }
 
-	Lelse20:
+Lelse20:
 {
 printd(j);
 }
@@ -261,7 +261,7 @@ if (t16<j) goto Lelse21;
 printd(i);
 }
 
-	Lelse21:
+Lelse21:
 {
 printd(j);
 }
@@ -272,7 +272,7 @@ if (45<t17) goto Lelse22;
 printd(i);
 }
 
-	Lelse22:
+Lelse22:
 {
 printd(j);
 }
@@ -282,7 +282,7 @@ if (45<123) goto Lelse23;
 printd(i);
 }
 
-	Lelse23:
+Lelse23:
 {
 printd(j);
 }
@@ -292,7 +292,7 @@ if (45<j) goto Lelse24;
 printd(i);
 }
 
-	Lelse24:
+Lelse24:
 {
 printd(j);
 }
@@ -303,7 +303,7 @@ if (i<t18) goto Lelse25;
 printd(i);
 }
 
-	Lelse25:
+Lelse25:
 {
 printd(j);
 }
@@ -313,7 +313,7 @@ if (i<123) goto Lelse26;
 printd(i);
 }
 
-	Lelse26:
+Lelse26:
 {
 printd(j);
 }
@@ -323,7 +323,7 @@ if (i<j) goto Lelse27;
 printd(i);
 }
 
-	Lelse27:
+Lelse27:
 {
 printd(j);
 }
@@ -335,7 +335,7 @@ if (t19>t20) goto Lelse28;
 printd(i);
 }
 
-	Lelse28:
+Lelse28:
 {
 printd(j);
 }
@@ -346,7 +346,7 @@ if (t21>123) goto Lelse29;
 printd(i);
 }
 
-	Lelse29:
+Lelse29:
 {
 printd(j);
 }
@@ -357,7 +357,7 @@ if (t22>j) goto Lelse30;
 printd(i);
 }
 
-	Lelse30:
+Lelse30:
 {
 printd(j);
 }
@@ -368,7 +368,7 @@ if (45>t23) goto Lelse31;
 printd(i);
 }
 
-	Lelse31:
+Lelse31:
 {
 printd(j);
 }
@@ -378,7 +378,7 @@ if (45>123) goto Lelse32;
 printd(i);
 }
 
-	Lelse32:
+Lelse32:
 {
 printd(j);
 }
@@ -388,7 +388,7 @@ if (45>j) goto Lelse33;
 printd(i);
 }
 
-	Lelse33:
+Lelse33:
 {
 printd(j);
 }
@@ -399,7 +399,7 @@ if (i>t24) goto Lelse34;
 printd(i);
 }
 
-	Lelse34:
+Lelse34:
 {
 printd(j);
 }
@@ -409,7 +409,7 @@ if (i>123) goto Lelse35;
 printd(i);
 }
 
-	Lelse35:
+Lelse35:
 {
 printd(j);
 }
@@ -419,7 +419,7 @@ if (i>j) goto Lelse36;
 printd(i);
 }
 
-	Lelse36:
+Lelse36:
 {
 printd(j);
 }
@@ -431,7 +431,7 @@ if (t25!=t26) goto Lelse37;
 printd(i);
 }
 
-	Lelse37:
+Lelse37:
 {
 printd(j);
 }
@@ -442,7 +442,7 @@ if (t27!=123) goto Lelse38;
 printd(i);
 }
 
-	Lelse38:
+Lelse38:
 {
 printd(j);
 }
@@ -453,7 +453,7 @@ if (t28!=j) goto Lelse39;
 printd(i);
 }
 
-	Lelse39:
+Lelse39:
 {
 printd(j);
 }
@@ -464,7 +464,7 @@ if (45!=t29) goto Lelse40;
 printd(i);
 }
 
-	Lelse40:
+Lelse40:
 {
 printd(j);
 }
@@ -474,7 +474,7 @@ if (45!=123) goto Lelse41;
 printd(i);
 }
 
-	Lelse41:
+Lelse41:
 {
 printd(j);
 }
@@ -484,7 +484,7 @@ if (45!=j) goto Lelse42;
 printd(i);
 }
 
-	Lelse42:
+Lelse42:
 {
 printd(j);
 }
@@ -495,7 +495,7 @@ if (i!=t30) goto Lelse43;
 printd(i);
 }
 
-	Lelse43:
+Lelse43:
 {
 printd(j);
 }
@@ -505,7 +505,7 @@ if (i!=123) goto Lelse44;
 printd(i);
 }
 
-	Lelse44:
+Lelse44:
 {
 printd(j);
 }
@@ -515,7 +515,7 @@ if (i!=j) goto Lelse45;
 printd(i);
 }
 
-	Lelse45:
+Lelse45:
 {
 printd(j);
 }
@@ -527,7 +527,7 @@ if (t31==t32) goto Lelse46;
 printd(i);
 }
 
-	Lelse46:
+Lelse46:
 {
 printd(j);
 }
@@ -538,7 +538,7 @@ if (t33==123) goto Lelse47;
 printd(i);
 }
 
-	Lelse47:
+Lelse47:
 {
 printd(j);
 }
@@ -549,7 +549,7 @@ if (t34==j) goto Lelse48;
 printd(i);
 }
 
-	Lelse48:
+Lelse48:
 {
 printd(j);
 }
@@ -560,7 +560,7 @@ if (45==t35) goto Lelse49;
 printd(i);
 }
 
-	Lelse49:
+Lelse49:
 {
 printd(j);
 }
@@ -570,7 +570,7 @@ if (45==123) goto Lelse50;
 printd(i);
 }
 
-	Lelse50:
+Lelse50:
 {
 printd(j);
 }
@@ -580,7 +580,7 @@ if (45==j) goto Lelse51;
 printd(i);
 }
 
-	Lelse51:
+Lelse51:
 {
 printd(j);
 }
@@ -591,7 +591,7 @@ if (i==t36) goto Lelse52;
 printd(i);
 }
 
-	Lelse52:
+Lelse52:
 {
 printd(j);
 }
@@ -601,7 +601,7 @@ if (i==123) goto Lelse53;
 printd(i);
 }
 
-	Lelse53:
+Lelse53:
 {
 printd(j);
 }
@@ -611,7 +611,7 @@ if (i==j) goto Lelse54;
 printd(i);
 }
 
-	Lelse54:
+Lelse54:
 {
 printd(j);
 }
