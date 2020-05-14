@@ -6,20 +6,25 @@
 #define MAXSIZEVARTEMP 50
 	
 void yyerror(char *s);
-FILE *yyin;
-
 char *createTemp();
+void inserttext(int ligne, char* texte);
 int istemp(char *s);
 char* nomFichierDestination(char *nom);
 char *substring(char *string, int position, int length);
 char* concat(const char *s1, const char *s2);
 int isnumber(char *s);
+void declaration(char* nomVariable);
 
 extern int yylineno;
 extern int compteurGoto;
 extern FILE *yyin;
 extern FILE *yyout;
+extern char* nomDestination;
+extern int blocO[]; //Numéro de lignes des blocs ouvrants imbriqués
+extern int nblocO; //Nombre de blocs ouvrants imbriqués
 
+extern int majLigneBloc(int typeBloc);
+extern int getLineNumber();
 extern char* strdup(const char*);
 extern char *strcat(char *destination, const char *source);
 extern char * strcpy( char * destination, const char * source ); 
@@ -93,17 +98,17 @@ unary_operator
 
 multiplicative_expression
         : unary_expression
-        | multiplicative_expression STAR unary_expression {char* temp=$1->name; $$->name=createTemp(); fprintf(yyout,"%s = %s * %s ;\n", $$->name, temp, $3->name);}
+        | multiplicative_expression STAR unary_expression {char* temp=$1->name; $$->name=createTemp(); declaration($$->name); fprintf(yyout,"%s = %s * %s ;\n", $$->name, temp, $3->name);}
 
 
 
-        | multiplicative_expression SLASH unary_expression {char* temp=$1->name; $$->name=createTemp(); fprintf(yyout,"%s = %s / %s ;\n", $$->name, temp, $3->name);}
+        | multiplicative_expression SLASH unary_expression {char* temp=$1->name; $$->name=createTemp(); declaration($$->name); fprintf(yyout,"%s = %s / %s ;\n", $$->name, temp, $3->name);}
         ;
 
 additive_expression
         : multiplicative_expression
-        | additive_expression PLUS multiplicative_expression {char* temp=$1->name; $$->name=createTemp(); fprintf(yyout,"%s = %s + %s ;\n", $$->name, temp, $3->name);}
-        | additive_expression MINUS multiplicative_expression {char* temp=$1->name; $$->name=createTemp(); fprintf(yyout,"%s = %s - %s ;\n", $$->name, temp, $3->name);}
+        | additive_expression PLUS multiplicative_expression {char* temp=$1->name; $$->name=createTemp(); declaration($$->name); fprintf(yyout,"%s = %s + %s ;\n", $$->name, temp, $3->name);}
+        | additive_expression MINUS multiplicative_expression {char* temp=$1->name; $$->name=createTemp(); declaration($$->name); fprintf(yyout,"%s = %s - %s ;\n", $$->name, temp, $3->name);}
         ;
 
 shift_expression
@@ -114,12 +119,14 @@ shift_expression
 										char* leftid=$1->name;
 										char* prevtemp;
 										$$->name=createTemp();
+                                                                                declaration($$->name);
 										fprintf(yyout,"%s = %s / 2 ;\n", $$->name, leftid);
                                                                                 int i;
 										for (i =0; i<(l-1) ; i++)
 										{
 											prevtemp=$$->name;
 											$$->name=createTemp();
+                                                                                        declaration($$->name);
 											fprintf(yyout,"%s = %s / 2 ;\n", $$->name, prevtemp);
 										}
 									}}
@@ -131,12 +138,14 @@ shift_expression
 										char* leftid=$1->name;
 										char* prevtemp;
 										$$->name=createTemp();
+                                                                                declaration($$->name);
 										fprintf(yyout,"%s = %s * 2 ;\n", $$->name, leftid);
                                                                                 int i;
 										for (i =0; i<(l-1) ; i++)
 										{
 											prevtemp=$$->name;
 											$$->name=createTemp();
+                                                                                        declaration($$->name);
 											fprintf(yyout,"%s = %s * 2 ;\n", $$->name, prevtemp);
 										}
 									}}
@@ -144,16 +153,16 @@ shift_expression
 
 relational_expression
         : shift_expression 
-        | relational_expression '<' shift_expression {printf("%s < %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); fprintf(yyout, "if (%s>=%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++;}
-        | relational_expression '>' shift_expression {printf("%s > %s (ligne %d) ;\n", $1->name,  $3->name, yylineno) ; fprintf(yyout, "if (%s<=%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++;}
-        | relational_expression LE_OP shift_expression {printf("%s <= %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); fprintf(yyout, "if (%s>%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++;} 
-        | relational_expression GE_OP shift_expression {printf("%s >= %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); fprintf(yyout, "if (%s<%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++;}
+        | relational_expression '<' shift_expression {printf("%s < %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); fprintf(yyout, "if (%s>=%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++; majLigneBloc(0);}
+        | relational_expression '>' shift_expression {printf("%s > %s (ligne %d) ;\n", $1->name,  $3->name, yylineno) ; fprintf(yyout, "if (%s<=%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++; majLigneBloc(0);}
+        | relational_expression LE_OP shift_expression {printf("%s <= %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); fprintf(yyout, "if (%s>%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++; majLigneBloc(0);} 
+        | relational_expression GE_OP shift_expression {printf("%s >= %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); fprintf(yyout, "if (%s<%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++; majLigneBloc(0);}
         ;
 
 equality_expression
         : relational_expression
-        | equality_expression EQ_OP relational_expression {printf("%s == %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); fprintf(yyout, "if (%s!=%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++;}
-        | equality_expression NE_OP relational_expression {printf("%s != %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); printf("Type 1 : %d Type 2 : %d (0 = INT, 1 = VOID, 2 = ID)\n", $1->type, $3->type); fprintf(yyout, "if (%s==%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++;}
+        | equality_expression EQ_OP relational_expression {printf("%s == %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); fprintf(yyout, "if (%s!=%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++; majLigneBloc(0);}
+        | equality_expression NE_OP relational_expression {printf("%s != %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); printf("Type 1 : %d Type 2 : %d (0 = INT, 1 = VOID, 2 = ID)\n", $1->type, $3->type); fprintf(yyout, "if (%s==%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++; majLigneBloc(0);}
         ;
 
 logical_and_expression 
@@ -260,11 +269,11 @@ expression_statement
         | expression ';'
         ;
 if_statement
-        : IF '(' expression ')' statement {fprintf(yyout, "}\n\n");}
+        : IF '(' expression ')' statement {fprintf(yyout, "}\n\n"); majLigneBloc(1);}
         ;
 
 else_statement
-		: ELSE statement {fprintf(yyout, "}\n\n");}
+		: ELSE statement {fprintf(yyout, "}\n\n"); majLigneBloc(1);}
 		;
 
 iteration_statement
@@ -291,9 +300,9 @@ function_definition
         : declaration_specifiers declarator compound_statement
         ;
 
-ACT1	: { fprintf(yyout, "(");} ; 
-ACT2	: { fprintf(yyout, "{\n");} ; 
-ACT3	: { fprintf(yyout, "}\n");} ; 
+ACT1	: {fprintf(yyout, "(");}; 
+ACT2	: {fprintf(yyout, "{\n"); majLigneBloc(0);};
+ACT3	: {fprintf(yyout, "}\n"); majLigneBloc(1);}; 
 %%
 int main(int argc, char* argv[])
 {
@@ -302,7 +311,7 @@ int main(int argc, char* argv[])
 		FILE *fp = fopen(argv[1], "r");
 		if(fp) {
 			yyin = fp;
-                        char* nomDestination = nomFichierDestination(argv[1]);
+                        nomDestination = nomFichierDestination(argv[1]);
                         printf("Generation du fichier : %s\n", nomDestination);
                         yyout = fopen(nomDestination, "w");
                 }
@@ -409,4 +418,62 @@ char* concat(const char *s1, const char *s2)
     strcat(result, s2);
     return result;
 }
-	
+
+void inserttext(int ligne, char* texte)
+{
+    fclose(yyout);
+    ligne--;
+    FILE *file1,*file2;
+    char *t = texte;
+    int l,i,r,y,n,index,nl=0;
+    int linelength = 0;;
+    long offset = 0;
+
+    char *f = nomDestination;
+        file1=fopen(f, "r+");
+        file2=fopen("f2", "w+");
+        fclose(file1);
+        fclose(file2);
+
+            file1=fopen(f, "r+");
+            file2=fopen("f2", "w+");
+            l = ligne;
+
+            while((r=fgetc(file1))!=EOF)
+            {
+                fputc(r,file2);
+                if(r == '\n' && ++nl == l){
+                    offset = ftell ( file1);
+                    while ( ( r = fgetc ( file1)) != '\n' && r != EOF) {
+                        linelength++;
+                    }
+                    fseek ( file1, offset, SEEK_SET);
+                    index = linelength;
+
+                    while ( index) {
+                        r = fgetc ( file1);
+                        fputc(r,file2);
+                        index--;
+                    }
+                    fprintf(file2, "%s ", t);
+                }
+            }
+            fclose(file1);
+            fclose(file2);
+
+            file1=fopen(f, "w+");
+            file2=fopen("f2", "r");
+            while((y=fgetc(file2))!=EOF){
+                    fputc(y,file1);
+            }
+            fclose(file2);
+            fclose(file1);
+            remove("f2");
+            yyout = fopen(f, "a");
+}
+
+void declaration(char* nomVariable) {
+        char* temp = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
+        sprintf(temp, "\nint %s;", nomVariable); 
+        inserttext(blocO[nblocO], temp); 
+}

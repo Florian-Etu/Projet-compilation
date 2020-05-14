@@ -6,12 +6,15 @@ int main() {
   int b ;
   a = 0 ;
   b = 1 ;
+  c =a+b;
   /* Commentaire
   sur 
   plusieurs
   lignes */
   #
   if(a!=0) {
+      int d;
+      d =b+c;
       return 1 ;
   }
   else {

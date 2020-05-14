@@ -4,10 +4,18 @@ L                       [a-zA-Z_]
 %{
 #include "y.tab.h"
 #include "symbtab.h"
+#define MAXBLOCIMBRIQUE 50
 
 extern size_t strlen( const char * theString );
 extern char* strdup(const char*);
+
+int majLigneBloc(int typeBloc);
+int getLineNumber();
+
 int compteurGoto = 1; //Compteur goto pour avoir un id unique à chaque goto
+char* nomDestination; //Nom du fichier yyout
+int blocO[MAXBLOCIMBRIQUE]; //Numéro de lignes des blocs ouvrants imbriqués
+int nblocO = -1; //Nombre de blocs ouvrants imbriqués
 %}
 
 %option yylineno
@@ -15,7 +23,7 @@ int compteurGoto = 1; //Compteur goto pour avoir un id unique à chaque goto
 %%
 [/][*][^*]*[*]+([^*/][^*]*[*]+)*[/] {printf("Detection d'un commentaire (ignore pour l'analyse syntaxique) ligne %d\n", yylineno); fprintf(yyout, "%s\n", yytext);}
 [/][*]    {yyerror("Commentaire non ferme");}
-"else"                 {fprintf(yyout, "Lelse%d:\n{\n", compteurGoto-1); return ELSE;}
+"else"                 {fprintf(yyout, "Lelse%d:\n{\n", compteurGoto-1); majLigneBloc(0); return ELSE;}
 "extern"               {fprintf(yyout, "extern "); return EXTERN;}
 "for"                  return FOR;
 "if"                   return IF;
@@ -132,4 +140,39 @@ void affectation(tablesymboles* destination, tablesymboles* valeur) {
     destination->val=atoi(valeur->name);
     printf("La valeur %d a bien ete affectee a la variable %s\n", destination->val, destination->name);
   }
+}
+	
+int getLineNumber()
+{
+    fflush(yyout);
+    FILE *fileptr;
+    int count_lines = 0;
+    fileptr = fopen(nomDestination, "r");
+    char chr = getc(fileptr);
+    while (chr != EOF)
+    {
+        if (chr == '\n')
+        {
+            count_lines = count_lines + 1;
+        }
+        chr = getc(fileptr);
+    }
+    fclose(fileptr);
+    return count_lines;
+}
+
+/* La fonction suivante permet de retenir les données relatives au début / fin de blocs afin d'écrire les déclarations de variables en début de bloc 
+Le paramètre prend 0 si c'est un début de bloc, 1 si c'est une fin de bloc  */
+int majLigneBloc(int typeBloc) { 
+        if(typeBloc) {
+                if(nblocO>0) {
+                nblocO--;
+                }
+                return 1;
+        }
+        else {
+                nblocO++;
+                blocO[nblocO] = getLineNumber();
+                return 0;
+        }
 }
