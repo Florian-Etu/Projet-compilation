@@ -724,7 +724,7 @@ return IF;
 case 7:
 YY_RULE_SETUP
 #line 22 "structfe.l"
-return INT; {yylval.symbolValue = addTS(yytext);}
+return INT;
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
@@ -779,7 +779,7 @@ return STAR;
 case 18:
 YY_RULE_SETUP
 #line 36 "structfe.l"
-return MINUS; 
+{yylval.symbolValue = addTS("MINUS"); return MINUS;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP

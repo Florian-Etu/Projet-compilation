@@ -73,12 +73,12 @@ postfix_expression
 
 argument_expression_list
         : expression {$$=$1->name;}
-        | argument_expression_list ',' expression {$$ = concat(concat($1, ","), $3->name); fprintf(yyout, ", ");}
+        | argument_expression_list ',' expression {$$ = concat(concat($1, ","), $$);}
         ;
 
 unary_expression
         : postfix_expression
-        | unary_operator unary_expression 
+        | unary_operator unary_expression {if(strcmp($1->name, "MINUS")==0) {$$->name=concat("-", $2->name);}}
 	| INC_OP unary_expression {fprintf(yyout,"%s = %s + 1 ;\n", $2->name, $2->name); fprintf(yyout,"%s = %s ;\n", $$->name, $2->name);}
 	| DEC_OP unary_expression {fprintf(yyout,"%s = %s - 1 ;\n", $2->name, $2->name); fprintf(yyout,"%s = %s ;\n", $$->name, $2->name);}
         | SIZEOF unary_expression
@@ -217,7 +217,7 @@ direct_declarator
         : IDENTIFIER {$$->type=ID_TYPE; fprintf(yyout,"%s", $$->name);}
         | '(' declarator ')' {$$=$2;}
         | direct_declarator '(' ACT1 parameter_list ')' {fprintf(yyout, ")");}
-        | direct_declarator '(' ')'
+        | direct_declarator '(' ACT1 ')' {fprintf(yyout, ")");}
         ;
 
 parameter_list

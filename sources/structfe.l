@@ -19,7 +19,7 @@ int compteurGoto = 1; //Compteur goto pour avoir un id unique à chaque goto
 "extern"               {fprintf(yyout, "extern "); return EXTERN;}
 "for"                  return FOR;
 "if"                   return IF;
-"int"                  return INT; {yylval.symbolValue = addTS(yytext);}
+"int"                  return INT;
 "return"               return RETURN;
 "sizeof"               return SIZEOF;
 "struct"               return STRUCT;
@@ -33,7 +33,7 @@ int compteurGoto = 1; //Compteur goto pour avoir un id unique à chaque goto
 
 [;\{\}\[\]\(\)\<\>,.:!~%^|?&] return *yytext;
 "*"			return STAR;
-"-"			return MINUS; 
+"-"			{yylval.symbolValue = addTS("MINUS"); return MINUS;}
 "/"			return SLASH; 
 "+"			return PLUS;
 

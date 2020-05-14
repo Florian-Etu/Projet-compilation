@@ -1,8 +1,9 @@
 extern int printd(int i);
-int main{
+int main(){
 int i;
 int j;
 i = 450;
+j = -123;
 t1 = i + 1 ;
 t2 = j + 0 ;
 if (t1>=t2) goto Lelse1;
