@@ -312,7 +312,7 @@ else_statement
 		;
 
 iteration_statement
-        : WHILE ACT4 '(' expression ')' ACT5 statement {fprintf(yyout, "\n%s\n", conditionFor); compteurFor++;}
+        : WHILE ACT4 '(' expression ')' statement {inFor=0; fprintf(yyout, "\n%s\n", conditionFor); compteurFor++;}
         | FOR '(' expression_statement ACT4 expression_statement expression ')' ACT5 statement {fprintf(yyout, "\n%s\n", conditionFor); compteurFor++;}
         ;
 
