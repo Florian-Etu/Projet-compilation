@@ -26,11 +26,11 @@ Lelse1:
 return 2;
 }
 
+i = 0;
 
 goto Ltest1;
 
 Lfor1:
-i = 0;
 i = i + 1 ;
 printf(TEST);
 
