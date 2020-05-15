@@ -1,10 +1,8 @@
 /* Commentaire */
 int a;
 int main(){
-int t3; 
 int t2; 
 int t1; 
-/* int a ; */
 int a;
 int b;
 int d;
@@ -33,10 +31,8 @@ goto Ltest1;
 
 Lfor1:
 i = 0;
-t3 = i + 1 ;
-{
+i = i + 1 ;
 printf(TEST);
-}
 
 Ltest1:
 if (i<100) goto Lfor1;

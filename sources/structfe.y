@@ -105,17 +105,17 @@ unary_operator
 
 multiplicative_expression
         : unary_expression
-        | multiplicative_expression STAR unary_expression {char* temp=$1->name; $$->name=createTemp(); declaration($$->name); fprintf(yyout,"%s = %s * %s ;\n", $$->name, temp, $3->name);}
+        | multiplicative_expression STAR unary_expression {if(inFor) {fprintf(yyout,"%s = %s * %s ;\n", $$->name, $1->name, $3->name);} else{char* temp=$1->name; $$->name=createTemp(); declaration($$->name); fprintf(yyout,"%s = %s * %s ;\n", $$->name, temp, $3->name);}}
 
 
 
-        | multiplicative_expression SLASH unary_expression {char* temp=$1->name; $$->name=createTemp(); declaration($$->name); fprintf(yyout,"%s = %s / %s ;\n", $$->name, temp, $3->name);}
+        | multiplicative_expression SLASH unary_expression {if(inFor) {fprintf(yyout,"%s = %s / %s ;\n", $$->name, $1->name, $3->name);} else{char* temp=$1->name; $$->name=createTemp(); declaration($$->name); fprintf(yyout,"%s = %s / %s ;\n", $$->name, temp, $3->name);}}
         ;
 
 additive_expression
         : multiplicative_expression
-        | additive_expression PLUS multiplicative_expression {char* temp=$1->name; $$->name=createTemp(); declaration($$->name); fprintf(yyout,"%s = %s + %s ;\n", $$->name, temp, $3->name);}
-        | additive_expression MINUS multiplicative_expression {char* temp=$1->name; $$->name=createTemp(); declaration($$->name); fprintf(yyout,"%s = %s - %s ;\n", $$->name, temp, $3->name);}
+        | additive_expression PLUS multiplicative_expression {if(inFor) {fprintf(yyout,"%s = %s + %s ;\n", $$->name, $1->name, $3->name);} else{char* temp=$1->name; $$->name=createTemp(); declaration($$->name); fprintf(yyout,"%s = %s + %s ;\n", $$->name, temp, $3->name);}}
+        | additive_expression MINUS multiplicative_expression {if(inFor) {fprintf(yyout,"%s = %s + %s ;\n", $$->name, $1->name, $3->name);} else{char* temp=$1->name; $$->name=createTemp(); declaration($$->name); fprintf(yyout,"%s = %s - %s ;\n", $$->name, temp, $3->name);}}
         ;
 
 shift_expression
@@ -284,7 +284,7 @@ statement
 
 compound_statement
         : '{' ACT2 ACT3 '}'
-        | '{' ACT2 statement_list ACT3 '}'
+        | '{' statement_list '}'
         | '{' ACT2 declaration_list ACT3 '}'
         | '{' ACT2 declaration_list statement_list ACT3 '}'
         ;

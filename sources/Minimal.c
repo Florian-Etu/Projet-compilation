@@ -1,7 +1,6 @@
 /* Commentaire */
 int a ;
 int main() {
-/* int a ; */
   int a ;
   int b ;
   int d;
