@@ -14,8 +14,10 @@ char *substring(char *string, int position, int length);
 char* concat(const char *s1, const char *s2);
 int isnumber(char *s);
 void declaration(char* nomVariable);
+int sizeoflowcost(int type, char* name);
 
 char* conditionFor;
+char *actstructdef;
 
 extern int yylineno;
 extern int compteurGoto;
@@ -37,6 +39,8 @@ extern char * strcpy( char * destination, const char * source );
 extern size_t strlen( const char * theString );
 extern int strcmp(const char *s1, const char *s2);
 
+int pass=0;
+int sizeofstruct=0;
 %}
 %union {
         char *nom;
@@ -53,7 +57,7 @@ extern int strcmp(const char *s1, const char *s2);
 %token <symbolValue> STRUCT SIZEOF
 %token IF ELSE WHILE FOR RETURN
 %token <symbolValue> PLUS MINUS STAR SLASH INC_OP DEC_OP
-%token <type> IDENTIFIER
+%token <symbolValue> IDENTIFIER
 %token <entier> CONSTANT
 %token <type> INT
 %token <symbolValue> '&'
@@ -93,8 +97,8 @@ unary_expression
         | unary_operator unary_expression {if(strcmp($1->name, "MINUS")==0) {$$->name=concat("-", $2->name);}}
 	| INC_OP unary_expression {fprintf(yyout,"%s = %s + 1 ;\n", $2->name, $2->name); fprintf(yyout,"%s = %s ;\n", $$->name, $2->name);}
 	| DEC_OP unary_expression {fprintf(yyout,"%s = %s - 1 ;\n", $2->name, $2->name); fprintf(yyout,"%s = %s ;\n", $$->name, $2->name);}
-        | SIZEOF unary_expression
-	| SIZEOF '(' type_specifier ')'
+        | SIZEOF unary_expression {printf("TYPE %d TYPE",$2->type);}
+	| SIZEOF '(' type_specifier ')'{printf("TYPE %d TYPE",$3->type);}
         ;
 
 unary_operator
@@ -232,15 +236,19 @@ declaration_specifiers
         ;
 
 type_specifier
-        : VOID {$1 = VOID_TYPE; fprintf(yyout,"void ");}
-        | INT {$1 = INT_TYPE; fprintf(yyout,"int "); }
-        | struct_specifier {$1->type = STRUCT_TYPE;}
+        : VOID {$1 = VOID_TYPE; if (!pass) {fprintf(yyout,"void ");}}
+        | INT {$1 = INT_TYPE; if (!pass) {fprintf(yyout,"int "); }}
+        | struct_specifier {if (!pass) {$1->type = STRUCT_TYPE;}}
         ;
 
 struct_specifier
-        : STRUCT IDENTIFIER '{' struct_declaration_list '}'
+        : STRUCT IDENTIFIER '{'ACT6 struct_declaration_list '}' {char* t = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
+								 sprintf(t,"structsize_%s",$2->name);
+								 tablesymboles *s = addTS(t);
+								 s->val=sizeofstruct;
+								pass=0;}
         | STRUCT '{' struct_declaration_list '}'
-        | STRUCT IDENTIFIER
+        | STRUCT IDENTIFIER {if (!pass) {fprintf(yyout,"void *");}}
         ;
 
 struct_declaration_list
@@ -249,16 +257,22 @@ struct_declaration_list
         ;
 
 struct_declaration
-        : type_specifier declarator ';'
+        : type_specifier declarator ';' {char* t = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
+					printf("struct_%s_%s de type %d\n",actstructdef,$2->name,$1->type);
+					sprintf(t,"struct_%s_%s",actstructdef,$2->name);
+					tablesymboles *s = addTS(t);
+					s->type = $1->type;
+					if($1->type != 3){sizeofstruct+=sizeoflowcost($1->type,$1->name);}
+					}
         ;
 
 declarator
         : STAR direct_declarator {$$=$2;}
-        | direct_declarator
+        | direct_declarator {$$=$1;}
         ;
 
 direct_declarator
-        : IDENTIFIER {$$->type=ID_TYPE; fprintf(yyout,"%s", $$->name);}
+        : IDENTIFIER {$$->type=ID_TYPE; if (!pass) {fprintf(yyout,"%s", $$->name);}}
         | '(' declarator ')' {$$=$2;}
         | direct_declarator '(' ACT1 parameter_list ')' {fprintf(yyout, ")");}
         | direct_declarator '(' ACT1 ')' {fprintf(yyout, ")");}
@@ -340,6 +354,9 @@ ACT2	: {fprintf(yyout, "{\n"); majLigneBloc(0);};
 ACT3	: {fprintf(yyout, "}\n"); majLigneBloc(1);}; 
 ACT4    : {inFor=1; fprintf(yyout, "\ngoto Ltest%d;\n\nLfor%d:\n", compteurFor, compteurFor); conditionFor = (char*) malloc((MAXSIZEVARTEMP+30) * sizeof(char));}
 ACT5    : {inFor=0;}
+ACT6    : {pass=1;
+	   actstructdef = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
+	   sprintf(actstructdef,"%s",$<symbolValue>-1->name);}
 %%
 int main(int argc, char* argv[])
 {
@@ -513,4 +530,15 @@ void declaration(char* nomVariable) {
         char* temp = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
         sprintf(temp, "\nint %s;", nomVariable); 
         inserttext(blocO[nblocO], temp); 
+}
+
+int sizeoflowcost(int type, char* name) {
+        if(type == 0)
+	{return sizeof(int);}
+	else if (type == 1 )
+	{/*Mettre une erreur*/}
+	else if (type == 2 )
+	{/*Pas le type des nos ID*/}
+	else if (type == 3 )
+	{/*Mettre une erreur*/} 
 }
