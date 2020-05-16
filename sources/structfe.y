@@ -28,6 +28,7 @@ extern int blocO[]; //Numéro de lignes des blocs ouvrants imbriqués
 extern int nblocO; //Nombre de blocs ouvrants imbriqués
 extern int inFor;
 extern int compteurFor;
+extern int inStruct;
 
 extern int yylex();
 extern int majLigneBloc(int typeBloc);
@@ -39,7 +40,7 @@ extern char * strcpy( char * destination, const char * source );
 extern size_t strlen( const char * theString );
 extern int strcmp(const char *s1, const char *s2);
 
-int pass=0;
+
 int sizeofstruct=0;
 %}
 %union {
@@ -236,19 +237,19 @@ declaration_specifiers
         ;
 
 type_specifier
-        : VOID {$1 = VOID_TYPE; if (!pass) {fprintf(yyout,"void ");}}
-        | INT {$1 = INT_TYPE; if (!pass) {fprintf(yyout,"int "); }}
-        | struct_specifier {if (!pass) {$1->type = STRUCT_TYPE;}}
+        : VOID {$1 = VOID_TYPE; if (!inStruct) {fprintf(yyout,"void ");}}
+        | INT {$1 = INT_TYPE; if (!inStruct) {fprintf(yyout,"int "); }}
+        | struct_specifier {if (!inStruct) {$1->type = STRUCT_TYPE;}}
         ;
 
 struct_specifier
-        : STRUCT IDENTIFIER '{'ACT6 struct_declaration_list '}' {char* t = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
+        : STRUCT IDENTIFIER '{'ACT4 struct_declaration_list '}' {char* t = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
 								 sprintf(t,"structsize_%s",$2->name);
 								 tablesymboles *s = addTS(t);
 								 s->val=sizeofstruct;
-								pass=0;}
+								inStruct=0;}
         | STRUCT '{' struct_declaration_list '}'
-        | STRUCT IDENTIFIER {if (!pass) {fprintf(yyout,"void *");}}
+        | STRUCT IDENTIFIER {if (!inStruct) {fprintf(yyout,"void *");}}
         ;
 
 struct_declaration_list
@@ -272,7 +273,7 @@ declarator
         ;
 
 direct_declarator
-        : IDENTIFIER {$$->type=ID_TYPE; if (!pass) {fprintf(yyout,"%s", $$->name);}}
+        : IDENTIFIER {$$->type=ID_TYPE; if (!inStruct) {fprintf(yyout,"%s", $$->name);}}
         | '(' declarator ')' {$$=$2;}
         | direct_declarator '(' ACT1 parameter_list ')' {fprintf(yyout, ")");}
         | direct_declarator '(' ACT1 ')' {fprintf(yyout, ")");}
@@ -297,10 +298,10 @@ statement
         ;
 
 compound_statement
-        : '{' ACT2 ACT3 '}'
+        : '{' '}'
         | '{' statement_list '}'
-        | '{' ACT2 declaration_list ACT3 '}'
-        | '{' ACT2 declaration_list statement_list ACT3 '}'
+        | '{' declaration_list '}'
+        | '{' declaration_list statement_list '}'
         ;
 
 declaration_list
@@ -326,8 +327,8 @@ else_statement
 		;
 
 iteration_statement
-        : WHILE ACT4 '(' expression ')' statement {inFor=0; fprintf(yyout, "\n%s\n", conditionFor); compteurFor++;}
-        | FOR '(' expression_statement ACT4 expression_statement expression ')' ACT5 statement {fprintf(yyout, "\n%s\n", conditionFor); compteurFor++;}
+        : WHILE ACT2 '(' expression ')' statement {inFor=0; fprintf(yyout, "\n%s\n", conditionFor); compteurFor++;}
+        | FOR '(' expression_statement ACT2 expression_statement expression ')' ACT3 statement {fprintf(yyout, "\n%s\n", conditionFor); compteurFor++;}
         ;
 
 jump_statement
@@ -350,11 +351,9 @@ function_definition
         ;
 
 ACT1	: {fprintf(yyout, "(");}
-ACT2	: {fprintf(yyout, "{\n"); majLigneBloc(0);};
-ACT3	: {fprintf(yyout, "}\n"); majLigneBloc(1);}; 
-ACT4    : {inFor=1; fprintf(yyout, "\ngoto Ltest%d;\n\nLfor%d:\n", compteurFor, compteurFor); conditionFor = (char*) malloc((MAXSIZEVARTEMP+30) * sizeof(char));}
-ACT5    : {inFor=0;}
-ACT6    : {pass=1;
+ACT2    : {inFor=1; fprintf(yyout, "\ngoto Ltest%d;\n\nLfor%d:\n", compteurFor, compteurFor); conditionFor = (char*) malloc((MAXSIZEVARTEMP+30) * sizeof(char));}
+ACT3    : {inFor=0;}
+ACT4    : {inStruct=1;
 	   actstructdef = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
 	   sprintf(actstructdef,"%s",$<symbolValue>-1->name);}
 %%

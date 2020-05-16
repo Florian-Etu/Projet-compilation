@@ -32,7 +32,9 @@ goto Ltest1;
 
 Lfor1:
 i = i + 1 ;
+{
 printf(TEST);
+}
 
 Ltest1:
 if (i<100) goto Lfor1;

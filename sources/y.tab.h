@@ -107,7 +107,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 41 "structfe.y"
+#line 46 "structfe.y"
 
         char *nom;
         int entier;

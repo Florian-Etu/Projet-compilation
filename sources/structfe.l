@@ -20,6 +20,7 @@ char* nomDestination; //Nom du fichier yyout
 int blocO[MAXBLOCIMBRIQUE]; //Numéro de lignes des blocs ouvrants imbriqués
 int nblocO = -1; //Nombre de blocs ouvrants imbriqués
 int inFor = 0; //Savoir si on est en train de déclarer une boucle for
+int inStruct=0; //Savoir si on est en train de déclarer une struct
 int compteurFor = 1; //Compteur for pour avoir un id unique à chaque goto d'un for
 %}
 
@@ -44,7 +45,9 @@ int compteurFor = 1; //Compteur for pour avoir un id unique à chaque goto d'un 
 
 "="     return EQ;
 
-[;\{\}\[\]\(\)\<\>,.:!~%^|?&] return *yytext;
+[;\[\]\(\)\<\>,.:!~%^|?&] return *yytext;
+"{"     {fprintf(yyout, "{\n"); majLigneBloc(0); return *yytext;}
+"}"     {fprintf(yyout, "}\n"); majLigneBloc(1); return *yytext;}
 "*"			return STAR;
 "-"			{yylval.symbolValue = addTS("MINUS"); return MINUS;}
 "/"			return SLASH; 
