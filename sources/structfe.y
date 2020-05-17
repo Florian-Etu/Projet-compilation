@@ -360,11 +360,20 @@ ACT4    : {inStruct=1;
 int main(int argc, char* argv[])
 {
         int i;
+        if(argc<=1) {
+        printf("\n!!!! ATTTENTION : pour generer un fichier traduit le compilateur doit prendre le nom du fichier en argument de la ligne de commande (pas de \"<\" devant le nom du fichier en entree par exemple, se referer au README pour plus d'informations\n\n");
+        if(!yyparse())
+		printf("\nAnalyse syntaxique reussite\n");
+	else
+		yyerror("\nL'analyse syntaxique a echoue\n");
+        return 0;
+        }
         for(i=1; i<argc; i++)
 	{
 		FILE *fp = fopen(argv[i], "r");
 		if(fp) {
 			yyin = fp;
+                        yyrestart(yyin);
                         nomDestination = nomFichierDestination(argv[i]);
                         printf("Generation du fichier : %s\n", nomDestination);
                         yyout = fopen(nomDestination, "w");

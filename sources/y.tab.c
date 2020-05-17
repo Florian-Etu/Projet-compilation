@@ -2284,12 +2284,22 @@ yyreturn:
 
 int main(int argc, char* argv[])
 {
+        if(argc<1) {
+        printf("!! ATTTENTION : pour generer un fichier traduit le compilateur doit prendre le nom du fichier en argument de la ligne de commande (sans le \"-\", se referer au README pour plus d'informations\n");
+        if(!yyparse())
+		printf("\nAnalyse syntaxique reussite\n");
+	else
+		yyerror("\nL'analyse syntaxique a echoue\n");
+        return 0;
+        }
+        
         int i;
         for(i=1; i<argc; i++)
 	{
 		FILE *fp = fopen(argv[i], "r");
 		if(fp) {
 			yyin = fp;
+                        yyrestart(yyin);
                         nomDestination = nomFichierDestination(argv[i]);
                         printf("Generation du fichier : %s\n", nomDestination);
                         yyout = fopen(nomDestination, "w");

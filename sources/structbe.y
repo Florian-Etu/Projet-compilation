@@ -4,6 +4,7 @@
 void yyerror(char *s);
 extern int yylex();
 extern int yylineno;
+extern FILE *yyin;
 %}
 
 %token IDENTIFIER CONSTANT 
@@ -166,12 +167,34 @@ function_definition
         ;
 
 %%
-int main(void)
+int main(int argc, char* argv[])
 {
-   if(!yyparse())
+        int i;
+        if(argc<=1) {
+                if(!yyparse())
 		printf("\nAnalyse syntaxique reussite\n");
 	else
-		printf("\nL'analyse syntaxique a echoue\n");
+		yyerror("\nL'analyse syntaxique a echoue\n");
+        return 0;
+        }
+        for(i=1; i<argc; i++)
+	{
+		FILE *fp = fopen(argv[i], "r");
+		if(fp) {
+                        printf("\n\nAnalyse du fichier %s\n", argv[i]);
+			yyin = fp;
+                        yyrestart(yyin);
+                }
+                else {
+                        printf("Le fichier %s est introuvable (arret du compilateur)\n", argv[i]);
+                        exit(1);
+                }
+        if(!yyparse())
+		printf("Analyse syntaxique reussite\n\n");
+	else
+		yyerror("L'analyse syntaxique a echoue\n\n");
+        fclose(yyin);
+        }
     return 0;
 }
 
