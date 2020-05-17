@@ -21,8 +21,8 @@ extern void yyerror(char *s);
 "return"                return RETURN;
 "void"                  return VOID;
 
-[-]?{D}*                return CONSTANT;
-[-]?{L}({L}|{D})*           return IDENTIFIER;
+{D}*                return CONSTANT;
+{L}({L}|{D})*       return IDENTIFIER;
 
 [+-/&;\{\}\[\]\(\)\<\>,.:!~%^|?\*=] return *yytext;
 
