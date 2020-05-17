@@ -1683,7 +1683,7 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 98 "structfe.y"
-    {if(strcmp((yyvsp[(1) - (2)].symbolValue)->name, "MINUS")==0) {(yyval.symbolValue)->name=concat("-", (yyvsp[(2) - (2)].symbolValue)->name);}}
+    {if(strcmp((yyvsp[(1) - (2)].symbolValue)->name, "MINUS")==0) {(yyval.symbolValue)->name=createTemp(); declaration((yyval.symbolValue)->name); fprintf(yyout,"%s = -%s;\n", (yyval.symbolValue)->name, (yyvsp[(2) - (2)].symbolValue)->name);}}
     break;
 
   case 16:
@@ -2284,26 +2284,27 @@ yyreturn:
 
 int main(int argc, char* argv[])
 {
-        if(argc > 1)
+        int i;
+        for(i=1; i<argc; i++)
 	{
-		FILE *fp = fopen(argv[1], "r");
+		FILE *fp = fopen(argv[i], "r");
 		if(fp) {
 			yyin = fp;
-                        nomDestination = nomFichierDestination(argv[1]);
+                        nomDestination = nomFichierDestination(argv[i]);
                         printf("Generation du fichier : %s\n", nomDestination);
                         yyout = fopen(nomDestination, "w");
                 }
                 else {
-                        printf("Le fichier %s est introuvable (arret du compilateur)\n", argv[1]);
+                        printf("Le fichier %s est introuvable (arret du compilateur)\n", argv[i]);
                         exit(1);
                 }
-	}
         if(!yyparse())
 		printf("\nAnalyse syntaxique reussite\n");
 	else
 		yyerror("\nL'analyse syntaxique a echoue\n");
         fclose(yyin);
         fclose(yyout);
+        }
     return 0;
 }
 

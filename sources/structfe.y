@@ -95,7 +95,7 @@ argument_expression_list
 
 unary_expression
         : postfix_expression
-        | unary_operator unary_expression {if(strcmp($1->name, "MINUS")==0) {$$->name=concat("-", $2->name);}}
+        | unary_operator unary_expression {if(strcmp($1->name, "MINUS")==0) {$$->name=createTemp(); declaration($$->name); fprintf(yyout,"%s = -%s;\n", $$->name, $2->name);}}
 	| INC_OP unary_expression {fprintf(yyout,"%s = %s + 1 ;\n", $2->name, $2->name); fprintf(yyout,"%s = %s ;\n", $$->name, $2->name);}
 	| DEC_OP unary_expression {fprintf(yyout,"%s = %s - 1 ;\n", $2->name, $2->name); fprintf(yyout,"%s = %s ;\n", $$->name, $2->name);}
         | SIZEOF unary_expression {printf("TYPE %d TYPE",$2->type);}
