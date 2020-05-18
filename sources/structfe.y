@@ -95,7 +95,7 @@ postfix_expression
 						char* temp = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
 						temp = $1->name;
 						$$->name=createTemp();
-						fprintf(yyout,"void * %s;\n" ,$$->name);
+						fprintf(yyout,"void* %s;\n" ,$$->name);
 						fprintf(yyout,"%s = %s + %d;\n",$$->name, temp, val);
 						}
 
