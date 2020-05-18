@@ -21,6 +21,7 @@ int blocO[MAXBLOCIMBRIQUE]; //Numéro de lignes des blocs ouvrants imbriqués
 int nblocO = -1; //Nombre de blocs ouvrants imbriqués
 int inFor = 0; //Savoir si on est en train de déclarer une boucle for
 int inStruct=0; //Savoir si on est en train de déclarer une struct
+int crochetStruct=0; //Retient si l'on doit mettre un crochet pour le struct
 int inSizeOf=0; //Savoir si on est en train de déclarer un sizeOf
 int compteurFor = 1; //Compteur for pour avoir un id unique à chaque goto d'un for
 %}
@@ -37,7 +38,7 @@ int compteurFor = 1; //Compteur for pour avoir un id unique à chaque goto d'un 
 "int"                  return INT;
 "return"               return RETURN;
 "sizeof"               {inSizeOf=1; return SIZEOF;}
-"struct"               return STRUCT;
+"struct"               {crochetStruct=1; return STRUCT;}
 "void"                 return VOID;
 "while"                return WHILE;
 
@@ -47,7 +48,7 @@ int compteurFor = 1; //Compteur for pour avoir un id unique à chaque goto d'un 
 "="     return EQ;
 
 [;\[\]\(\)\<\>,.:!~%^|?&] return *yytext;
-"{"     {if (!inStruct) {fprintf(yyout, "{\n");} majLigneBloc(0); return *yytext;}
+"{"     {if (!inStruct && !crochetStruct) {fprintf(yyout, "{\n");} majLigneBloc(0); return *yytext;}
 "}"     {if (!inStruct) {fprintf(yyout, "}\n");} majLigneBloc(1); return *yytext;}
 "*"			{yylval.symbolValue = addTS("STAR"); return STAR;}
 "-"			{yylval.symbolValue = addTS("MINUS"); return MINUS;}

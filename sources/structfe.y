@@ -30,6 +30,7 @@ extern int nblocO; //Nombre de blocs ouvrants imbriqués
 extern int inFor;
 extern int compteurFor;
 extern int inStruct;
+extern int crochetStruct;
 extern int inSizeOf;
 
 extern int yylex();
@@ -259,9 +260,9 @@ type_specifier
         ;
 
 struct_specifier
-        : STRUCT IDENTIFIER '{'ACT4 struct_declaration_list '}' {inStruct=0;offset=0;}
-        | STRUCT '{' struct_declaration_list '}'
-        | STRUCT IDENTIFIER {if (!inStruct) {fprintf(yyout,"void ");}}
+        : STRUCT IDENTIFIER ACT4 '{' struct_declaration_list '}' {crochetStruct=0; inStruct=0;offset=0;}
+        | STRUCT '{' struct_declaration_list '}' {crochetStruct=0;}
+        | STRUCT IDENTIFIER {if (!inStruct) {fprintf(yyout,"void ");}} {crochetStruct=0;}
         ;
 
 struct_declaration_list
