@@ -15,6 +15,7 @@ char* concat(const char *s1, const char *s2);
 int isnumber(char *s);
 void declaration(char* nomVariable);
 void declarationPointeur(char* nomPointeur);
+void declarationVoid(char* nomPointeur);
 int sizeoflowcost(int type);
 
 char* conditionFor;
@@ -96,7 +97,7 @@ postfix_expression
 						char* temp = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
 						temp = $1->name;
 						$$->name=createTemp();
-						fprintf(yyout,"void* %s;\n" ,$$->name);
+                                                declarationVoid($$->name);
 						fprintf(yyout,"%s = %s + %d;\n",$$->name, temp, val);
 						}
 
@@ -574,6 +575,11 @@ void declarationPointeur(char* nomPointeur) {
         inserttext(blocO[nblocO], temp); 
 }
 
+void declarationVoid(char* nomPointeur) {
+        char* temp = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
+        sprintf(temp, "\nvoid* %s;", nomPointeur); 
+        inserttext(blocO[nblocO], temp); 
+}
 
 int sizeoflowcost(int type) {
         if(type == 0)
