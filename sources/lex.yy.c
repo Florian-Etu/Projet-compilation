@@ -791,12 +791,12 @@ return *yytext;
 case 17:
 YY_RULE_SETUP
 #line 50 "structfe.l"
-{fprintf(yyout, "{\n"); majLigneBloc(0); return *yytext;}
+{if (!inStruct) {fprintf(yyout, "{\n");} majLigneBloc(0); return *yytext;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
 #line 51 "structfe.l"
-{fprintf(yyout, "}\n"); majLigneBloc(1); return *yytext;}
+{if (!inStruct) {fprintf(yyout, "}\n");} majLigneBloc(1); return *yytext;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP

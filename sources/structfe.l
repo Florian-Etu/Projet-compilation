@@ -47,8 +47,8 @@ int compteurFor = 1; //Compteur for pour avoir un id unique à chaque goto d'un 
 "="     return EQ;
 
 [;\[\]\(\)\<\>,.:!~%^|?&] return *yytext;
-"{"     {fprintf(yyout, "{\n"); majLigneBloc(0); return *yytext;}
-"}"     {fprintf(yyout, "}\n"); majLigneBloc(1); return *yytext;}
+"{"     {if (!inStruct) {fprintf(yyout, "{\n");} majLigneBloc(0); return *yytext;}
+"}"     {if (!inStruct) {fprintf(yyout, "}\n");} majLigneBloc(1); return *yytext;}
 "*"			{yylval.symbolValue = addTS("STAR"); return STAR;}
 "-"			{yylval.symbolValue = addTS("MINUS"); return MINUS;}
 "/"			return SLASH; 

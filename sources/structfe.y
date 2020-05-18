@@ -15,7 +15,7 @@ char* concat(const char *s1, const char *s2);
 int isnumber(char *s);
 void declaration(char* nomVariable);
 void declarationPointeur(char* nomPointeur);
-int sizeoflowcost(int type, char* name);
+int sizeoflowcost(int type);
 
 char* conditionFor;
 char *actstructdef;
@@ -43,7 +43,7 @@ extern size_t strlen( const char * theString );
 extern int strcmp(const char *s1, const char *s2);
 
 
-int sizeofstruct=0;
+int offset=0;
 %}
 %union {
         char *nom;
@@ -68,7 +68,7 @@ int sizeofstruct=0;
 %left PLUS MINUS
 %left STAR SLASH
 
-%type <symbolValue> multiplicative_expression additive_expression relational_expression direct_declarator declarator shift_expression equality_expression logical_and_expression logical_or_expression unary_expression postfix_expression primary_expression expression type_specifier struct_specifier unary_operator expression_statement
+%type <symbolValue> multiplicative_expression additive_expression relational_expression direct_declarator declarator shift_expression equality_expression logical_and_expression logical_or_expression unary_expression postfix_expression primary_expression expression type_specifier struct_specifier unary_operator expression_statement declaration_specifiers
 %type <nom> argument_expression_list
 
 %start program
@@ -85,7 +85,19 @@ postfix_expression
         | postfix_expression '(' ')'
         | postfix_expression '(' argument_expression_list ')' {if(!inSizeOf){fprintf(yyout, "%s(%s);\n", $1->name, $3);} inSizeOf=0;}
         | postfix_expression '.' IDENTIFIER
-        | postfix_expression PTR_OP IDENTIFIER
+
+        | postfix_expression PTR_OP IDENTIFIER {char* namestruct = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
+						sprintf(namestruct,"struct_%s_%s_offset",actstructdef,$3->name);
+						printf("%s",namestruct);
+						tablesymboles *s = findTS(namestruct);
+						int val = s->val;
+						char* temp = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
+						temp = $1->name;
+						$$->name=createTemp();
+						fprintf(yyout,"void * %s;\n" ,$$->name, temp, val);
+						fprintf(yyout,"%s = %s + %d;\n",$$->name, temp, val);
+						}
+
 	| postfix_expression INC_OP {fprintf(yyout,"%s = %s + 1 ;\n", $1->name, $1->name);}
 	| postfix_expression DEC_OP {fprintf(yyout,"%s = %s - 1 ;\n", $1->name, $1->name);}
         ;
@@ -230,29 +242,25 @@ expression
         ;
 
 declaration
-        : declaration_specifiers declarator ';' {fprintf(yyout, ";\n");}
+        : declaration_specifiers declarator ';' {$2->type=$1->type; fprintf(yyout, ";\n");}
         | struct_specifier ';'
         ;
 
 declaration_specifiers
-        : EXTERN type_specifier
-        | type_specifier
+        : EXTERN type_specifier {$$=$2;}
+        | type_specifier {$$=$1; printf("Type entree : %d Type Sortie : %d\n",$1->type,$$->type);}
         ;
 
 type_specifier
-        : VOID {$1 = VOID_TYPE; if (!inStruct) {fprintf(yyout,"void ");}}
-        | INT {$1 = INT_TYPE; if (!inStruct && !inSizeOf) {fprintf(yyout,"int "); }}
-        | struct_specifier {if (!inStruct) {$1->type = STRUCT_TYPE;}}
+        : VOID {$$ = findTS("void"); if (!inStruct) {fprintf(yyout,"void ");}}
+        | INT {$$ = findTS("int"); if (!inStruct && !inSizeOf) {fprintf(yyout,"int "); }}
+        | struct_specifier {if (!inStruct) {$$ = findTS("struct") ; $1->type = STRUCT_TYPE;}}
         ;
 
 struct_specifier
-        : STRUCT IDENTIFIER '{'ACT4 struct_declaration_list '}' {char* t = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
-								 sprintf(t,"structsize_%s",$2->name);
-								 tablesymboles *s = addTS(t);
-								 s->val=sizeofstruct;
-								inStruct=0;}
+        : STRUCT IDENTIFIER '{'ACT4 struct_declaration_list '}' {inStruct=0;offset=0;}
         | STRUCT '{' struct_declaration_list '}'
-        | STRUCT IDENTIFIER {if (!inStruct) {fprintf(yyout,"void *");}}
+        | STRUCT IDENTIFIER {if (!inStruct) {fprintf(yyout,"void ");}}
         ;
 
 struct_declaration_list
@@ -264,14 +272,20 @@ struct_declaration
         : type_specifier declarator ';' {char* t = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
 					printf("struct_%s_%s de type %d\n",actstructdef,$2->name,$1->type);
 					sprintf(t,"struct_%s_%s",actstructdef,$2->name);
-					tablesymboles *s = addTS(t);
-					s->type = $1->type;
-					if($1->type != 3){sizeofstruct+=sizeoflowcost($1->type,$1->name);}
+					tablesymboles *s1 = addTS(t);
+					s1->type = $1->type;	
+					char* offsetvar = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
+					sprintf(offsetvar,"struct_%s_%s_offset",actstructdef,$2->name);
+					printf("%s\n",offsetvar);
+					tablesymboles *s2 = addTS(offsetvar);
+					s2->val=offset;
+					if($1->type != 3){offset+=sizeoflowcost($1->type);}
+					else{(offset+=offset);}
 					}
         ;
 
 declarator
-        : STAR ACT5 direct_declarator
+        : STAR ACT5 direct_declarator {$$=$3;}
         | direct_declarator
         ;
 
@@ -359,10 +373,16 @@ ACT3    : {inFor=0;}
 ACT4    : {inStruct=1;
 	   actstructdef = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
 	   sprintf(actstructdef,"%s",$<symbolValue>-1->name);}
-ACT5	: {fprintf(yyout, "*");}
+ACT5	: {if (!inStruct) {fprintf(yyout, "*");}}
 %%
 int main(int argc, char* argv[])
 {
+	tablesymboles *s1 = addTS("int");
+	s1->type=INT_TYPE;
+	tablesymboles *s2 = addTS("void");
+	s2->type=VOID_TYPE;
+	tablesymboles *s3 = addTS("struct");
+	s3->type=STRUCT_TYPE;
         int i;
         if(argc<=1) {
         printf("\n!!!! ATTTENTION : pour generer un fichier traduit le compilateur doit prendre le nom du fichier en argument de la ligne de commande (pas de \"<\" devant le nom du fichier en entree par exemple, se referer au README pour plus d'informations\n\n");
@@ -551,7 +571,8 @@ void declarationPointeur(char* nomPointeur) {
         inserttext(blocO[nblocO], temp); 
 }
 
-int sizeoflowcost(int type, char* name) {
+
+int sizeoflowcost(int type) {
         if(type == 0)
 	{return sizeof(int);}
 	else if (type == 1 )
