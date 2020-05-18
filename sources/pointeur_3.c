@@ -11,6 +11,8 @@ int* t2;
 int* t1; 
 int *i;
 int *j;
+i = malloc(4);
+j = malloc(4);
 t1 = *i;
 t1 = 4;
 t2 = *i;

@@ -462,8 +462,9 @@ int blocO[MAXBLOCIMBRIQUE]; //Numéro de lignes des blocs ouvrants imbriqués
 int nblocO = -1; //Nombre de blocs ouvrants imbriqués
 int inFor = 0; //Savoir si on est en train de déclarer une boucle for
 int inStruct=0; //Savoir si on est en train de déclarer une struct
+int inSizeOf=0; //Savoir si on est en train de déclarer un sizeOf
 int compteurFor = 1; //Compteur for pour avoir un id unique à chaque goto d'un for
-#line 467 "lex.yy.c"
+#line 468 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -614,9 +615,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 29 "structfe.l"
+#line 30 "structfe.l"
 
-#line 620 "lex.yy.c"
+#line 621 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -709,185 +710,185 @@ do_action:	/* This label is used only to access EOF actions. */
 	{ /* beginning of action switch */
 case 1:
 YY_RULE_SETUP
-#line 30 "structfe.l"
+#line 31 "structfe.l"
 {printf("Detection d'un commentaire (ignore pour l'analyse syntaxique) ligne %d\n", yylineno); fprintf(yyout, "%s\n", yytext);}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 31 "structfe.l"
+#line 32 "structfe.l"
 {yyerror("Commentaire non ferme");}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 32 "structfe.l"
+#line 33 "structfe.l"
 {fprintf(yyout, "Lelse%d:\n{\n", compteurGoto-1); majLigneBloc(0); return ELSE;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 33 "structfe.l"
+#line 34 "structfe.l"
 {fprintf(yyout, "extern "); return EXTERN;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 34 "structfe.l"
+#line 35 "structfe.l"
 return FOR;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 35 "structfe.l"
+#line 36 "structfe.l"
 return IF;
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 36 "structfe.l"
+#line 37 "structfe.l"
 return INT;
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 37 "structfe.l"
+#line 38 "structfe.l"
 return RETURN;
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 38 "structfe.l"
-return SIZEOF;
+#line 39 "structfe.l"
+{inSizeOf=1; return SIZEOF;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 39 "structfe.l"
+#line 40 "structfe.l"
 return STRUCT;
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 40 "structfe.l"
+#line 41 "structfe.l"
 return VOID;
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 41 "structfe.l"
+#line 42 "structfe.l"
 return WHILE;
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 43 "structfe.l"
+#line 44 "structfe.l"
 {yylval.symbolValue = addDTS(yytext); return CONSTANT;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 44 "structfe.l"
+#line 45 "structfe.l"
 {yylval.symbolValue = addTS(yytext);  return IDENTIFIER;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 46 "structfe.l"
+#line 47 "structfe.l"
 return EQ;
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 48 "structfe.l"
+#line 49 "structfe.l"
 return *yytext;
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 49 "structfe.l"
+#line 50 "structfe.l"
 {fprintf(yyout, "{\n"); majLigneBloc(0); return *yytext;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 50 "structfe.l"
+#line 51 "structfe.l"
 {fprintf(yyout, "}\n"); majLigneBloc(1); return *yytext;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 51 "structfe.l"
+#line 52 "structfe.l"
 {yylval.symbolValue = addTS("STAR"); return STAR;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 52 "structfe.l"
+#line 53 "structfe.l"
 {yylval.symbolValue = addTS("MINUS"); return MINUS;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 53 "structfe.l"
+#line 54 "structfe.l"
 return SLASH; 
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 54 "structfe.l"
+#line 55 "structfe.l"
 return PLUS;
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 56 "structfe.l"
+#line 57 "structfe.l"
 ;
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 58 "structfe.l"
+#line 59 "structfe.l"
 return PTR_OP;
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 59 "structfe.l"
+#line 60 "structfe.l"
 return AND_OP;
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 60 "structfe.l"
+#line 61 "structfe.l"
 return OR_OP;
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 61 "structfe.l"
+#line 62 "structfe.l"
 return LE_OP;
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 62 "structfe.l"
+#line 63 "structfe.l"
 return GE_OP;
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 63 "structfe.l"
+#line 64 "structfe.l"
 return EQ_OP;
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 64 "structfe.l"
+#line 65 "structfe.l"
 return NE_OP;
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 66 "structfe.l"
+#line 67 "structfe.l"
 return SHIFTRIGHT_OP;
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 67 "structfe.l"
+#line 68 "structfe.l"
 return SHIFTLEFT_OP;
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 68 "structfe.l"
+#line 69 "structfe.l"
 return INC_OP;
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 69 "structfe.l"
+#line 70 "structfe.l"
 return DEC_OP;
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 71 "structfe.l"
+#line 72 "structfe.l"
 yyerror("Detection d'un caractere invalide");
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 74 "structfe.l"
+#line 75 "structfe.l"
 ECHO;
 	YY_BREAK
-#line 891 "lex.yy.c"
+#line 892 "lex.yy.c"
 			case YY_STATE_EOF(INITIAL):
 				yyterminate();
 
@@ -1771,7 +1772,7 @@ int main()
 	return 0;
 	}
 #endif
-#line 74 "structfe.l"
+#line 75 "structfe.l"
 
 
 int yywrap(void)

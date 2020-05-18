@@ -30,6 +30,7 @@ extern int nblocO; //Nombre de blocs ouvrants imbriqués
 extern int inFor;
 extern int compteurFor;
 extern int inStruct;
+extern int inSizeOf;
 
 extern int yylex();
 extern int majLigneBloc(int typeBloc);
@@ -82,7 +83,7 @@ primary_expression
 postfix_expression
         : primary_expression 
         | postfix_expression '(' ')'
-        | postfix_expression '(' argument_expression_list ')' {fprintf(yyout, "%s(%s);\n", $1->name, $3);}
+        | postfix_expression '(' argument_expression_list ')' {if(!inSizeOf){fprintf(yyout, "%s(%s);\n", $1->name, $3);} inSizeOf=0;}
         | postfix_expression '.' IDENTIFIER
         | postfix_expression PTR_OP IDENTIFIER
 	| postfix_expression INC_OP {fprintf(yyout,"%s = %s + 1 ;\n", $1->name, $1->name);}
@@ -100,8 +101,8 @@ unary_expression
                                             else if(strcmp($1->name, "STAR")==0) {$$->name=createTemp(); declarationPointeur($$->name); fprintf(yyout,"%s = *%s;\n", $$->name, $2->name);}}
 	| INC_OP unary_expression {fprintf(yyout,"%s = %s + 1 ;\n", $2->name, $2->name); fprintf(yyout,"%s = %s ;\n", $$->name, $2->name);}
 	| DEC_OP unary_expression {fprintf(yyout,"%s = %s - 1 ;\n", $2->name, $2->name); fprintf(yyout,"%s = %s ;\n", $$->name, $2->name);}
-        | SIZEOF unary_expression {printf("TYPE %d TYPE",$2->type);}
-	| SIZEOF '(' type_specifier ')'{printf("TYPE %d TYPE",$3->type);}
+        | SIZEOF unary_expression {sprintf($2->name, "malloc(%d)", sizeof(int));}
+	| SIZEOF '(' type_specifier ')'{sprintf($3->name, "malloc(%d)", sizeof(int));}
         ;
 
 unary_operator
@@ -240,7 +241,7 @@ declaration_specifiers
 
 type_specifier
         : VOID {$1 = VOID_TYPE; if (!inStruct) {fprintf(yyout,"void ");}}
-        | INT {$1 = INT_TYPE; if (!inStruct) {fprintf(yyout,"int "); }}
+        | INT {$1 = INT_TYPE; if (!inStruct && !inSizeOf) {fprintf(yyout,"int "); }}
         | struct_specifier {if (!inStruct) {$1->type = STRUCT_TYPE;}}
         ;
 
@@ -275,7 +276,7 @@ declarator
         ;
 
 direct_declarator
-        : IDENTIFIER {$$->type=ID_TYPE; if (!inStruct) {fprintf(yyout,"%s", $$->name);}}
+        : IDENTIFIER {$$->type=ID_TYPE; if(!inStruct && !inSizeOf){fprintf(yyout,"%s", $$->name);}}
         | '(' declarator ')' {$$=$2;}
         | direct_declarator '(' ACT1 parameter_list ')' {fprintf(yyout, ")");}
         | direct_declarator '(' ACT1 ')' {fprintf(yyout, ")");}
