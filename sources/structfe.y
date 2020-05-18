@@ -114,7 +114,7 @@ unary_expression
                                             else if(strcmp($1->name, "STAR")==0) {$$->name=createTemp(); declarationPointeur($$->name); fprintf(yyout,"%s = *%s;\n", $$->name, $2->name);}}
 	| INC_OP unary_expression {fprintf(yyout,"%s = %s + 1 ;\n", $2->name, $2->name); fprintf(yyout,"%s = %s ;\n", $$->name, $2->name);}
 	| DEC_OP unary_expression {fprintf(yyout,"%s = %s - 1 ;\n", $2->name, $2->name); fprintf(yyout,"%s = %s ;\n", $$->name, $2->name);}
-        | SIZEOF unary_expression {sprintf($2->name, "malloc(%lu)", sizeof(int));}
+        | SIZEOF unary_expression {sprintf($$->name, "malloc(%lu)", sizeof(int));}
 	| SIZEOF '(' type_specifier ')'{sprintf($3->name, "malloc(%lu)", sizeof(int));}
         ;
 
