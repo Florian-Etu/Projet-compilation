@@ -179,6 +179,7 @@ int main(int argc, char* argv[])
         }
         for(i=1; i<argc; i++)
 	{
+                yylineno=1;
 		FILE *fp = fopen(argv[i], "r");
 		if(fp) {
                         printf("\n\nAnalyse du fichier %s\n", argv[i]);
