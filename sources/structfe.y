@@ -253,8 +253,8 @@ declaration_specifiers
         ;
 
 type_specifier
-        : VOID {$$ = findTS("void"); if (!inStruct) {fprintf(yyout,"void ");}}
-        | INT {$$ = findTS("int"); if (!inStruct && !inSizeOf) {fprintf(yyout,"int "); }}
+        : VOID {if(!inSizeOf){$$ = findTS("void");} if (!inStruct) {fprintf(yyout,"void ");}}
+        | INT {if(!inSizeOf){$$ = findTS("int");} if (!inStruct && !inSizeOf) {fprintf(yyout,"int "); }}
         | struct_specifier {if (!inStruct) {$$ = findTS("struct") ; $1->type = STRUCT_TYPE;}}
         ;
 
