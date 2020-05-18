@@ -14,6 +14,7 @@ char *substring(char *string, int position, int length);
 char* concat(const char *s1, const char *s2);
 int isnumber(char *s);
 void declaration(char* nomVariable);
+void declarationPointeur(char* nomPointeur);
 int sizeoflowcost(int type, char* name);
 
 char* conditionFor;
@@ -95,7 +96,8 @@ argument_expression_list
 
 unary_expression
         : postfix_expression
-        | unary_operator unary_expression {if(strcmp($1->name, "MINUS")==0) {$$->name=createTemp(); declaration($$->name); fprintf(yyout,"%s = -%s;\n", $$->name, $2->name);}}
+        | unary_operator unary_expression {if(strcmp($1->name, "MINUS")==0) {$$->name=createTemp(); declaration($$->name); fprintf(yyout,"%s = -%s;\n", $$->name, $2->name);}
+                                            else if(strcmp($1->name, "STAR")==0) {$$->name=createTemp(); declarationPointeur($$->name); fprintf(yyout,"%s = *%s;\n", $$->name, $2->name);}}
 	| INC_OP unary_expression {fprintf(yyout,"%s = %s + 1 ;\n", $2->name, $2->name); fprintf(yyout,"%s = %s ;\n", $$->name, $2->name);}
 	| DEC_OP unary_expression {fprintf(yyout,"%s = %s - 1 ;\n", $2->name, $2->name); fprintf(yyout,"%s = %s ;\n", $$->name, $2->name);}
         | SIZEOF unary_expression {printf("TYPE %d TYPE",$2->type);}
@@ -268,8 +270,8 @@ struct_declaration
         ;
 
 declarator
-        : STAR direct_declarator {$$=$2;}
-        | direct_declarator {$$=$1;}
+        : STAR ACT5 direct_declarator
+        | direct_declarator
         ;
 
 direct_declarator
@@ -356,6 +358,7 @@ ACT3    : {inFor=0;}
 ACT4    : {inStruct=1;
 	   actstructdef = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
 	   sprintf(actstructdef,"%s",$<symbolValue>-1->name);}
+ACT5	: {fprintf(yyout, "*");}
 %%
 int main(int argc, char* argv[])
 {
@@ -538,6 +541,12 @@ void inserttext(int ligne, char* texte)
 void declaration(char* nomVariable) {
         char* temp = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
         sprintf(temp, "\nint %s;", nomVariable); 
+        inserttext(blocO[nblocO], temp); 
+}
+
+void declarationPointeur(char* nomPointeur) {
+        char* temp = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
+        sprintf(temp, "\nint* %s;", nomPointeur); 
         inserttext(blocO[nblocO], temp); 
 }
 

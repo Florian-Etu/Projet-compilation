@@ -800,7 +800,7 @@ YY_RULE_SETUP
 case 19:
 YY_RULE_SETUP
 #line 51 "structfe.l"
-return STAR;
+{yylval.symbolValue = addTS("STAR"); return STAR;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP

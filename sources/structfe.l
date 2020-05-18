@@ -48,7 +48,7 @@ int compteurFor = 1; //Compteur for pour avoir un id unique à chaque goto d'un 
 [;\[\]\(\)\<\>,.:!~%^|?&] return *yytext;
 "{"     {fprintf(yyout, "{\n"); majLigneBloc(0); return *yytext;}
 "}"     {fprintf(yyout, "}\n"); majLigneBloc(1); return *yytext;}
-"*"			return STAR;
+"*"			{yylval.symbolValue = addTS("STAR"); return STAR;}
 "-"			{yylval.symbolValue = addTS("MINUS"); return MINUS;}
 "/"			return SLASH; 
 "+"			return PLUS;
