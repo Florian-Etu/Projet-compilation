@@ -30,7 +30,7 @@ int compteurFor = 1; //Compteur for pour avoir un id unique à chaque goto d'un 
 %%
 [/][*][^*]*[*]+([^*/][^*]*[*]+)*[/] {printf("Detection d'un commentaire (ignore pour l'analyse syntaxique) ligne %d\n", yylineno); fprintf(yyout, "%s\n", yytext);}
 [/][*]    {yyerror("Commentaire non ferme");}
-"else"                 {fprintf(yyout, "Lelse%d:\n{\n", compteurGoto-1); majLigneBloc(0); return ELSE;}
+"else"                 {fprintf(yyout, "Lelse%d:\n", compteurGoto-1); return ELSE;}
 "extern"               {fprintf(yyout, "extern "); return EXTERN;}
 "for"                  return FOR;
 "if"                   return IF;

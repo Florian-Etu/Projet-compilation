@@ -721,7 +721,7 @@ YY_RULE_SETUP
 case 3:
 YY_RULE_SETUP
 #line 33 "structfe.l"
-{fprintf(yyout, "Lelse%d:\n{\n", compteurGoto-1); majLigneBloc(0); return ELSE;}
+{fprintf(yyout, "Lelse%d:\n", compteurGoto-1); return ELSE;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP

@@ -173,24 +173,24 @@ relational_expression
                         sprintf(conditionFor, "Ltest%d:\nif (%s<%s) goto Lfor%d;\n", compteurFor, $1->name,  $3->name, compteurFor);
                 }
                 else {
-                        printf("%s < %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); fprintf(yyout, "if (%s>=%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++; majLigneBloc(0); }}
+                        printf("%s < %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); fprintf(yyout, "\nif (%s>=%s) goto Lelse%d;\n", $1->name, $3->name, compteurGoto); compteurGoto++;}}
         | relational_expression '>' shift_expression {
                 if(inFor) {
                         sprintf(conditionFor, "Ltest%d:\nif (%s>%s) goto Lfor%d;\n", compteurFor, $1->name,  $3->name, compteurFor);
                 }
                 else {
-                printf("%s > %s (ligne %d) ;\n", $1->name,  $3->name, yylineno) ; fprintf(yyout, "if (%s<=%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++; majLigneBloc(0);}}
+                printf("%s > %s (ligne %d) ;\n", $1->name,  $3->name, yylineno) ; fprintf(yyout, "\nif (%s<=%s) goto Lelse%d;\n", $1->name, $3->name, compteurGoto); compteurGoto++;}}
         | relational_expression LE_OP shift_expression {
                 if(inFor) {
                         sprintf(conditionFor, "Ltest%d:\nif (%s<=%s) goto Lfor%d;\n", compteurFor, $1->name,  $3->name, compteurFor);
                 }
                 else {
-                printf("%s <= %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); fprintf(yyout, "if (%s>%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++; majLigneBloc(0);}}
+                printf("%s <= %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); fprintf(yyout, "\nif (%s>%s) goto Lelse%d;\n", $1->name, $3->name, compteurGoto); compteurGoto++;}}
         | relational_expression GE_OP shift_expression {
                 if(inFor) {
                         sprintf(conditionFor, "Ltest%d:\nif (%s>=%s) goto Lfor%d;\n", compteurFor, $1->name,  $3->name, compteurFor);
                 }
-                else {printf("%s >= %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); fprintf(yyout, "if (%s<%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++; majLigneBloc(0);}}
+                else {printf("%s >= %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); fprintf(yyout, "\nif (%s<%s) goto Lelse%d;\n", $1->name, $3->name, compteurGoto); compteurGoto++;}}
         ;
 
 equality_expression
@@ -199,13 +199,13 @@ equality_expression
                         sprintf(conditionFor, "Ltest%d:\nif (%s==%s) goto Lfor%d;\n", compteurFor, $1->name,  $3->name, compteurFor);
                 }
                 else {
-                printf("%s == %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); fprintf(yyout, "if (%s!=%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++; majLigneBloc(0);}}
+                printf("%s == %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); fprintf(yyout, "\nif (%s!=%s) goto Lelse%d;\n", $1->name, $3->name, compteurGoto); compteurGoto++;}}
         | equality_expression NE_OP relational_expression {
                 if(inFor) {
                         sprintf(conditionFor, "Ltest%d:\nif (%s!=%s) goto Lfor%d;\n", compteurFor, $1->name,  $3->name, compteurFor);
                 }
                 else {
-                printf("%s != %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); printf("Type 1 : %d Type 2 : %d (0 = INT, 1 = VOID, 2 = ID)\n", $1->type, $3->type); fprintf(yyout, "if (%s==%s) goto Lelse%d;\n{\n", $1->name, $3->name, compteurGoto); compteurGoto++; majLigneBloc(0);}}
+                printf("%s != %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); printf("Type 1 : %d Type 2 : %d (0 = INT, 1 = VOID, 2 = ID)\n", $1->type, $3->type); fprintf(yyout, "\nif (%s==%s) goto Lelse%d;\n", $1->name, $3->name, compteurGoto); compteurGoto++;}}
         ;
 
 logical_and_expression 
@@ -322,11 +322,11 @@ expression_statement
         | expression ';'
         ;
 if_statement
-        : IF '(' expression ')' statement {fprintf(yyout, "}\n\n"); majLigneBloc(1);}
+        : IF '(' expression ')' statement {fprintf(yyout, "\n");}
         ;
 
 else_statement
-		: ELSE statement {fprintf(yyout, "}\n\n"); majLigneBloc(1);}
+		: ELSE statement {fprintf(yyout, "\n");}
 		;
 
 iteration_statement

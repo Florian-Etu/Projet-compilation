@@ -1801,7 +1801,7 @@ yyreduce:
                         sprintf(conditionFor, "Ltest%d:\nif (%s<%s) goto Lfor%d;\n", compteurFor, (yyvsp[(1) - (3)].symbolValue)->name,  (yyvsp[(3) - (3)].symbolValue)->name, compteurFor);
                 }
                 else {
-                        printf("%s < %s (ligne %d) ;\n", (yyvsp[(1) - (3)].symbolValue)->name,  (yyvsp[(3) - (3)].symbolValue)->name, yylineno); fprintf(yyout, "if (%s>=%s) goto Lelse%d;\n{\n", (yyvsp[(1) - (3)].symbolValue)->name, (yyvsp[(3) - (3)].symbolValue)->name, compteurGoto); compteurGoto++; majLigneBloc(0); }}
+                        printf("%s < %s (ligne %d) ;\n", (yyvsp[(1) - (3)].symbolValue)->name,  (yyvsp[(3) - (3)].symbolValue)->name, yylineno); fprintf(yyout, "\nif (%s>=%s) goto Lelse%d;\n", (yyvsp[(1) - (3)].symbolValue)->name, (yyvsp[(3) - (3)].symbolValue)->name, compteurGoto); compteurGoto++;}}
     break;
 
   case 34:
@@ -1813,7 +1813,7 @@ yyreduce:
                         sprintf(conditionFor, "Ltest%d:\nif (%s>%s) goto Lfor%d;\n", compteurFor, (yyvsp[(1) - (3)].symbolValue)->name,  (yyvsp[(3) - (3)].symbolValue)->name, compteurFor);
                 }
                 else {
-                printf("%s > %s (ligne %d) ;\n", (yyvsp[(1) - (3)].symbolValue)->name,  (yyvsp[(3) - (3)].symbolValue)->name, yylineno) ; fprintf(yyout, "if (%s<=%s) goto Lelse%d;\n{\n", (yyvsp[(1) - (3)].symbolValue)->name, (yyvsp[(3) - (3)].symbolValue)->name, compteurGoto); compteurGoto++; majLigneBloc(0);}}
+                printf("%s > %s (ligne %d) ;\n", (yyvsp[(1) - (3)].symbolValue)->name,  (yyvsp[(3) - (3)].symbolValue)->name, yylineno) ; fprintf(yyout, "\nif (%s<=%s) goto Lelse%d;\n", (yyvsp[(1) - (3)].symbolValue)->name, (yyvsp[(3) - (3)].symbolValue)->name, compteurGoto); compteurGoto++;}}
     break;
 
   case 35:
@@ -1825,7 +1825,7 @@ yyreduce:
                         sprintf(conditionFor, "Ltest%d:\nif (%s<=%s) goto Lfor%d;\n", compteurFor, (yyvsp[(1) - (3)].symbolValue)->name,  (yyvsp[(3) - (3)].symbolValue)->name, compteurFor);
                 }
                 else {
-                printf("%s <= %s (ligne %d) ;\n", (yyvsp[(1) - (3)].symbolValue)->name,  (yyvsp[(3) - (3)].symbolValue)->name, yylineno); fprintf(yyout, "if (%s>%s) goto Lelse%d;\n{\n", (yyvsp[(1) - (3)].symbolValue)->name, (yyvsp[(3) - (3)].symbolValue)->name, compteurGoto); compteurGoto++; majLigneBloc(0);}}
+                printf("%s <= %s (ligne %d) ;\n", (yyvsp[(1) - (3)].symbolValue)->name,  (yyvsp[(3) - (3)].symbolValue)->name, yylineno); fprintf(yyout, "\nif (%s>%s) goto Lelse%d;\n", (yyvsp[(1) - (3)].symbolValue)->name, (yyvsp[(3) - (3)].symbolValue)->name, compteurGoto); compteurGoto++;}}
     break;
 
   case 36:
@@ -1836,7 +1836,7 @@ yyreduce:
                 if(inFor) {
                         sprintf(conditionFor, "Ltest%d:\nif (%s>=%s) goto Lfor%d;\n", compteurFor, (yyvsp[(1) - (3)].symbolValue)->name,  (yyvsp[(3) - (3)].symbolValue)->name, compteurFor);
                 }
-                else {printf("%s >= %s (ligne %d) ;\n", (yyvsp[(1) - (3)].symbolValue)->name,  (yyvsp[(3) - (3)].symbolValue)->name, yylineno); fprintf(yyout, "if (%s<%s) goto Lelse%d;\n{\n", (yyvsp[(1) - (3)].symbolValue)->name, (yyvsp[(3) - (3)].symbolValue)->name, compteurGoto); compteurGoto++; majLigneBloc(0);}}
+                else {printf("%s >= %s (ligne %d) ;\n", (yyvsp[(1) - (3)].symbolValue)->name,  (yyvsp[(3) - (3)].symbolValue)->name, yylineno); fprintf(yyout, "\nif (%s<%s) goto Lelse%d;\n", (yyvsp[(1) - (3)].symbolValue)->name, (yyvsp[(3) - (3)].symbolValue)->name, compteurGoto); compteurGoto++;}}
     break;
 
   case 38:
@@ -1847,7 +1847,7 @@ yyreduce:
                         sprintf(conditionFor, "Ltest%d:\nif (%s==%s) goto Lfor%d;\n", compteurFor, (yyvsp[(1) - (3)].symbolValue)->name,  (yyvsp[(3) - (3)].symbolValue)->name, compteurFor);
                 }
                 else {
-                printf("%s == %s (ligne %d) ;\n", (yyvsp[(1) - (3)].symbolValue)->name,  (yyvsp[(3) - (3)].symbolValue)->name, yylineno); fprintf(yyout, "if (%s!=%s) goto Lelse%d;\n{\n", (yyvsp[(1) - (3)].symbolValue)->name, (yyvsp[(3) - (3)].symbolValue)->name, compteurGoto); compteurGoto++; majLigneBloc(0);}}
+                printf("%s == %s (ligne %d) ;\n", (yyvsp[(1) - (3)].symbolValue)->name,  (yyvsp[(3) - (3)].symbolValue)->name, yylineno); fprintf(yyout, "\nif (%s!=%s) goto Lelse%d;\n", (yyvsp[(1) - (3)].symbolValue)->name, (yyvsp[(3) - (3)].symbolValue)->name, compteurGoto); compteurGoto++;}}
     break;
 
   case 39:
@@ -1859,7 +1859,7 @@ yyreduce:
                         sprintf(conditionFor, "Ltest%d:\nif (%s!=%s) goto Lfor%d;\n", compteurFor, (yyvsp[(1) - (3)].symbolValue)->name,  (yyvsp[(3) - (3)].symbolValue)->name, compteurFor);
                 }
                 else {
-                printf("%s != %s (ligne %d) ;\n", (yyvsp[(1) - (3)].symbolValue)->name,  (yyvsp[(3) - (3)].symbolValue)->name, yylineno); printf("Type 1 : %d Type 2 : %d (0 = INT, 1 = VOID, 2 = ID)\n", (yyvsp[(1) - (3)].symbolValue)->type, (yyvsp[(3) - (3)].symbolValue)->type); fprintf(yyout, "if (%s==%s) goto Lelse%d;\n{\n", (yyvsp[(1) - (3)].symbolValue)->name, (yyvsp[(3) - (3)].symbolValue)->name, compteurGoto); compteurGoto++; majLigneBloc(0);}}
+                printf("%s != %s (ligne %d) ;\n", (yyvsp[(1) - (3)].symbolValue)->name,  (yyvsp[(3) - (3)].symbolValue)->name, yylineno); printf("Type 1 : %d Type 2 : %d (0 = INT, 1 = VOID, 2 = ID)\n", (yyvsp[(1) - (3)].symbolValue)->type, (yyvsp[(3) - (3)].symbolValue)->type); fprintf(yyout, "\nif (%s==%s) goto Lelse%d;\n", (yyvsp[(1) - (3)].symbolValue)->name, (yyvsp[(3) - (3)].symbolValue)->name, compteurGoto); compteurGoto++;}}
     break;
 
   case 41:
@@ -1987,14 +1987,14 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 325 "structfe.y"
-    {fprintf(yyout, "}\n\n"); majLigneBloc(1);}
+    {fprintf(yyout, "\n");}
     break;
 
   case 85:
 
 /* Line 1455 of yacc.c  */
 #line 329 "structfe.y"
-    {fprintf(yyout, "}\n\n"); majLigneBloc(1);}
+    {fprintf(yyout, "\n");}
     break;
 
   case 86:
