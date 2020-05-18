@@ -33,6 +33,7 @@ extern int inStruct;
 extern int inSizeOf;
 
 extern int yylex();
+extern void yyrestart(FILE * input_file );
 extern int majLigneBloc(int typeBloc);
 extern int getLineNumber();
 extern void affectation(tablesymboles* destination, tablesymboles* valeur);
@@ -94,7 +95,7 @@ postfix_expression
 						char* temp = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
 						temp = $1->name;
 						$$->name=createTemp();
-						fprintf(yyout,"void * %s;\n" ,$$->name, temp, val);
+						fprintf(yyout,"void * %s;\n" ,$$->name);
 						fprintf(yyout,"%s = %s + %d;\n",$$->name, temp, val);
 						}
 
@@ -113,8 +114,8 @@ unary_expression
                                             else if(strcmp($1->name, "STAR")==0) {$$->name=createTemp(); declarationPointeur($$->name); fprintf(yyout,"%s = *%s;\n", $$->name, $2->name);}}
 	| INC_OP unary_expression {fprintf(yyout,"%s = %s + 1 ;\n", $2->name, $2->name); fprintf(yyout,"%s = %s ;\n", $$->name, $2->name);}
 	| DEC_OP unary_expression {fprintf(yyout,"%s = %s - 1 ;\n", $2->name, $2->name); fprintf(yyout,"%s = %s ;\n", $$->name, $2->name);}
-        | SIZEOF unary_expression {sprintf($2->name, "malloc(%d)", sizeof(int));}
-	| SIZEOF '(' type_specifier ')'{sprintf($3->name, "malloc(%d)", sizeof(int));}
+        | SIZEOF unary_expression {sprintf($2->name, "malloc(%lu)", sizeof(int));}
+	| SIZEOF '(' type_specifier ')'{sprintf($3->name, "malloc(%lu)", sizeof(int));}
         ;
 
 unary_operator
