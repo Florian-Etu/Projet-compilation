@@ -300,7 +300,7 @@ direct_declarator
 
 parameter_list
         : parameter_declaration
-        | parameter_list ',' parameter_declaration
+        | parameter_list ACT6',' parameter_declaration 
         ;
 
 parameter_declaration
@@ -376,6 +376,8 @@ ACT4    : {inStruct=1;
 	   actstructdef = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
 	   sprintf(actstructdef,"%s",$<symbolValue>-1->name);}
 ACT5	: {if (!inStruct) {fprintf(yyout, "*");}}
+
+ACT6	: {fprintf(yyout, ",");}
 %%
 int main(int argc, char* argv[])
 {

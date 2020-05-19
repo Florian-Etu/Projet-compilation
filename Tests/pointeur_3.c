@@ -1,0 +1,33 @@
+extern int printd(int i);
+int main(){
+int* t9; 
+int t8; 
+int* t7; 
+int* t6; 
+int* t5; 
+int* t4; 
+int* t3; 
+int* t2; 
+int* t1; 
+int *i;
+int *j;
+i = malloc(4);
+j = malloc(4);
+t1 = *i;
+t1 = 4;
+t2 = *i;
+printd(t2);
+t3 = *j;
+t3 = 6;
+t4 = *j;
+printd(t4);
+t5 = *j;
+t6 = *j;
+t7 = *i;
+t7 = t7 + 1 ;
+t8 = t6 + t7 ;
+t5 = t8;
+t9 = *j;
+printd(t9);
+return 0;
+}
