@@ -113,7 +113,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 52 "structfe.y"
+#line 54 "structfe.y"
 
         char *nom;
         int entier;

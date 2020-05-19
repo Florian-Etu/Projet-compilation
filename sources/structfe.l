@@ -21,6 +21,8 @@ int blocO[MAXBLOCIMBRIQUE]; //Numéro de lignes des blocs ouvrants imbriqués
 int nblocO = -1; //Nombre de blocs ouvrants imbriqués
 int inFor = 0; //Savoir si on est en train de déclarer une boucle for
 int inStruct=0; //Savoir si on est en train de déclarer une struct
+int declarationParametre = 0; //Savoir si on est en train de déclarer des paramètres
+int declarationStruct = 0; //Savoir si on est en train de déclarer une struct
 int crochetStruct=0; //Retient si l'on doit mettre un crochet pour le struct
 int inSizeOf=0; //Savoir si on est en train de déclarer un sizeOf
 int compteurFor = 1; //Compteur for pour avoir un id unique à chaque goto d'un for

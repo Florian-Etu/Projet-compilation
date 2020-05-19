@@ -31,6 +31,8 @@ extern int blocO[]; //Numéro de lignes des blocs ouvrants imbriqués
 extern int nblocO; //Nombre de blocs ouvrants imbriqués
 extern int inFor;
 extern int compteurFor;
+extern int declarationParametre; 
+int declarationStruct;
 extern int inStruct;
 extern int crochetStruct;
 extern int inSizeOf;
@@ -264,7 +266,7 @@ type_specifier
 struct_specifier
         : STRUCT IDENTIFIER ACT4 '{' struct_declaration_list '}' {crochetStruct=0; inStruct=0;offset=0;}
         | STRUCT '{' struct_declaration_list '}' {crochetStruct=0;}
-        | STRUCT IDENTIFIER {if (!inStruct) {fprintf(yyout,"void ");}} {crochetStruct=0;}
+        | STRUCT IDENTIFIER {if(!inStruct && !declarationParametre){fprintf(yyout,"void ");} else if(declarationParametre){declarationStruct=1;} crochetStruct=0;}
         ;
 
 struct_declaration_list
@@ -292,10 +294,10 @@ declarator
         ;
 
 direct_declarator
-        : IDENTIFIER {$$->type=ID_TYPE; if(!inStruct && !inSizeOf){fprintf(yyout,"%s", $$->name);}}
+        : IDENTIFIER {$$->type=ID_TYPE; if(!inStruct && !inSizeOf && !declarationStruct){fprintf(yyout,"%s", $$->name);}}
         | '(' declarator ')' {$$=$2;}
-        | direct_declarator '(' ACT1 parameter_list ')' {fprintf(yyout, ")");}
-        | direct_declarator '(' ACT1 ')' {fprintf(yyout, ")");}
+        | direct_declarator '(' ACT1 parameter_list ')' {declarationParametre--; if(!declarationParametre)fprintf(yyout, ")"); declarationStruct=0;}
+        | direct_declarator '(' ACT1 ')' {fprintf(yyout, ")"); declarationParametre--;}
         ;
 
 parameter_list
@@ -304,7 +306,7 @@ parameter_list
         ;
 
 parameter_declaration
-        : declaration_specifiers declarator
+        : declaration_specifiers declarator {if(declarationStruct){fprintf(yyout, "void* %s", $2->name);}}
         ;
 
 statement
@@ -369,15 +371,15 @@ function_definition
         : declaration_specifiers declarator compound_statement
         ;
 
-ACT1	: {fprintf(yyout, "(");}
+ACT1	: {declarationParametre++; if(!declarationStruct){fprintf(yyout, "(");}}
 ACT2    : {inFor=1; fprintf(yyout, "\ngoto Ltest%d;\n\nLfor%d:\n", compteurFor, compteurFor); conditionFor = (char*) malloc((MAXSIZEVARTEMP+30) * sizeof(char));}
 ACT3    : {inFor=0;}
 ACT4    : {inStruct=1;
 	   actstructdef = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
 	   sprintf(actstructdef,"%s",$<symbolValue>-1->name);}
-ACT5	: {if (!inStruct) {fprintf(yyout, "*");}}
+ACT5	: {if (!inStruct && !declarationStruct) {fprintf(yyout, "*");}}
 
-ACT6	: {fprintf(yyout, ",");}
+ACT6	: {fprintf(yyout, ","); declarationStruct=0;}
 %%
 int main(int argc, char* argv[])
 {

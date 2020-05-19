@@ -1,6 +1,6 @@
 /* Description d'une liste chainee */
 extern int printd(int i);
-void *affiche(void *p){
+void *affiche(void* p){
 void* t1; 
 
 if (p==0) goto Lelse1;
@@ -13,7 +13,7 @@ return p;
 extern void *malloc(int size);
 extern void free(void *ptr);
 /* Allocation du prochain element de la liste */
-void *allouer(void *p){
+void *allouer(void* p){
 
 if (p==0) goto Lelse2;
 {
@@ -33,7 +33,7 @@ return p;
 
 }
 /* Desallocation de l'element courant de la liste */
-void *desallouer(void *p){
+void *desallouer(void* p){
 void* t4; 
 void *q;
 t4 = p + 4;
@@ -42,7 +42,7 @@ free(p);
 return q;
 }
 /* Iterateur sur la liste. Applique la fonction f sur chaque element */
-void *parcours(void *lvoid **f(void *p)){
+void *parcours(void* l,void* p){
 int i;
 void *p;
 void *tete;
