@@ -618,16 +618,16 @@ static const yytype_int8 yytranslate[] =
 static const yytype_int16 yyrline[] =
 {
        0,    84,    84,    85,    86,    90,    91,    92,    93,    95,
-     107,   108,   112,   113,   117,   118,   120,   121,   122,   123,
-     127,   128,   129,   133,   134,   138,   142,   143,   144,   148,
-     149,   168,   188,   189,   195,   201,   207,   215,   216,   221,
-     230,   231,   235,   236,   240,   241,   251,   252,   256,   257,
-     261,   262,   263,   267,   268,   269,   273,   274,   278,   292,
-     293,   297,   298,   299,   300,   304,   305,   309,   313,   314,
-     315,   316,   317,   318,   322,   323,   324,   325,   329,   330,
-     334,   335,   339,   340,   343,   347,   351,   352,   356,   357,
-     361,   362,   366,   367,   371,   374,   375,   376,   377,   380,
-     382
+     106,   107,   111,   112,   116,   117,   119,   120,   121,   122,
+     126,   127,   128,   132,   133,   137,   141,   142,   143,   147,
+     148,   167,   187,   188,   194,   200,   206,   214,   215,   220,
+     229,   230,   234,   235,   239,   240,   250,   251,   255,   256,
+     260,   261,   262,   266,   267,   268,   272,   273,   277,   291,
+     292,   296,   297,   298,   299,   303,   304,   308,   312,   313,
+     314,   315,   316,   317,   321,   322,   323,   324,   328,   329,
+     333,   334,   338,   339,   342,   346,   350,   351,   355,   356,
+     360,   361,   365,   366,   370,   373,   374,   375,   376,   379,
+     381
 };
 #endif
 
@@ -1608,7 +1608,6 @@ yyreduce:
 #line 95 "structfe.y"
                                                {char* namestruct = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
 						sprintf(namestruct,"struct_%s_%s_offset",actstructdef,(yyvsp[0].symbolValue)->name);
-						printf("%s",namestruct);
 						tablesymboles *s = findTS(namestruct);
 						int val = s->val;
 						char* temp = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
@@ -1617,90 +1616,90 @@ yyreduce:
                                                 declarationVoid((yyval.symbolValue)->name);
 						fprintf(yyout,"%s = %s + %d;\n",(yyval.symbolValue)->name, temp, val);
 						}
-#line 1621 "y.tab.c"
+#line 1620 "y.tab.c"
     break;
 
   case 10:
-#line 107 "structfe.y"
+#line 106 "structfe.y"
                                     {fprintf(yyout,"%s = %s + 1 ;\n", (yyvsp[-1].symbolValue)->name, (yyvsp[-1].symbolValue)->name);}
-#line 1627 "y.tab.c"
+#line 1626 "y.tab.c"
     break;
 
   case 11:
-#line 108 "structfe.y"
+#line 107 "structfe.y"
                                     {fprintf(yyout,"%s = %s - 1 ;\n", (yyvsp[-1].symbolValue)->name, (yyvsp[-1].symbolValue)->name);}
-#line 1633 "y.tab.c"
+#line 1632 "y.tab.c"
     break;
 
   case 12:
-#line 112 "structfe.y"
+#line 111 "structfe.y"
                      {(yyval.nom)=(yyvsp[0].symbolValue)->name;}
-#line 1639 "y.tab.c"
+#line 1638 "y.tab.c"
     break;
 
   case 13:
-#line 113 "structfe.y"
+#line 112 "structfe.y"
                                                   {(yyval.nom) = concat(concat((yyvsp[-2].nom), ","), (yyval.nom));}
-#line 1645 "y.tab.c"
+#line 1644 "y.tab.c"
     break;
 
   case 15:
-#line 118 "structfe.y"
+#line 117 "structfe.y"
                                           {if(strcmp((yyvsp[-1].symbolValue)->name, "MINUS")==0) {(yyval.symbolValue)->name=createTemp(); declaration((yyval.symbolValue)->name); fprintf(yyout,"%s = -%s;\n", (yyval.symbolValue)->name, (yyvsp[0].symbolValue)->name);}
                                             else if(strcmp((yyvsp[-1].symbolValue)->name, "STAR")==0) {(yyval.symbolValue)->name=createTemp(); declarationPointeur((yyval.symbolValue)->name); fprintf(yyout,"%s = *%s;\n", (yyval.symbolValue)->name, (yyvsp[0].symbolValue)->name);}}
-#line 1652 "y.tab.c"
+#line 1651 "y.tab.c"
     break;
 
   case 16:
-#line 120 "structfe.y"
+#line 119 "structfe.y"
                                   {fprintf(yyout,"%s = %s + 1 ;\n", (yyvsp[0].symbolValue)->name, (yyvsp[0].symbolValue)->name); fprintf(yyout,"%s = %s ;\n", (yyval.symbolValue)->name, (yyvsp[0].symbolValue)->name);}
-#line 1658 "y.tab.c"
+#line 1657 "y.tab.c"
     break;
 
   case 17:
-#line 121 "structfe.y"
+#line 120 "structfe.y"
                                   {fprintf(yyout,"%s = %s - 1 ;\n", (yyvsp[0].symbolValue)->name, (yyvsp[0].symbolValue)->name); fprintf(yyout,"%s = %s ;\n", (yyval.symbolValue)->name, (yyvsp[0].symbolValue)->name);}
-#line 1664 "y.tab.c"
+#line 1663 "y.tab.c"
     break;
 
   case 18:
-#line 122 "structfe.y"
+#line 121 "structfe.y"
                                   {sprintf((yyval.symbolValue)->name, "malloc(%lu)", sizeof(int));}
-#line 1670 "y.tab.c"
+#line 1669 "y.tab.c"
     break;
 
   case 19:
-#line 123 "structfe.y"
+#line 122 "structfe.y"
                                        {sprintf((yyvsp[-1].symbolValue)->name, "malloc(%lu)", sizeof(int));}
-#line 1676 "y.tab.c"
+#line 1675 "y.tab.c"
     break;
 
   case 24:
-#line 134 "structfe.y"
+#line 133 "structfe.y"
                                                           {if(inFor) {fprintf(yyout,"%s = %s * %s ;\n", (yyval.symbolValue)->name, (yyvsp[-2].symbolValue)->name, (yyvsp[0].symbolValue)->name);} else{char* temp=(yyvsp[-2].symbolValue)->name; (yyval.symbolValue)->name=createTemp(); declaration((yyval.symbolValue)->name); fprintf(yyout,"%s = %s * %s ;\n", (yyval.symbolValue)->name, temp, (yyvsp[0].symbolValue)->name);}}
-#line 1682 "y.tab.c"
+#line 1681 "y.tab.c"
     break;
 
   case 25:
-#line 138 "structfe.y"
+#line 137 "structfe.y"
                                                            {if(inFor) {fprintf(yyout,"%s = %s / %s ;\n", (yyval.symbolValue)->name, (yyvsp[-2].symbolValue)->name, (yyvsp[0].symbolValue)->name);} else{char* temp=(yyvsp[-2].symbolValue)->name; (yyval.symbolValue)->name=createTemp(); declaration((yyval.symbolValue)->name); fprintf(yyout,"%s = %s / %s ;\n", (yyval.symbolValue)->name, temp, (yyvsp[0].symbolValue)->name);}}
-#line 1688 "y.tab.c"
+#line 1687 "y.tab.c"
     break;
 
   case 27:
-#line 143 "structfe.y"
+#line 142 "structfe.y"
                                                              {if(inFor) {fprintf(yyout,"%s = %s + %s ;\n", (yyval.symbolValue)->name, (yyvsp[-2].symbolValue)->name, (yyvsp[0].symbolValue)->name);} else{char* temp=(yyvsp[-2].symbolValue)->name; (yyval.symbolValue)->name=createTemp(); declaration((yyval.symbolValue)->name); fprintf(yyout,"%s = %s + %s ;\n", (yyval.symbolValue)->name, temp, (yyvsp[0].symbolValue)->name);}}
-#line 1694 "y.tab.c"
+#line 1693 "y.tab.c"
     break;
 
   case 28:
-#line 144 "structfe.y"
+#line 143 "structfe.y"
                                                               {if(inFor) {fprintf(yyout,"%s = %s + %s ;\n", (yyval.symbolValue)->name, (yyvsp[-2].symbolValue)->name, (yyvsp[0].symbolValue)->name);} else{char* temp=(yyvsp[-2].symbolValue)->name; (yyval.symbolValue)->name=createTemp(); declaration((yyval.symbolValue)->name); fprintf(yyout,"%s = %s - %s ;\n", (yyval.symbolValue)->name, temp, (yyvsp[0].symbolValue)->name);}}
-#line 1700 "y.tab.c"
+#line 1699 "y.tab.c"
     break;
 
   case 30:
-#line 149 "structfe.y"
+#line 148 "structfe.y"
                                                                      {if(isnumber((yyvsp[0].symbolValue)->name))
 									{	
 										int l = atoi((yyvsp[0].symbolValue)->name);
@@ -1718,11 +1717,11 @@ yyreduce:
 											fprintf(yyout,"%s = %s / 2 ;\n", (yyval.symbolValue)->name, prevtemp);
 										}
 									}}
-#line 1722 "y.tab.c"
+#line 1721 "y.tab.c"
     break;
 
   case 31:
-#line 168 "structfe.y"
+#line 167 "structfe.y"
                                                                      {if(isnumber((yyvsp[0].symbolValue)->name))
 									{	
 										int l = atoi((yyvsp[0].symbolValue)->name);
@@ -1740,87 +1739,87 @@ yyreduce:
 											fprintf(yyout,"%s = %s * 2 ;\n", (yyval.symbolValue)->name, prevtemp);
 										}
 									}}
-#line 1744 "y.tab.c"
+#line 1743 "y.tab.c"
     break;
 
   case 33:
-#line 189 "structfe.y"
+#line 188 "structfe.y"
                                                      {
                 if(inFor) {
                         sprintf(conditionFor, "Ltest%d:\nif (%s<%s) goto Lfor%d;\n", compteurFor, (yyvsp[-2].symbolValue)->name,  (yyvsp[0].symbolValue)->name, compteurFor);
                 }
                 else {
                         printf("%s < %s (ligne %d) ;\n", (yyvsp[-2].symbolValue)->name,  (yyvsp[0].symbolValue)->name, yylineno); fprintf(yyout, "\nif (%s>=%s) goto Lelse%d;\n", (yyvsp[-2].symbolValue)->name, (yyvsp[0].symbolValue)->name, compteurGoto); compteurGoto++;}}
-#line 1755 "y.tab.c"
+#line 1754 "y.tab.c"
     break;
 
   case 34:
-#line 195 "structfe.y"
+#line 194 "structfe.y"
                                                      {
                 if(inFor) {
                         sprintf(conditionFor, "Ltest%d:\nif (%s>%s) goto Lfor%d;\n", compteurFor, (yyvsp[-2].symbolValue)->name,  (yyvsp[0].symbolValue)->name, compteurFor);
                 }
                 else {
                 printf("%s > %s (ligne %d) ;\n", (yyvsp[-2].symbolValue)->name,  (yyvsp[0].symbolValue)->name, yylineno) ; fprintf(yyout, "\nif (%s<=%s) goto Lelse%d;\n", (yyvsp[-2].symbolValue)->name, (yyvsp[0].symbolValue)->name, compteurGoto); compteurGoto++;}}
-#line 1766 "y.tab.c"
+#line 1765 "y.tab.c"
     break;
 
   case 35:
-#line 201 "structfe.y"
+#line 200 "structfe.y"
                                                        {
                 if(inFor) {
                         sprintf(conditionFor, "Ltest%d:\nif (%s<=%s) goto Lfor%d;\n", compteurFor, (yyvsp[-2].symbolValue)->name,  (yyvsp[0].symbolValue)->name, compteurFor);
                 }
                 else {
                 printf("%s <= %s (ligne %d) ;\n", (yyvsp[-2].symbolValue)->name,  (yyvsp[0].symbolValue)->name, yylineno); fprintf(yyout, "\nif (%s>%s) goto Lelse%d;\n", (yyvsp[-2].symbolValue)->name, (yyvsp[0].symbolValue)->name, compteurGoto); compteurGoto++;}}
-#line 1777 "y.tab.c"
+#line 1776 "y.tab.c"
     break;
 
   case 36:
-#line 207 "structfe.y"
+#line 206 "structfe.y"
                                                        {
                 if(inFor) {
                         sprintf(conditionFor, "Ltest%d:\nif (%s>=%s) goto Lfor%d;\n", compteurFor, (yyvsp[-2].symbolValue)->name,  (yyvsp[0].symbolValue)->name, compteurFor);
                 }
                 else {printf("%s >= %s (ligne %d) ;\n", (yyvsp[-2].symbolValue)->name,  (yyvsp[0].symbolValue)->name, yylineno); fprintf(yyout, "\nif (%s<%s) goto Lelse%d;\n", (yyvsp[-2].symbolValue)->name, (yyvsp[0].symbolValue)->name, compteurGoto); compteurGoto++;}}
-#line 1787 "y.tab.c"
+#line 1786 "y.tab.c"
     break;
 
   case 38:
-#line 216 "structfe.y"
+#line 215 "structfe.y"
                                                           { if(inFor) {
                         sprintf(conditionFor, "Ltest%d:\nif (%s==%s) goto Lfor%d;\n", compteurFor, (yyvsp[-2].symbolValue)->name,  (yyvsp[0].symbolValue)->name, compteurFor);
                 }
                 else {
                 printf("%s == %s (ligne %d) ;\n", (yyvsp[-2].symbolValue)->name,  (yyvsp[0].symbolValue)->name, yylineno); fprintf(yyout, "\nif (%s!=%s) goto Lelse%d;\n", (yyvsp[-2].symbolValue)->name, (yyvsp[0].symbolValue)->name, compteurGoto); compteurGoto++;}}
-#line 1797 "y.tab.c"
+#line 1796 "y.tab.c"
     break;
 
   case 39:
-#line 221 "structfe.y"
+#line 220 "structfe.y"
                                                           {
                 if(inFor) {
                         sprintf(conditionFor, "Ltest%d:\nif (%s!=%s) goto Lfor%d;\n", compteurFor, (yyvsp[-2].symbolValue)->name,  (yyvsp[0].symbolValue)->name, compteurFor);
                 }
                 else {
                 printf("%s != %s (ligne %d) ;\n", (yyvsp[-2].symbolValue)->name,  (yyvsp[0].symbolValue)->name, yylineno); fprintf(yyout, "\nif (%s==%s) goto Lelse%d;\n", (yyvsp[-2].symbolValue)->name, (yyvsp[0].symbolValue)->name, compteurGoto); compteurGoto++;}}
-#line 1808 "y.tab.c"
+#line 1807 "y.tab.c"
     break;
 
   case 41:
-#line 231 "structfe.y"
+#line 230 "structfe.y"
                                                             {printf("%s && %s (ligne %d) ;\n", (yyvsp[-2].symbolValue)->name,  (yyvsp[0].symbolValue)->name, yylineno) ;  }
-#line 1814 "y.tab.c"
+#line 1813 "y.tab.c"
     break;
 
   case 43:
-#line 236 "structfe.y"
+#line 235 "structfe.y"
                                                              {printf("%s || %s (ligne %d) ;\n", (yyvsp[-2].symbolValue)->name,  (yyvsp[0].symbolValue)->name, yylineno);}
-#line 1820 "y.tab.c"
+#line 1819 "y.tab.c"
     break;
 
   case 45:
-#line 241 "structfe.y"
+#line 240 "structfe.y"
                                          {if (strcmp((yyvsp[-2].symbolValue)->name,(yyvsp[0].symbolValue)->name))
 						{
 							fprintf(yyout,"%s = %s;\n", (yyvsp[-2].symbolValue)->name, (yyvsp[0].symbolValue)->name); 
@@ -1828,65 +1827,65 @@ yyreduce:
 							(yyval.symbolValue)=(yyvsp[-2].symbolValue);
 						}
 					}
-#line 1832 "y.tab.c"
+#line 1831 "y.tab.c"
     break;
 
   case 46:
-#line 251 "structfe.y"
+#line 250 "structfe.y"
                                                 {(yyvsp[-1].symbolValue)->type=(yyvsp[-2].symbolValue)->type; fprintf(yyout, ";\n");}
-#line 1838 "y.tab.c"
+#line 1837 "y.tab.c"
     break;
 
   case 48:
-#line 256 "structfe.y"
+#line 255 "structfe.y"
                                 {(yyval.symbolValue)=(yyvsp[0].symbolValue);}
-#line 1844 "y.tab.c"
+#line 1843 "y.tab.c"
     break;
 
   case 49:
-#line 257 "structfe.y"
+#line 256 "structfe.y"
                          {(yyval.symbolValue)=(yyvsp[0].symbolValue);}
-#line 1850 "y.tab.c"
+#line 1849 "y.tab.c"
     break;
 
   case 50:
-#line 261 "structfe.y"
+#line 260 "structfe.y"
                {if(!inSizeOf){(yyval.symbolValue) = findTS("void");} if (!inStruct) {fprintf(yyout,"void ");}}
-#line 1856 "y.tab.c"
+#line 1855 "y.tab.c"
     break;
 
   case 51:
-#line 262 "structfe.y"
+#line 261 "structfe.y"
               {if(!inSizeOf){(yyval.symbolValue) = findTS("int");} if (!inStruct && !inSizeOf) {fprintf(yyout,"int "); }}
-#line 1862 "y.tab.c"
+#line 1861 "y.tab.c"
     break;
 
   case 52:
-#line 263 "structfe.y"
+#line 262 "structfe.y"
                            {if (!inStruct) {(yyval.symbolValue) = findTS("struct") ; (yyvsp[0].symbolValue)->type = STRUCT_TYPE;}}
-#line 1868 "y.tab.c"
+#line 1867 "y.tab.c"
     break;
 
   case 53:
-#line 267 "structfe.y"
+#line 266 "structfe.y"
                                                                  {crochetStruct=0; inStruct=0;offset=0;}
-#line 1874 "y.tab.c"
+#line 1873 "y.tab.c"
     break;
 
   case 54:
-#line 268 "structfe.y"
+#line 267 "structfe.y"
                                                  {crochetStruct=0;}
-#line 1880 "y.tab.c"
+#line 1879 "y.tab.c"
     break;
 
   case 55:
-#line 269 "structfe.y"
+#line 268 "structfe.y"
                             {if(!inStruct && !declarationParametre){fprintf(yyout,"void ");} else if(declarationParametre){declarationStruct=1;} crochetStruct=0;}
-#line 1886 "y.tab.c"
+#line 1885 "y.tab.c"
     break;
 
   case 58:
-#line 278 "structfe.y"
+#line 277 "structfe.y"
                                         {char* t = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
 					sprintf(t,"struct_%s_%s",actstructdef,(yyvsp[-1].symbolValue)->name);
 					tablesymboles *s1 = addTS(t);
@@ -1898,127 +1897,127 @@ yyreduce:
 					if((yyvsp[-2].symbolValue)->type != 3){offset+=sizeoflowcost((yyvsp[-2].symbolValue)->type);}
 					else{(offset+=offset);}
 					}
-#line 1902 "y.tab.c"
+#line 1901 "y.tab.c"
     break;
 
   case 59:
-#line 292 "structfe.y"
+#line 291 "structfe.y"
                                       {(yyval.symbolValue)=(yyvsp[0].symbolValue);}
-#line 1908 "y.tab.c"
+#line 1907 "y.tab.c"
     break;
 
   case 61:
-#line 297 "structfe.y"
+#line 296 "structfe.y"
                      {(yyval.symbolValue)->type=ID_TYPE; if(!inStruct && !inSizeOf && !declarationStruct){fprintf(yyout,"%s", (yyval.symbolValue)->name);}}
-#line 1914 "y.tab.c"
+#line 1913 "y.tab.c"
     break;
 
   case 62:
-#line 298 "structfe.y"
+#line 297 "structfe.y"
                              {(yyval.symbolValue)=(yyvsp[-1].symbolValue);}
-#line 1920 "y.tab.c"
+#line 1919 "y.tab.c"
     break;
 
   case 63:
-#line 299 "structfe.y"
-                                                        {declarationParametre--; printf("TEST %d\n", declarationParametre); if(!declarationParametre)fprintf(yyout, ")"); declarationStruct=0;}
-#line 1926 "y.tab.c"
+#line 298 "structfe.y"
+                                                        {declarationParametre--; if(!declarationParametre)fprintf(yyout, ")"); declarationStruct=0;}
+#line 1925 "y.tab.c"
     break;
 
   case 64:
-#line 300 "structfe.y"
+#line 299 "structfe.y"
                                          {fprintf(yyout, ")"); declarationParametre--;}
-#line 1932 "y.tab.c"
+#line 1931 "y.tab.c"
     break;
 
   case 67:
-#line 309 "structfe.y"
+#line 308 "structfe.y"
                                             {if(declarationStruct){fprintf(yyout, "void* %s", (yyvsp[0].symbolValue)->name);}}
-#line 1938 "y.tab.c"
+#line 1937 "y.tab.c"
     break;
 
   case 82:
-#line 339 "structfe.y"
+#line 338 "structfe.y"
               {}
-#line 1944 "y.tab.c"
+#line 1943 "y.tab.c"
     break;
 
   case 84:
-#line 343 "structfe.y"
+#line 342 "structfe.y"
                                           {fprintf(yyout, "\n");}
-#line 1950 "y.tab.c"
+#line 1949 "y.tab.c"
     break;
 
   case 85:
-#line 347 "structfe.y"
+#line 346 "structfe.y"
                                  {fprintf(yyout, "\n");}
-#line 1956 "y.tab.c"
+#line 1955 "y.tab.c"
     break;
 
   case 86:
-#line 351 "structfe.y"
+#line 350 "structfe.y"
                                                   {inFor=0; fprintf(yyout, "\n%s\n", conditionFor); compteurFor++;}
-#line 1962 "y.tab.c"
+#line 1961 "y.tab.c"
     break;
 
   case 87:
-#line 352 "structfe.y"
+#line 351 "structfe.y"
                                                                                                {fprintf(yyout, "\n%s\n", conditionFor); compteurFor++;}
-#line 1968 "y.tab.c"
+#line 1967 "y.tab.c"
     break;
 
   case 88:
-#line 356 "structfe.y"
+#line 355 "structfe.y"
                      {fprintf(yyout, "return;\n");}
-#line 1974 "y.tab.c"
+#line 1973 "y.tab.c"
     break;
 
   case 89:
-#line 357 "structfe.y"
+#line 356 "structfe.y"
                                 {fprintf(yyout, "return %s;\n", (yyvsp[-1].symbolValue)->name);}
-#line 1980 "y.tab.c"
+#line 1979 "y.tab.c"
     break;
 
   case 95:
-#line 374 "structfe.y"
+#line 373 "structfe.y"
           {declarationParametre++; if(!declarationStruct){fprintf(yyout, "(");}}
-#line 1986 "y.tab.c"
+#line 1985 "y.tab.c"
     break;
 
   case 96:
-#line 375 "structfe.y"
+#line 374 "structfe.y"
           {inFor=1; fprintf(yyout, "\ngoto Ltest%d;\n\nLfor%d:\n", compteurFor, compteurFor); conditionFor = (char*) malloc((MAXSIZEVARTEMP+30) * sizeof(char));}
-#line 1992 "y.tab.c"
+#line 1991 "y.tab.c"
     break;
 
   case 97:
-#line 376 "structfe.y"
+#line 375 "structfe.y"
           {inFor=0;}
-#line 1998 "y.tab.c"
+#line 1997 "y.tab.c"
     break;
 
   case 98:
-#line 377 "structfe.y"
+#line 376 "structfe.y"
           {inStruct=1;
 	   actstructdef = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
 	   sprintf(actstructdef,"%s",(yyvsp[(-1) - (0)].symbolValue)->name);}
-#line 2006 "y.tab.c"
+#line 2005 "y.tab.c"
     break;
 
   case 99:
-#line 380 "structfe.y"
+#line 379 "structfe.y"
           {if (!inStruct && !declarationStruct) {fprintf(yyout, "*");}}
-#line 2012 "y.tab.c"
+#line 2011 "y.tab.c"
     break;
 
   case 100:
-#line 382 "structfe.y"
+#line 381 "structfe.y"
           {fprintf(yyout, ","); declarationStruct=0;}
-#line 2018 "y.tab.c"
+#line 2017 "y.tab.c"
     break;
 
 
-#line 2022 "y.tab.c"
+#line 2021 "y.tab.c"
 
       default: break;
     }
@@ -2250,7 +2249,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 383 "structfe.y"
+#line 382 "structfe.y"
 
 int main(int argc, char* argv[])
 {
@@ -2276,7 +2275,7 @@ int main(int argc, char* argv[])
 		if(fp) {
 			yyin = fp;
                         yyrestart(yyin);
-                        nomDestination = nomFichierDestination(argv[i]);
+                        nomDestination = nomFichierDestination(strdup(argv[i]));
                         printf("Generation du fichier : %s\n", nomDestination);
                         yyout = fopen(nomDestination, "w");
                 }
@@ -2285,9 +2284,9 @@ int main(int argc, char* argv[])
                         exit(1);
                 }
         if(!yyparse())
-		printf("\nAnalyse syntaxique reussite\n");
+		printf("\nAnalyse syntaxique reussite\n\n");
 	else
-		yyerror("\nL'analyse syntaxique a echoue\n");
+		yyerror("\nL'analyse syntaxique a echoue\n\n");
         fclose(yyin);
         fclose(yyout);
         // Réinitialisation des valeurs variables (pour réinitialiser l'état du compilateur avant la lecture d'un nouveau fichier) 

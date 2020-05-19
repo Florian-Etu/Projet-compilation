@@ -94,7 +94,6 @@ postfix_expression
 
         | postfix_expression PTR_OP IDENTIFIER {char* namestruct = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
 						sprintf(namestruct,"struct_%s_%s_offset",actstructdef,$3->name);
-						printf("%s",namestruct);
 						tablesymboles *s = findTS(namestruct);
 						int val = s->val;
 						char* temp = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
@@ -405,7 +404,7 @@ int main(int argc, char* argv[])
 		if(fp) {
 			yyin = fp;
                         yyrestart(yyin);
-                        nomDestination = nomFichierDestination(argv[i]);
+                        nomDestination = nomFichierDestination(strdup(argv[i]));
                         printf("Generation du fichier : %s\n", nomDestination);
                         yyout = fopen(nomDestination, "w");
                 }
@@ -414,9 +413,9 @@ int main(int argc, char* argv[])
                         exit(1);
                 }
         if(!yyparse())
-		printf("\nAnalyse syntaxique reussite\n");
+		printf("\nAnalyse syntaxique reussite\n\n");
 	else
-		yyerror("\nL'analyse syntaxique a echoue\n");
+		yyerror("\nL'analyse syntaxique a echoue\n\n");
         fclose(yyin);
         fclose(yyout);
         // Réinitialisation des valeurs variables (pour réinitialiser l'état du compilateur avant la lecture d'un nouveau fichier) 
