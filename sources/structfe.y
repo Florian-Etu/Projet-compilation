@@ -93,7 +93,7 @@ postfix_expression
         | postfix_expression '.' IDENTIFIER
 
         | postfix_expression PTR_OP IDENTIFIER {char* namestruct = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
-						sprintf(namestruct,"struct_%s_%s_offset",actstructdef,$3->name);
+						sprintf(namestruct,"_struct_%s_%s_offset",actstructdef,$3->name);
 						tablesymboles *s = findTS(namestruct);
 						int val = s->val;
 						char* temp = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
@@ -275,11 +275,11 @@ struct_declaration_list
 
 struct_declaration
         : type_specifier declarator ';' {char* t = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
-					sprintf(t,"struct_%s_%s",actstructdef,$2->name);
+					sprintf(t,"_struct_%s_%s",actstructdef,$2->name);
 					tablesymboles *s1 = addTS(t);
 					s1->type = $1->type;	
 					char* offsetvar = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
-					sprintf(offsetvar,"struct_%s_%s_offset",actstructdef,$2->name);
+					sprintf(offsetvar,"_struct_%s_%s_offset",actstructdef,$2->name);
 					tablesymboles *s2 = addTS(offsetvar);
 					s2->val=offset;
 					if($1->type != 3){offset+=sizeoflowcost($1->type);}
