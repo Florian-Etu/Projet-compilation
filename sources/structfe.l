@@ -92,7 +92,7 @@ unsigned int hash(char *name) {
    return Code % MAXSYMB;
 }
 
-void reset() {
+void resetTS() {
   int i;
   for( i = 0; i < MAXSYMB; i++ )
     table[i] = NULL;

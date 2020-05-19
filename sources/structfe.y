@@ -4,6 +4,7 @@
 #include "symbtab.h"
 #include <ctype.h>
 #define MAXSIZEVARTEMP 50
+#define MAXBLOCIMBRIQUE 50
 	
 void yyerror(char *s);
 char *createTemp();
@@ -19,7 +20,7 @@ void declarationVoid(char* nomPointeur);
 int sizeoflowcost(int type);
 
 char* conditionFor;
-char *actstructdef;
+char* actstructdef;
 
 extern int yylineno;
 extern int compteurGoto;
@@ -220,7 +221,7 @@ equality_expression
                         sprintf(conditionFor, "Ltest%d:\nif (%s!=%s) goto Lfor%d;\n", compteurFor, $1->name,  $3->name, compteurFor);
                 }
                 else {
-                printf("%s != %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); printf("Type 1 : %d Type 2 : %d (0 = INT, 1 = VOID, 2 = ID)\n", $1->type, $3->type); fprintf(yyout, "\nif (%s==%s) goto Lelse%d;\n", $1->name, $3->name, compteurGoto); compteurGoto++;}}
+                printf("%s != %s (ligne %d) ;\n", $1->name,  $3->name, yylineno); fprintf(yyout, "\nif (%s==%s) goto Lelse%d;\n", $1->name, $3->name, compteurGoto); compteurGoto++;}}
         ;
 
 logical_and_expression 
@@ -251,7 +252,7 @@ declaration
 
 declaration_specifiers
         : EXTERN type_specifier {$$=$2;}
-        | type_specifier {$$=$1; printf("Type entree : %d Type Sortie : %d\n",$1->type,$$->type);}
+        | type_specifier {$$=$1;}
         ;
 
 type_specifier
@@ -273,13 +274,11 @@ struct_declaration_list
 
 struct_declaration
         : type_specifier declarator ';' {char* t = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
-					printf("struct_%s_%s de type %d\n",actstructdef,$2->name,$1->type);
 					sprintf(t,"struct_%s_%s",actstructdef,$2->name);
 					tablesymboles *s1 = addTS(t);
 					s1->type = $1->type;	
 					char* offsetvar = (char*) malloc(MAXSIZEVARTEMP * sizeof(char));
 					sprintf(offsetvar,"struct_%s_%s_offset",actstructdef,$2->name);
-					printf("%s\n",offsetvar);
 					tablesymboles *s2 = addTS(offsetvar);
 					s2->val=offset;
 					if($1->type != 3){offset+=sizeoflowcost($1->type);}
@@ -380,12 +379,6 @@ ACT5	: {if (!inStruct) {fprintf(yyout, "*");}}
 %%
 int main(int argc, char* argv[])
 {
-	tablesymboles *s1 = addTS("int");
-	s1->type=INT_TYPE;
-	tablesymboles *s2 = addTS("void");
-	s2->type=VOID_TYPE;
-	tablesymboles *s3 = addTS("struct");
-	s3->type=STRUCT_TYPE;
         int i;
         if(argc<=1) {
         printf("\n!!!! ATTTENTION : pour generer un fichier traduit le compilateur doit prendre le nom du fichier en argument de la ligne de commande (pas de \"<\" devant le nom du fichier en entree par exemple, se referer au README pour plus d'informations\n\n");
@@ -397,6 +390,12 @@ int main(int argc, char* argv[])
         }
         for(i=1; i<argc; i++)
 	{
+                tablesymboles *s1 = addTS("int");
+	        s1->type=INT_TYPE;
+	        tablesymboles *s2 = addTS("void");
+	        s2->type=VOID_TYPE;
+	        tablesymboles *s3 = addTS("struct");
+	        s3->type=STRUCT_TYPE;
                 yylineno=1;
 		FILE *fp = fopen(argv[i], "r");
 		if(fp) {
@@ -416,6 +415,19 @@ int main(int argc, char* argv[])
 		yyerror("\nL'analyse syntaxique a echoue\n");
         fclose(yyin);
         fclose(yyout);
+        // Réinitialisation des valeurs variables (pour réinitialiser l'état du compilateur avant la lecture d'un nouveau fichier) 
+        int compteurGoto = 1;
+        char* nomDestination;
+        int blocO[MAXBLOCIMBRIQUE];
+        int nblocO = -1; 
+        int inFor = 0;
+        int inStruct=0;
+        int crochetStruct=0;
+        int inSizeOf=0; 
+        int compteurFor = 1; 
+        char* conditionFor;
+        char* actstructdef;
+        resetTS();
         }
     return 0;
 }
