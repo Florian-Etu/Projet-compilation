@@ -3,6 +3,7 @@
 #include <stdlib.h>
 void yyerror(char *s);
 extern int yylex();
+extern void yyrestart(FILE* input_file );
 extern int yylineno;
 extern FILE *yyin;
 %}
